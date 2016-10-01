@@ -1,0 +1,7 @@
+plugins {
+    id 'com.example.hello'
+}
+
+task test << {
+    assert project.plugins.hasPlugin('com.example.hello')
+}

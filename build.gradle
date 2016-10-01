@@ -1,0 +1,37 @@
+plugins {
+    id 'groovy'
+    id 'com.gradle.plugin-publish' version '0.9.6'
+}
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+    testCompile('org.spockframework:spock-core:1.0-groovy-2.4') {
+        exclude module: 'groovy-all'
+    }
+    testCompile 'cglib:cglib-nodep:3.1'
+}
+
+group = 'com.example'
+version = System.getenv('TRAVIS_TAG') ?: 'SNAPSHOT'
+
+pluginBundle {
+    website = 'https://github.com/int128/gradle-plugin-starter'
+    vcsUrl = 'https://github.com/int128/gradle-plugin-starter'
+    description = 'Hello World Plugin'
+    tags = ['example']
+
+    plugins {
+        helloPlugin {
+            id = 'com.example.hello'
+            displayName = 'Hello World Plugin'
+        }
+    }
+}
