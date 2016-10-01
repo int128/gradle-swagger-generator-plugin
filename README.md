@@ -1,57 +1,77 @@
-Gradle Plugin Template [![Build Status](https://travis-ci.org/int128/gradle-plugin-starter.svg?branch=master)](https://travis-ci.org/int128/gradle-plugin-starter) [![Gradle Status](https://gradleupdate.appspot.com/int128/gradle-plugin-starter/status.svg?branch=master)](https://gradleupdate.appspot.com/int128/gradle-plugin-starter/status)
-======================
+Gradle Swagger Codegen Plugin
+=============================
 
-This is a template project of Gradle plugin with blank implementation.
-
-
-Features
---------
-
-This contains following features:
-
-  * Blank implementation of the plugin (see [HelloPlugin.groovy](src/main/groovy/com/example/HelloPlugin.groovy))
-  * Testing with Spock (see [HelloPluginSpec.groovy](src/test/groovy/com/example/HelloPluginSpec.groovy))
-  * Acceptance Test using Gradle TestKit
-  * Continuous Integration and Delivery on Travis CI
-  * Publishing the plugin on [Gradle Plugins](http://plugins.gradle.org)
-  * Gradle Wrapper
-  * `.gitignore` for Gradle, IDEA and Eclipse
+A Gradle plugin to generate code by [Swagger Codegen](https://github.com/swagger-api/swagger-codegen).
 
 
 Getting Started
 ---------------
 
-Create your account on [Gradle Plugins](http://plugins.gradle.org/submit) and get the API key.
+Create following build script and run `generateServer` task to generate code.
 
-```properties
-# ~/.gradle/gradle.properties
-gradle.publish.key=xxx
-gradle.publish.secret=
-```
+```groovy
+plugins {
+  id 'org.hidetake.swagger.codegen' version '1.0.0'
+}
 
-This repository contains the example implementation.
-Change files to your Group ID and Plugin ID.
+repositories {
+  jcenter()
+}
 
-Identifier  | In this repository    | To be changed
-------------|-----------------------|--------------
-Group ID    | `com.example`         | Package name of production and test code, `group` in the build script
-Plugin ID   | `com.example.hello`   | Class name of production and test code, the plugin descriptor in resources, `id` in the build script
+dependencies {
+  // declare a dependency as swaggerCodegen
+  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.1'
+}
 
-Build the plugin.
-
-```sh
-./gradlew build
-```
-
-Publish the plugin.
-
-```sh
-TRAVIS_TAG=0.1.0 ./gradlew publishPlugins
+// declare a task to generate code
+task generateServer(type: SwaggerCodegen) {
+  // set options
+  language = 'spring'
+  inputFile = file('petstore.yaml')
+  outputDir = file("$buildDir/generated/server")
+}
 ```
 
 
-Working with Travis CI
-----------------------
+Tasks
+-----
+
+Task type `SwaggerCodegen` accepts below options.
+
+Key           | Value                                             | Example
+--------------|---------------------------------------------------|--------
+`language`    | Language to generate (required)                   | `spring`
+`library`     | Library (optional)                                | `spring-mvc`
+`inputFile`   | Swagger spec file (required)                      | `file(...)`
+`outputDir`   | Directory to write the generated files (required) | `file(...)`
+`configFile`  | JSON configuration file (optional)                | `file(...)`
+`templateDir` | Directory containing the template (optional)      | `file(...)`
+
+Task type `SwaggerCodegen` is a [`JavaExec` task](https://docs.gradle.org/current/dsl/org.gradle.api.tasks.JavaExec.html).
+`JavaExec` properties such as `classpath` or `systemProperties` can be set in a task.
+
+Run `swaggerCodegenHelp` task to list available languages and JSON configuration of each tasks.
+
+```
+% ./gradlew swaggerCodegenHelp
+:swaggerCodegenHelp
+Available languages: [android...]
+Available JSON configuration for task ':generateServer':
+
+CONFIG OPTIONS
+	sortParamsByRequiredFlag
+  ...
+```
+
+
+Contributions
+-------------
+
+This is an open source software licensed under the Apache License Version 2.0.
+Feel free to open issues or pull requests.
+
+
+### Working with Travis CI
 
 Travis CI builds the plugin continuously.
 It also publishes the plugin if a tag is pushed and following variables are set.
@@ -60,10 +80,3 @@ Environment Variable        | Value
 ----------------------------|------
 `$GRADLE_PUBLISH_KEY`       | `gradle.publish.key` of the API key
 `$GRADLE_PUBLISH_SECRET`    | `gradle.publish.secret` of the API key
-
-
-Contributions
--------------
-
-This is an open source software licensed under the Apache License Version 2.0.
-Feel free to open issues or pull requests.

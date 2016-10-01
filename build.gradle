@@ -19,19 +19,19 @@ dependencies {
     testCompile 'cglib:cglib-nodep:3.1'
 }
 
-group = 'com.example'
+group = 'org.hidetake'
 version = System.getenv('TRAVIS_TAG') ?: 'SNAPSHOT'
 
 pluginBundle {
-    website = 'https://github.com/int128/gradle-plugin-starter'
-    vcsUrl = 'https://github.com/int128/gradle-plugin-starter'
-    description = 'Hello World Plugin'
-    tags = ['example']
+    website = 'https://github.com/int128/gradle-swagger-codegen-plugin'
+    vcsUrl = 'https://github.com/int128/gradle-swagger-codegen-plugin'
+    description = 'Gradle Swagger Codegen Plugin'
+    tags = ['swagger', 'api', 'generator']
 
     plugins {
-        helloPlugin {
-            id = 'com.example.hello'
-            displayName = 'Hello World Plugin'
+        swaggerPlugin {
+            id = 'org.hidetake.swagger.codegen'
+            displayName = 'Gradle Swagger Codegen Plugin'
         }
     }
 }

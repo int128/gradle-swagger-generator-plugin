@@ -5,22 +5,51 @@ import spock.lang.Unroll
 class AcceptanceSpec extends Specification {
 
     @Unroll
-    def 'acceptance test should pass on Gradle #gradleVersion'() {
+    def 'generateServer task should generate server code'() {
         given:
         def runner = GradleRunner.create()
-            .withProjectDir(new File('fixture'))
-            .withArguments('test')
+            .withProjectDir(new File('simple-generation'))
+            .withArguments('--stacktrace', 'generateServer')
             .withPluginClasspath()
-            .withGradleVersion(gradleVersion)
+            .forwardOutput()
+
+        when:
+        runner.build()
+
+        then:
+        new File("${runner.projectDir}/build/generated/server/").exists()
+    }
+
+    @Unroll
+    def 'generateClient task should generate server code'() {
+        given:
+        def runner = GradleRunner.create()
+            .withProjectDir(new File('simple-generation'))
+            .withArguments('--stacktrace', 'generateClient')
+            .withPluginClasspath()
+            .forwardOutput()
+
+        when:
+        runner.build()
+
+        then:
+        new File("${runner.projectDir}/build/generated/client/").exists()
+    }
+
+    @Unroll
+    def 'swaggerCodegenHelp task should show help'() {
+        given:
+        def runner = GradleRunner.create()
+            .withProjectDir(new File('simple-generation'))
+            .withArguments('--stacktrace', 'swaggerCodegenHelp')
+            .withPluginClasspath()
+            .forwardOutput()
 
         when:
         runner.build()
 
         then:
         noExceptionThrown()
-
-        where:
-        gradleVersion << [System.getProperty('current.gradle.version'), '2.13']
     }
 
 }
