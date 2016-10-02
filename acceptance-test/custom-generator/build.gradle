@@ -1,0 +1,26 @@
+plugins {
+    id 'groovy'
+    id 'org.hidetake.swagger.codegen'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.4.7'
+    compile 'io.swagger:swagger-codegen-cli:2.2.1'
+    swaggerCodegen project
+}
+
+task cleanGenerated(type: Delete) {
+    delete file("$buildDir/generated")
+}
+
+task generateMyServer(type: SwaggerCodegen, dependsOn: [cleanGenerated, jar]) {
+    language = 'MySpringCodegen'
+    inputFile = file('petstore.yaml')
+    outputDir = file("$buildDir/generated/server")
+    configFile = file('server.swagger.json')
+    templateDir = file('src/template/server')
+}

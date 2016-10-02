@@ -37,6 +37,22 @@ class AcceptanceSpec extends Specification {
     }
 
     @Unroll
+    def 'generateMyServer task should generate customized server code'() {
+        given:
+        def runner = GradleRunner.create()
+            .withProjectDir(new File('custom-generator'))
+            .withArguments('--stacktrace', '-i', 'generateMyServer')
+            .withPluginClasspath()
+            .forwardOutput()
+
+        when:
+        runner.build()
+
+        then:
+        new File("${runner.projectDir}/build/generated/server/").exists()
+    }
+
+    @Unroll
     def 'swaggerCodegenHelp task should show help'() {
         given:
         def runner = GradleRunner.create()

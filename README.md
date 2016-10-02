@@ -64,6 +64,14 @@ CONFIG OPTIONS
 ```
 
 
+Using Custom Generator
+----------------------
+
+We can use a custom template and custom generator class.
+
+See [custom-generator project in acceptance-test](acceptance-test/custom-generator) for details.
+
+
 Contributions
 -------------
 
