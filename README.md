@@ -1,4 +1,4 @@
-Gradle Swagger Codegen Plugin
+Gradle Swagger Codegen Plugin [![Build Status](https://travis-ci.org/int128/gradle-swagger-codegen-plugin.svg?branch=master)](https://travis-ci.org/int128/gradle-swagger-codegen-plugin)
 =============================
 
 A Gradle plugin to generate code by [Swagger Codegen](https://github.com/swagger-api/swagger-codegen).
