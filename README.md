@@ -19,11 +19,11 @@ repositories {
 }
 
 dependencies {
-  // declare swaggerCodegen to run CLI
+  // define swaggerCodegen to run Swagger Codegen CLI
   swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.1'
 }
 
-// declare a task to generate code
+// define a task to generate code
 task generateServer(type: SwaggerCodegen) {
   language = 'spring'
   inputFile = file('petstore.yaml')
@@ -31,12 +31,12 @@ task generateServer(type: SwaggerCodegen) {
 }
 ```
 
-The plugin adds a `swaggerCodegenHelp` task to list available languages and JSON configuration of declared tasks.
+Run `swaggerCodegenHelp` task to list available languages and JSON configuration of defined tasks.
 
 ```
 % ./gradlew swaggerCodegenHelp
 :swaggerCodegenHelp
-Available languages: [android...]
+Available languages: [android, ...]
 Available JSON configuration for task ':generateServer':
 
 CONFIG OPTIONS
@@ -45,26 +45,26 @@ CONFIG OPTIONS
 ```
 
 
-Using Custom Generator
-----------------------
+Customize code generation
+-------------------------
 
-We can use a custom template and custom generator class.
+The plugin supports a custom template and custom generator class.
 
 Task type `SwaggerCodegen` accepts below properties.
 
-Key           | Value                                             | Example value
---------------|---------------------------------------------------|--------------
-`language`    | Language to generate (required)                   | `spring`
-`library`     | Library (optional)                                | `spring-mvc`
-`inputFile`   | Swagger spec file (required)                      | `file('swagger.yaml')`
-`outputDir`   | Directory to write the generated files (required) | `file("$buildDir/generated")`
-`configFile`  | JSON configuration file (optional)                | `file('swagger.config.json')`
-`templateDir` | Directory containing the template (optional)      | `file('src/template')`
+Key           | Type              | Value                                   | Example value
+--------------|-------------------|-----------------------------------------|--------------
+`language`    | String, required  | Language to generate                    | `spring`
+`library`     | String, optional  | Library                                 | `spring-mvc`
+`inputFile`   | File, required    | Swagger spec file                       | [`file('petstore.yaml')`](https://github.com/OAI/OpenAPI-Specification/blob/master/examples/v2.0/yaml/petstore.yaml)
+`outputDir`   | File, required    | Directory to write the generated files  | `file("$buildDir/generated")`
+`configFile`  | File, optional    | [JSON configuration file](https://github.com/swagger-api/swagger-codegen#customizing-the-generator) (optional) | `file('swagger.config.json')`
+`templateDir` | File, optional    | Directory containing the template       | `file('src/template')`
 
 Since task type `SwaggerCodegen` is a [`JavaExec` task](https://docs.gradle.org/current/dsl/org.gradle.api.tasks.JavaExec.html),
 it accepts `JavaExec` properties such as `classpath` or `systemProperties`.
 
-See [custom-generator project in acceptance-test](acceptance-test/custom-generator) for more.
+See also [simple-generation project](acceptance-test/simple-generation) and [custom-generator project](acceptance-test/custom-generator) for more.
 
 
 Contributions
