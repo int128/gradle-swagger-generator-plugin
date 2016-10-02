@@ -1,7 +1,7 @@
 Gradle Swagger Codegen Plugin [![Build Status](https://travis-ci.org/int128/gradle-swagger-codegen-plugin.svg?branch=master)](https://travis-ci.org/int128/gradle-swagger-codegen-plugin)
 =============================
 
-A Gradle plugin to generate code by [Swagger Codegen](https://github.com/swagger-api/swagger-codegen).
+A Gradle plugin to generate API server or client code by [Swagger Codegen](https://github.com/swagger-api/swagger-codegen).
 
 
 Getting Started
@@ -19,38 +19,19 @@ repositories {
 }
 
 dependencies {
-  // declare a dependency as swaggerCodegen
+  // declare swaggerCodegen to run CLI
   swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.1'
 }
 
 // declare a task to generate code
 task generateServer(type: SwaggerCodegen) {
-  // set options
   language = 'spring'
   inputFile = file('petstore.yaml')
   outputDir = file("$buildDir/generated/server")
 }
 ```
 
-
-Tasks
------
-
-Task type `SwaggerCodegen` accepts below options.
-
-Key           | Value                                             | Example
---------------|---------------------------------------------------|--------
-`language`    | Language to generate (required)                   | `spring`
-`library`     | Library (optional)                                | `spring-mvc`
-`inputFile`   | Swagger spec file (required)                      | `file(...)`
-`outputDir`   | Directory to write the generated files (required) | `file(...)`
-`configFile`  | JSON configuration file (optional)                | `file(...)`
-`templateDir` | Directory containing the template (optional)      | `file(...)`
-
-Task type `SwaggerCodegen` is a [`JavaExec` task](https://docs.gradle.org/current/dsl/org.gradle.api.tasks.JavaExec.html).
-`JavaExec` properties such as `classpath` or `systemProperties` can be set in a task.
-
-Run `swaggerCodegenHelp` task to list available languages and JSON configuration of each tasks.
+The plugin adds a `swaggerCodegenHelp` task to list available languages and JSON configuration of declared tasks.
 
 ```
 % ./gradlew swaggerCodegenHelp
@@ -69,7 +50,21 @@ Using Custom Generator
 
 We can use a custom template and custom generator class.
 
-See [custom-generator project in acceptance-test](acceptance-test/custom-generator) for details.
+Task type `SwaggerCodegen` accepts below properties.
+
+Key           | Value                                             | Example value
+--------------|---------------------------------------------------|--------------
+`language`    | Language to generate (required)                   | `spring`
+`library`     | Library (optional)                                | `spring-mvc`
+`inputFile`   | Swagger spec file (required)                      | `file('swagger.yaml')`
+`outputDir`   | Directory to write the generated files (required) | `file("$buildDir/generated")`
+`configFile`  | JSON configuration file (optional)                | `file('swagger.config.json')`
+`templateDir` | Directory containing the template (optional)      | `file('src/template')`
+
+Since task type `SwaggerCodegen` is a [`JavaExec` task](https://docs.gradle.org/current/dsl/org.gradle.api.tasks.JavaExec.html),
+it accepts `JavaExec` properties such as `classpath` or `systemProperties`.
+
+See [custom-generator project in acceptance-test](acceptance-test/custom-generator) for more.
 
 
 Contributions
