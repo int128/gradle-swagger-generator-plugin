@@ -23,4 +23,5 @@ task generateMyServer(type: SwaggerCodegen, dependsOn: [cleanGenerated, jar]) {
     outputDir = file("$buildDir/generated/server")
     configFile = file('server.swagger.json')
     templateDir = file('src/template/server')
+    components = ['models', 'apis']
 }

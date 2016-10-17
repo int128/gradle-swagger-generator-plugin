@@ -58,8 +58,9 @@ Key           | Type              | Value                                   | Ex
 `library`     | String, optional  | Library                                 | `spring-mvc`
 `inputFile`   | File, required    | Swagger spec file                       | [`file('petstore.yaml')`](https://github.com/OAI/OpenAPI-Specification/blob/master/examples/v2.0/yaml/petstore.yaml)
 `outputDir`   | File, required    | Directory to write the generated files  | `file("$buildDir/generated")`
-`configFile`  | File, optional    | [JSON configuration file](https://github.com/swagger-api/swagger-codegen#customizing-the-generator) (optional) | `file('swagger.config.json')`
+`configFile`  | File, optional    | [JSON configuration file](https://github.com/swagger-api/swagger-codegen#customizing-the-generator) | `file('swagger.config.json')`
 `templateDir` | File, optional    | Directory containing the template       | `file('src/template')`
+`components`  | List of Strings   | [Components to generate](https://github.com/swagger-api/swagger-codegen#selective-generation) that is a list of `models`, `apis` and `supportingFiles`. Defaults to all components | `['models', 'apis']`
 
 Since task type `SwaggerCodegen` is a [`JavaExec` task](https://docs.gradle.org/current/dsl/org.gradle.api.tasks.JavaExec.html),
 it accepts `JavaExec` properties such as `classpath` or `systemProperties`.

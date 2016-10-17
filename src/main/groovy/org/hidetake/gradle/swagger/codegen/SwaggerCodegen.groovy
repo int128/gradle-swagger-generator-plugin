@@ -27,12 +27,23 @@ class SwaggerCodegen extends JavaExec {
     @Optional @InputDirectory
     File templateDir
 
+    @Optional @Input
+    List<String> components
+
     @TaskAction
     @Override
     void exec() {
         main = 'io.swagger.codegen.SwaggerCodegen'
         classpath(project.configurations.swaggerCodegen)
         args(buildOptions())
+        if (components) {
+            assert components.every { component ->
+                component in ['models', 'apis', 'supportingFiles']
+            }
+            systemProperties(components.collectEntries { component ->
+                [component, '']
+            })
+        }
         super.exec()
     }
 
