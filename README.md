@@ -11,7 +11,7 @@ Create following build script and run `generateServer` task to generate code.
 
 ```groovy
 plugins {
-  id 'org.hidetake.swagger.codegen' version '1.0.0'
+  id 'org.hidetake.swagger.codegen' version '1.1.0'
 }
 
 repositories {
