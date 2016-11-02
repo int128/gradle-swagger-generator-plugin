@@ -1,11 +1,12 @@
 Gradle Swagger Generator Plugin [![Build Status](https://travis-ci.org/int128/gradle-swagger-generator-plugin.svg?branch=master)](https://travis-ci.org/int128/gradle-swagger-generator-plugin)
 =============================
 
-A Gradle plugin to generate API server or client code by [Swagger Codegen](https://github.com/swagger-api/swagger-codegen).
+This is a Gradle plugin to generate server code, client code and API document.
+It depends on [Swagger Codegen](https://github.com/swagger-api/swagger-codegen) and [Swagger2Markup](https://github.com/Swagger2Markup/swagger2markup).
 
 
-Getting Started
----------------
+Getting Started: Code Generation
+--------------------------------
 
 Create following build script.
 
@@ -52,8 +53,38 @@ CONFIG OPTIONS
 ```
 
 
-Customize code generation
--------------------------
+Getting Started: Document Generation
+------------------------------------
+
+Create following build script.
+
+```groovy
+plugins {
+  id 'org.hidetake.swagger.generator' version '1.1.0'
+  id 'org.asciidoctor.convert' version '1.5.3'
+}
+
+repositories {
+  jcenter()
+}
+
+// define a task to generate API document
+task generateApiDoc(type: SwaggerDocgen) {
+  inputFile = file('petstore.yaml')
+  outputDir = file("$buildDir/generated/docs")
+}
+```
+
+Run the task and `index.html` should be generated.
+
+```
+% ./gradlew generateApiDoc
+:generateApiDoc
+```
+
+
+Custom code generation
+----------------------
 
 The plugin supports a custom template and custom generator class.
 
@@ -73,6 +104,18 @@ Since task type `SwaggerCodegen` is a [`JavaExec` task](https://docs.gradle.org/
 it accepts `JavaExec` properties such as `classpath` or `systemProperties`.
 
 See also [simple-generation project](acceptance-test/simple-generation) and [custom-generator project](acceptance-test/custom-generator) for more.
+
+
+Custom document generation
+--------------------------
+
+Task type `SwaggerAsciidoc` accepts below properties.
+
+Key           | Type              | Value                                   | Example value
+--------------|-------------------|-----------------------------------------|--------------
+`inputFile`   | File, required    | Swagger spec file                       | [`file('petstore.yaml')`](https://github.com/OAI/OpenAPI-Specification/blob/master/examples/v2.0/yaml/petstore.yaml)
+`outputDir`   | File, required    | Directory to write the generated files  | `file("$buildDir/generated")`
+`config`      | Map, optional     | [Configuration of Swagger2Markup](http://swagger2markup.github.io/swagger2markup/1.1.0/#_swagger2markup_properties) | `swagger2markup.pathsGroupedBy: 'TAGS'`
 
 
 Contributions

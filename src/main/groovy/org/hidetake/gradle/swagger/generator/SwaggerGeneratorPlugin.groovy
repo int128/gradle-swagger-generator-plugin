@@ -15,10 +15,14 @@ class SwaggerGeneratorPlugin implements Plugin<Project> {
         project.configurations.create('swaggerCodegen')
 
         project.ext.SwaggerCodegen = SwaggerCodegen
+        project.ext.SwaggerDocgen = SwaggerDocgen
 
         project.afterEvaluate {
             project.tasks.withType(SwaggerCodegen) { task ->
                 SwaggerCodegenHelp.injectHelpTaskFor(task)
+            }
+            project.tasks.withType(SwaggerDocgen) { task ->
+                SwaggerDocgen.injectGenerationTasksFor(task)
             }
         }
     }
