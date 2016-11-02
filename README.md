@@ -31,19 +31,6 @@ task generateServer(type: SwaggerCodegen) {
 }
 ```
 
-Run `swaggerCodegenHelp` task to list available languages and JSON configuration of defined tasks.
-
-```
-% ./gradlew swaggerCodegenHelp
-:swaggerCodegenHelp
-Available languages: [android, ...]
-Available JSON configuration for task ':generateServer':
-
-CONFIG OPTIONS
-	sortParamsByRequiredFlag
-  ...
-```
-
 
 Customize code generation
 -------------------------
@@ -66,6 +53,19 @@ Since task type `SwaggerCodegen` is a [`JavaExec` task](https://docs.gradle.org/
 it accepts `JavaExec` properties such as `classpath` or `systemProperties`.
 
 See also [simple-generation project](acceptance-test/simple-generation) and [custom-generator project](acceptance-test/custom-generator) for more.
+
+Run `swaggerCodegenHelp` task to list available languages and JSON configuration of defined tasks.
+
+```
+% ./gradlew swaggerCodegenHelp
+:swaggerCodegenHelp
+Available languages: [android, ...]
+Available JSON configuration for task ':generateServer':
+
+CONFIG OPTIONS
+	sortParamsByRequiredFlag
+  ...
+```
 
 
 Contributions
