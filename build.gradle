@@ -23,15 +23,15 @@ group = 'org.hidetake'
 version = System.getenv('TRAVIS_TAG') ?: 'SNAPSHOT'
 
 pluginBundle {
-    website = 'https://github.com/int128/gradle-swagger-codegen-plugin'
-    vcsUrl = 'https://github.com/int128/gradle-swagger-codegen-plugin'
-    description = 'Gradle Swagger Codegen Plugin'
+    website = 'https://github.com/int128/gradle-swagger-generator-plugin'
+    vcsUrl = 'https://github.com/int128/gradle-swagger-generator-plugin'
+    description = 'Gradle Swagger Generator Plugin'
     tags = ['swagger', 'api', 'generator']
 
     plugins {
         swaggerPlugin {
-            id = 'org.hidetake.swagger.codegen'
-            displayName = 'Gradle Swagger Codegen Plugin'
+            id = 'org.hidetake.swagger.generator'
+            displayName = 'Gradle Swagger Generator Plugin'
         }
     }
 }

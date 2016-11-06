@@ -1,4 +1,4 @@
-package org.hidetake.gradle.swagger.codegen
+package org.hidetake.gradle.swagger.generator
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction

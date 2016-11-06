@@ -1,4 +1,4 @@
-Gradle Swagger Codegen Plugin [![Build Status](https://travis-ci.org/int128/gradle-swagger-codegen-plugin.svg?branch=master)](https://travis-ci.org/int128/gradle-swagger-codegen-plugin)
+Gradle Swagger Generator Plugin [![Build Status](https://travis-ci.org/int128/gradle-swagger-generator-plugin.svg?branch=master)](https://travis-ci.org/int128/gradle-swagger-generator-plugin)
 =============================
 
 A Gradle plugin to generate API server or client code by [Swagger Codegen](https://github.com/swagger-api/swagger-codegen).
@@ -11,7 +11,7 @@ Create following build script and run `generateServer` task to generate code.
 
 ```groovy
 plugins {
-  id 'org.hidetake.swagger.codegen' version '1.1.0'
+  id 'org.hidetake.swagger.generator' version '1.1.0'
 }
 
 repositories {
