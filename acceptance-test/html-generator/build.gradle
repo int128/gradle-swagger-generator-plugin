@@ -1,0 +1,13 @@
+plugins {
+    id 'org.hidetake.swagger.generator'
+    id 'org.asciidoctor.convert' version '1.5.3'
+}
+
+repositories {
+    jcenter()
+}
+
+task generateApiDoc(type: SwaggerDocgen) {
+    inputFile = file('petstore.yaml')
+    outputDir = file("$buildDir/generated/docs")
+}
