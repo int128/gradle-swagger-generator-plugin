@@ -13,11 +13,7 @@ dependencies {
     swaggerCodegen project
 }
 
-task cleanGenerated(type: Delete) {
-    delete file("$buildDir/generated")
-}
-
-task generateMyServer(type: SwaggerCodegen, dependsOn: [cleanGenerated, jar]) {
+task generateMyServer(type: SwaggerCodegen, dependsOn: jar) {
     language = 'MySpringCodegen'
     inputFile = file('petstore.yaml')
     outputDir = file("$buildDir/generated/server")

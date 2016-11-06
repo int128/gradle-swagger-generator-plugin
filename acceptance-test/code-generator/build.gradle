@@ -10,18 +10,14 @@ dependencies {
     swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.1'
 }
 
-task clean(type: Delete) {
-    delete buildDir
-}
-
-task generateServer(type: SwaggerCodegen, dependsOn: clean) {
+task generateServer(type: SwaggerCodegen) {
     language = 'spring'
     inputFile = file('petstore.yaml')
     outputDir = file("$buildDir/generated/server")
     configFile = file('server.swagger.json')
 }
 
-task generateClient(type: SwaggerCodegen, dependsOn: clean) {
+task generateClient(type: SwaggerCodegen) {
     language = 'spring'
     library = 'spring-cloud'
     inputFile = file('petstore.yaml')
