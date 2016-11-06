@@ -53,11 +53,28 @@ class AcceptanceSpec extends Specification {
     }
 
     @Unroll
-    def 'swaggerCodegenHelp task should show help'() {
+    def 'help tasks should be added into the project'() {
         given:
         def runner = GradleRunner.create()
             .withProjectDir(new File('simple-generation'))
-            .withArguments('--stacktrace', 'swaggerCodegenHelp')
+            .withArguments('--stacktrace', 'tasks')
+            .withPluginClasspath()
+            .forwardOutput()
+
+        when:
+        def result = runner.build()
+
+        then:
+        result.output.contains('generateClientHelp')
+        result.output.contains('generateServerHelp')
+    }
+
+    @Unroll
+    def 'generateServerHelp task should show help'() {
+        given:
+        def runner = GradleRunner.create()
+            .withProjectDir(new File('simple-generation'))
+            .withArguments('--stacktrace', 'generateServerHelp')
             .withPluginClasspath()
             .forwardOutput()
 
