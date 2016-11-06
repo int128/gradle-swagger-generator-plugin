@@ -7,7 +7,7 @@ A Gradle plugin to generate API server or client code by [Swagger Codegen](https
 Getting Started
 ---------------
 
-Create following build script and run `generateServer` task to generate code.
+Create following build script.
 
 ```groovy
 plugins {
@@ -29,6 +29,26 @@ task generateServer(type: SwaggerCodegen) {
   inputFile = file('petstore.yaml')
   outputDir = file("$buildDir/generated/server")
 }
+```
+
+Run the task to generate code.
+
+```
+% ./gradlew generateServer
+:generateServer
+[main] INFO io.swagger.parser.Swagger20Parser - reading from ...
+```
+
+Run the task with `Help` postfix to show available JSON configuration.
+
+```
+% ./gradlew generateServerHelp
+:generateServerHelp
+Available JSON configuration for task ':generateServer':
+
+CONFIG OPTIONS
+	sortParamsByRequiredFlag
+  ...
 ```
 
 
@@ -53,19 +73,6 @@ Since task type `SwaggerCodegen` is a [`JavaExec` task](https://docs.gradle.org/
 it accepts `JavaExec` properties such as `classpath` or `systemProperties`.
 
 See also [simple-generation project](acceptance-test/simple-generation) and [custom-generator project](acceptance-test/custom-generator) for more.
-
-Run `swaggerCodegenHelp` task to list available languages and JSON configuration of defined tasks.
-
-```
-% ./gradlew swaggerCodegenHelp
-:swaggerCodegenHelp
-Available languages: [android, ...]
-Available JSON configuration for task ':generateServer':
-
-CONFIG OPTIONS
-	sortParamsByRequiredFlag
-  ...
-```
 
 
 Contributions

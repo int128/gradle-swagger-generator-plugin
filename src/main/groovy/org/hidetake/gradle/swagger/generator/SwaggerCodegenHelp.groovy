@@ -1,6 +1,8 @@
 package org.hidetake.gradle.swagger.generator
 
-import org.gradle.api.DefaultTask
+import org.gradle.api.Task
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.JavaExec
 import org.gradle.api.tasks.TaskAction
 
 /**
@@ -8,22 +10,27 @@ import org.gradle.api.tasks.TaskAction
  *
  * @author Hidetake Iwata
  */
-class SwaggerCodegenHelp extends DefaultTask {
+class SwaggerCodegenHelp extends JavaExec {
+
+    @Input
+    String language
 
     @TaskAction
-    void show() {
-        project.javaexec {
-            classpath = project.configurations.swaggerCodegen
-            main = 'io.swagger.codegen.SwaggerCodegen'
-        }
+    @Override
+    void exec() {
+        classpath = project.configurations.swaggerCodegen
+        main = 'io.swagger.codegen.SwaggerCodegen'
+        args('config-help', '-l', language)
+        println("Available JSON configuration for language $language:")
+        super.exec()
+    }
 
-        project.tasks.withType(SwaggerCodegen).collect { task ->
-            println("Available JSON configuration for $task:")
-            project.javaexec {
-                classpath = project.configurations.swaggerCodegen
-                main = 'io.swagger.codegen.SwaggerCodegen'
-                args('config-help', '-l', task.language)
-            }
+    static Task injectHelpTaskFor(SwaggerCodegen task) {
+        task.project.task("${task.name}Help",
+            description: "Displays available JSON configuration for $task",
+            group: 'help',
+            type: SwaggerCodegenHelp) {
+            language = task.language
         }
     }
 

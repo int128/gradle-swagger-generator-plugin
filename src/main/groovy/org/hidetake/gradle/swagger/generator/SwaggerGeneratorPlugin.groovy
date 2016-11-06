@@ -13,8 +13,14 @@ class SwaggerGeneratorPlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
         project.configurations.create('swaggerCodegen')
+
         project.ext.SwaggerCodegen = SwaggerCodegen
-        project.task('swaggerCodegenHelp', type: SwaggerCodegenHelp)
+
+        project.afterEvaluate {
+            project.tasks.withType(SwaggerCodegen) { task ->
+                SwaggerCodegenHelp.injectHelpTaskFor(task)
+            }
+        }
     }
 
 }
