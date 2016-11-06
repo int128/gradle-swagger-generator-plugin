@@ -33,6 +33,9 @@ class SwaggerCodegen extends JavaExec {
     @TaskAction
     @Override
     void exec() {
+        project.delete(outputDir)
+        outputDir.mkdirs()
+
         main = 'io.swagger.codegen.SwaggerCodegen'
         classpath(project.configurations.swaggerCodegen)
         args(buildOptions())
