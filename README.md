@@ -103,7 +103,7 @@ Key           | Type              | Value                                   | Ex
 Since task type `SwaggerCodegen` is a [`JavaExec` task](https://docs.gradle.org/current/dsl/org.gradle.api.tasks.JavaExec.html),
 it accepts `JavaExec` properties such as `classpath` or `systemProperties`.
 
-See also [simple-generation project](acceptance-test/simple-generation) and [custom-generator project](acceptance-test/custom-generator) for more.
+See projects under [acceptance-test](acceptance-test) for more.
 
 
 Custom document generation
@@ -116,6 +116,8 @@ Key           | Type              | Value                                   | Ex
 `inputFile`   | File, required    | Swagger spec file                       | [`file('petstore.yaml')`](https://github.com/OAI/OpenAPI-Specification/blob/master/examples/v2.0/yaml/petstore.yaml)
 `outputDir`   | File, required    | Directory to write the generated files  | `file("$buildDir/generated")`
 `config`      | Map, optional     | [Configuration of Swagger2Markup](http://swagger2markup.github.io/swagger2markup/1.1.0/#_swagger2markup_properties) | `swagger2markup.pathsGroupedBy: 'TAGS'`
+
+See projects under [acceptance-test](acceptance-test) for more.
 
 
 Contributions
