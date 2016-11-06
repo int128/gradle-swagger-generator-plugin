@@ -1,9 +1,9 @@
-package org.hidetake.gradle.swagger.codegen
+package org.hidetake.gradle.swagger.generator
 
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 
-class SwaggerCodegenPluginSpec extends Specification {
+class SwaggerGeneratorPluginSpec extends Specification {
 
     def "plugin should provide swaggerCodegenHelp task"() {
         given:
@@ -11,7 +11,7 @@ class SwaggerCodegenPluginSpec extends Specification {
 
         when:
         project.with {
-            apply plugin: 'org.hidetake.swagger.codegen'
+            apply plugin: 'org.hidetake.swagger.generator'
         }
 
         then:
@@ -24,7 +24,7 @@ class SwaggerCodegenPluginSpec extends Specification {
 
         when:
         project.with {
-            apply plugin: 'org.hidetake.swagger.codegen'
+            apply plugin: 'org.hidetake.swagger.generator'
         }
 
         then:

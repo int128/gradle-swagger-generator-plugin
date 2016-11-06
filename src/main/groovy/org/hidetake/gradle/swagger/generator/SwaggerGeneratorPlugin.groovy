@@ -1,4 +1,4 @@
-package org.hidetake.gradle.swagger.codegen
+package org.hidetake.gradle.swagger.generator
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -8,7 +8,7 @@ import org.gradle.api.Project
  *
  * @author Hidetake Iwata
  */
-class SwaggerCodegenPlugin implements Plugin<Project> {
+class SwaggerGeneratorPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
