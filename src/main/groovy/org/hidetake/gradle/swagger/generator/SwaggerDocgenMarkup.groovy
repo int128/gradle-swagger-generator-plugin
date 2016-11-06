@@ -15,8 +15,8 @@ class SwaggerDocgenMarkup extends DefaultTask {
     @InputFile
     File inputFile
 
-    @OutputFile
-    File outputFileWithoutExtension
+    @OutputDirectory
+    File outputDir
 
     @Optional @Input
     Map<String, String> config
@@ -28,7 +28,7 @@ class SwaggerDocgenMarkup extends DefaultTask {
             .from(inputFile.toPath())
             .withConfig(swagger2MarkupConfig)
             .build()
-            .toFile(outputFileWithoutExtension.toPath())
+            .toFile(outputDir.toPath().resolve('index'))
     }
 
 }

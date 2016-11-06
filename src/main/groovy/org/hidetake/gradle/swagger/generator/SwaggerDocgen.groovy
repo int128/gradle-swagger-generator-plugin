@@ -41,7 +41,7 @@ Asciidoctor Gradle Plugin should be applied as follows:
             group: 'documentation',
             description: "Generate Asciidoc document for $task") {
             inputFile = task.inputFile
-            outputFileWithoutExtension = new File(task.outputDir, 'index')
+            outputDir = task.outputDir
             config = task.config
         }
 
