@@ -10,3 +10,5 @@ repositories {
 generateSwaggerDoc {
     inputFile = file('petstore.yaml')
 }
+
+build.dependsOn generateSwaggerDoc

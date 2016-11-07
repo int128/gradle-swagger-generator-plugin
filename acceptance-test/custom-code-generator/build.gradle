@@ -14,7 +14,6 @@ sourceSets {
 dependencies {
     swaggerGeneratorCompile 'org.codehaus.groovy:groovy-all:2.4.7'
     swaggerGeneratorCompile 'io.swagger:swagger-codegen-cli:2.2.1'
-    swaggerCodegen project
 }
 
 generateSwaggerCode {
