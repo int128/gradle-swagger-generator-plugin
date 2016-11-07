@@ -36,10 +36,13 @@ This is a simple project to generate a HTML file of API document.
 See [the build script](html-generator/build.gradle) for more.
 
 ```
-% ./gradlew generateSwaggerDoc
+% ./gradlew build
+:assemble UP-TO-DATE
+:check UP-TO-DATE
 :generateSwaggerDoc_swagger2markup
 :generateSwaggerDoc_asciidoctor
-:generateSwaggerDoc
+:generateSwaggerDoc UP-TO-DATE
+:build UP-TO-DATE
 
 BUILD SUCCESSFUL
 ```
