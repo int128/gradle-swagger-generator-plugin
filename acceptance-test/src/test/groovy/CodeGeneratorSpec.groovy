@@ -11,6 +11,7 @@ class CodeGeneratorSpec extends Specification {
             .withProjectDir(new File('code-generator'))
             .withPluginClasspath()
             .forwardOutput()
+        new File(runner.projectDir, 'build').deleteDir()
     }
 
     def 'generateServer task should generate server code'() {

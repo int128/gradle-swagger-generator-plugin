@@ -18,7 +18,7 @@ class SwaggerCodegenHelp extends JavaExec {
     @TaskAction
     @Override
     void exec() {
-        classpath = project.configurations.swaggerCodegen
+        classpath(project.configurations.swaggerCodegen)
         main = 'io.swagger.codegen.SwaggerCodegen'
         args('config-help', '-l', language)
         println("Available JSON configuration for language $language:")
@@ -28,8 +28,10 @@ class SwaggerCodegenHelp extends JavaExec {
     static Task injectHelpTaskFor(SwaggerCodegen task) {
         task.project.task("${task.name}Help",
             description: "Displays available JSON configuration for $task",
+            dependsOn: task.dependsOn,
             group: 'help',
             type: SwaggerCodegenHelp) {
+            classpath(task.classpath)
             language = task.language
         }
     }

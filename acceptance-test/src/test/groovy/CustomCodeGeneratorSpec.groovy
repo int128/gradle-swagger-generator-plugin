@@ -10,6 +10,7 @@ class CustomCodeGeneratorSpec extends Specification {
             .withProjectDir(new File('custom-code-generator'))
             .withPluginClasspath()
             .forwardOutput()
+        new File(runner.projectDir, 'build').deleteDir()
     }
 
     def 'generateMyServer task should generate customized server code'() {
