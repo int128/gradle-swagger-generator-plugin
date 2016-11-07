@@ -10,6 +10,7 @@ class HtmlGeneratorSpec extends Specification {
             .withProjectDir(new File('html-generator'))
             .withPluginClasspath()
             .forwardOutput()
+        new File(runner.projectDir, 'build').deleteDir()
     }
 
     def 'generateApiDoc task should generate API document'() {
