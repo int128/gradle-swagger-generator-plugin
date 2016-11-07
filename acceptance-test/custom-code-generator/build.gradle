@@ -13,7 +13,8 @@ dependencies {
     swaggerCodegen project
 }
 
-task generateMyServer(type: SwaggerCodegen, dependsOn: jar) {
+task generateMyServer(type: SwaggerCodegen, dependsOn: classes) {
+    classpath = sourceSets.main.runtimeClasspath
     language = 'MySpringCodegen'
     inputFile = file('petstore.yaml')
     outputDir = file("$buildDir/generated/server")
