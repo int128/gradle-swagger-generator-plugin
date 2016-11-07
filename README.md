@@ -89,7 +89,7 @@ Custom code generation
 The plugin supports a custom template and custom generator class.
 See projects under [acceptance-test](acceptance-test) for more.
 
-Task type `SwaggerCodegen` accepts below properties.
+Task type `GenerateSwaggerCode` accepts below properties.
 
 Key           | Type              | Value                                   | Example value
 --------------|-------------------|-----------------------------------------|--------------
@@ -101,7 +101,7 @@ Key           | Type              | Value                                   | Ex
 `templateDir` | File, optional    | Directory containing the template       | `file('src/template')`
 `components`  | List of Strings   | [Components to generate](https://github.com/swagger-api/swagger-codegen#selective-generation) that is a list of `models`, `apis` and `supportingFiles`. Defaults to all components | `['models', 'apis']`
 
-Since task type `SwaggerCodegen` is a [`JavaExec` task](https://docs.gradle.org/current/dsl/org.gradle.api.tasks.JavaExec.html),
+Since the task type is a [`JavaExec` task](https://docs.gradle.org/current/dsl/org.gradle.api.tasks.JavaExec.html),
 it accepts `JavaExec` properties such as `classpath` or `systemProperties`.
 
 

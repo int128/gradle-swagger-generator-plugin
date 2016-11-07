@@ -10,7 +10,7 @@ import org.gradle.api.tasks.TaskAction
  *
  * @author Hidetake Iwata
  */
-class SwaggerCodegenHelp extends JavaExec {
+class GenerateSwaggerCodeHelp extends JavaExec {
 
     @Input
     String language
@@ -25,12 +25,12 @@ class SwaggerCodegenHelp extends JavaExec {
         super.exec()
     }
 
-    static Task injectHelpTaskFor(SwaggerCodegen task) {
+    static Task injectHelpTaskFor(GenerateSwaggerCode task) {
         task.project.task("${task.name}Help",
             description: "Displays available JSON configuration for $task",
             dependsOn: task.dependsOn,
             group: 'help',
-            type: SwaggerCodegenHelp) {
+            type: GenerateSwaggerCodeHelp) {
             classpath(task.classpath)
             language = task.language
         }
