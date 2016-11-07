@@ -18,4 +18,18 @@ class SwaggerGeneratorPluginSpec extends Specification {
         project.GenerateSwaggerCode == GenerateSwaggerCode
     }
 
+    def "plugin should add default tasks"() {
+        given:
+        def project = ProjectBuilder.builder().build()
+
+        when:
+        project.with {
+            apply plugin: 'org.hidetake.swagger.generator'
+        }
+
+        then:
+        project.tasks.findByName('generateSwaggerCode')
+        project.tasks.findByName('generateSwaggerDoc')
+    }
+
 }

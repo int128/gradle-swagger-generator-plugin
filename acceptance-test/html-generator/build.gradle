@@ -7,7 +7,6 @@ repositories {
     jcenter()
 }
 
-task generateApiDoc(type: SwaggerDocgen) {
+generateSwaggerDoc {
     inputFile = file('petstore.yaml')
-    outputDir = file("$buildDir/generated/docs")
 }

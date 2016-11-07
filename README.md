@@ -68,18 +68,18 @@ repositories {
   jcenter()
 }
 
-// define a task to generate API document
-task generateApiDoc(type: SwaggerDocgen) {
+generateSwaggerDoc {
   inputFile = file('petstore.yaml')
-  outputDir = file("$buildDir/generated/docs")
 }
 ```
 
-Run the task and `index.html` should be generated.
+The task generates an API document as `build/swagger-doc/index.html`.
 
 ```
-% ./gradlew generateApiDoc
-:generateApiDoc
+% ./gradlew generateSwaggerDoc
+:generateSwaggerDoc_swagger2markup
+:generateSwaggerDoc_asciidoctor
+:generateSwaggerDoc
 ```
 
 
@@ -108,12 +108,12 @@ it accepts `JavaExec` properties such as `classpath` or `systemProperties`.
 Custom document generation
 --------------------------
 
-Task type `SwaggerAsciidoc` accepts below properties.
+Task type `SwaggerDocgen` accepts below properties.
 
 Key           | Type              | Value                                   | Example value
 --------------|-------------------|-----------------------------------------|--------------
 `inputFile`   | File, required    | Swagger spec file                       | [`file('petstore.yaml')`](https://github.com/OAI/OpenAPI-Specification/blob/master/examples/v2.0/yaml/petstore.yaml)
-`outputDir`   | File, required    | Directory to write the generated files  | `file("$buildDir/generated")`
+`outputDir`   | File, optional    | Directory to write the generated file. Defaults to `$buildDir/swagger-doc`. | `file('petstore')`
 `config`      | Map, optional     | [Configuration of Swagger2Markup](http://swagger2markup.github.io/swagger2markup/1.1.0/#_swagger2markup_properties) | `swagger2markup.pathsGroupedBy: 'TAGS'`
 
 See projects under [acceptance-test](acceptance-test) for more.

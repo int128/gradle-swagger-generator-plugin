@@ -23,6 +23,9 @@ class SwaggerDocgenMarkup extends DefaultTask {
 
     @TaskAction
     void exec() {
+        project.delete(outputDir)
+        outputDir.mkdirs()
+
         def swagger2MarkupConfig = new Swagger2MarkupConfigBuilder(config ?: [:]).build()
         Swagger2MarkupConverter
             .from(inputFile.toPath())

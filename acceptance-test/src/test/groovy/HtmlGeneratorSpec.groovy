@@ -13,15 +13,15 @@ class HtmlGeneratorSpec extends Specification {
         new File(runner.projectDir, 'build').deleteDir()
     }
 
-    def 'generateApiDoc task should generate API document'() {
+    def 'generateSwaggerDoc task should generate an API document'() {
         given:
-        runner.withArguments('--stacktrace', 'generateApiDoc')
+        runner.withArguments('--stacktrace', 'generateSwaggerDoc')
 
         when:
         runner.build()
 
         then:
-        new File("${runner.projectDir}/build/generated/docs/index.html").exists()
+        new File("${runner.projectDir}/build/swagger-doc/index.html").exists()
     }
 
 }
