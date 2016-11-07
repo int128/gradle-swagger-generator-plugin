@@ -1,6 +1,5 @@
 import org.gradle.testkit.runner.GradleRunner
 import spock.lang.Specification
-import spock.lang.Unroll
 
 class CodeGeneratorSpec extends Specification {
 
@@ -14,29 +13,7 @@ class CodeGeneratorSpec extends Specification {
         new File(runner.projectDir, 'build').deleteDir()
     }
 
-    def 'generateServer task should generate server code'() {
-        given:
-        runner.withArguments('--stacktrace', 'generateServer')
-
-        when:
-        runner.build()
-
-        then:
-        new File("${runner.projectDir}/build/generated/server/").exists()
-    }
-
-    def 'generateClient task should generate server code'() {
-        given:
-        runner.withArguments('--stacktrace', 'generateClient')
-
-        when:
-        runner.build()
-
-        then:
-        new File("${runner.projectDir}/build/generated/client/").exists()
-    }
-
-    def 'help tasks should be added into the project'() {
+    def 'default tasks should be added into the project'() {
         given:
         runner.withArguments('--stacktrace', 'tasks')
 
@@ -44,23 +21,41 @@ class CodeGeneratorSpec extends Specification {
         def result = runner.build()
 
         then:
-        result.output.contains('generateClientHelp')
-        result.output.contains('generateServerHelp')
+        result.output.contains('generateSwaggerCode -')
+        result.output.contains('generateSwaggerCodeHelp -')
     }
 
-    @Unroll
-    def 'task #taskName should show help'() {
+    def 'generateSwaggerCode task should generate a code'() {
         given:
-        runner.withArguments('--stacktrace', taskName)
+        runner.withArguments('--stacktrace', 'generateSwaggerCode')
+
+        when:
+        runner.build()
+
+        then:
+        new File(runner.projectDir, 'build/swagger-code/src/main/java/example/api/PetsApi.java').exists()
+    }
+
+    def 'build task should build the generated code'() {
+        given:
+        runner.withArguments('--stacktrace', 'build')
+
+        when:
+        runner.build()
+
+        then:
+        new File(runner.projectDir, 'build/libs/code-generator.jar').exists()
+    }
+
+    def 'generateSwaggerCodeHelp task should show help'() {
+        given:
+        runner.withArguments('--stacktrace', 'generateSwaggerCodeHelp')
 
         when:
         def result = runner.build()
 
         then:
         result.output.contains('CONFIG OPTIONS')
-
-        where:
-        taskName << ['generateServerHelp', 'generateClientHelp']
     }
 
 }

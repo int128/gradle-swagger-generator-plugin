@@ -3,11 +3,11 @@ package org.hidetake.gradle.swagger.generator
 import org.gradle.api.tasks.*
 
 /**
- * A task to generate code.
+ * A task to generate a source code from the Swagger specification.
  *
  * @author Hidetake Iwata
  */
-class SwaggerCodegen extends JavaExec {
+class GenerateSwaggerCode extends JavaExec {
 
     @Input
     String language
@@ -15,7 +15,7 @@ class SwaggerCodegen extends JavaExec {
     @InputFile
     File inputFile
 
-    @OutputDirectory
+    @Optional @OutputDirectory
     File outputDir
 
     @Optional @Input
@@ -29,6 +29,10 @@ class SwaggerCodegen extends JavaExec {
 
     @Optional @Input
     List<String> components
+
+    def GenerateSwaggerCode() {
+        outputDir = new File(project.buildDir, 'swagger-code')
+    }
 
     @TaskAction
     @Override

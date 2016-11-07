@@ -5,7 +5,7 @@ import spock.lang.Specification
 
 class SwaggerGeneratorPluginSpec extends Specification {
 
-    def "plugin should provide SwaggerCodegen as a class"() {
+    def "plugin should provide task classes"() {
         given:
         def project = ProjectBuilder.builder().build()
 
@@ -15,7 +15,7 @@ class SwaggerGeneratorPluginSpec extends Specification {
         }
 
         then:
-        project.SwaggerCodegen == SwaggerCodegen
+        project.GenerateSwaggerCode == GenerateSwaggerCode
     }
 
 }
