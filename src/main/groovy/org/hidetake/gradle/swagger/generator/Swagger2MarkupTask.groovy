@@ -10,7 +10,7 @@ import org.gradle.api.tasks.*
  *
  * @author Hidetake Iwata
  */
-class SwaggerDocgenMarkup extends DefaultTask {
+class Swagger2MarkupTask extends DefaultTask {
 
     @InputFile
     File inputFile

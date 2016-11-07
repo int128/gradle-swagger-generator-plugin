@@ -11,7 +11,7 @@ import org.gradle.api.tasks.OutputDirectory
  *
  * @author Hidetake Iwata
  */
-class SwaggerDocgen extends DefaultTask {
+class GenerateSwaggerDoc extends DefaultTask {
 
     @InputFile
     File inputFile
@@ -22,13 +22,13 @@ class SwaggerDocgen extends DefaultTask {
     @Optional @Input
     Map<String, String> config
 
-    def SwaggerDocgen() {
+    def GenerateSwaggerDoc() {
         outputDir = new File(project.buildDir, 'swagger-doc')
     }
 
-    static void injectGenerationTasksFor(SwaggerDocgen task) {
+    static void injectGenerationTasksFor(GenerateSwaggerDoc task) {
         def markupTask = task.project.task("${task.name}_swagger2markup",
-            type: SwaggerDocgenMarkup,
+            type: Swagger2MarkupTask,
             group: 'documentation',
             description: "Generate Asciidoc for $task") {
             inputFile = task.inputFile

@@ -108,7 +108,7 @@ it accepts `JavaExec` properties such as `classpath` or `systemProperties`.
 Custom document generation
 --------------------------
 
-Task type `SwaggerDocgen` accepts below properties.
+Task type `GenerateSwaggerDoc` accepts below properties.
 
 Key           | Type              | Value                                   | Example value
 --------------|-------------------|-----------------------------------------|--------------

@@ -15,7 +15,7 @@ class SwaggerGeneratorPlugin implements Plugin<Project> {
         project.configurations.create('swaggerCodegen')
 
         project.ext.GenerateSwaggerCode = GenerateSwaggerCode
-        project.ext.SwaggerDocgen = SwaggerDocgen
+        project.ext.GenerateSwaggerDoc = GenerateSwaggerDoc
 
         project.task('generateSwaggerCode',
             type: GenerateSwaggerCode,
@@ -23,7 +23,7 @@ class SwaggerGeneratorPlugin implements Plugin<Project> {
             description: 'Generates a source code from the swagger specification.')
 
         project.task('generateSwaggerDoc',
-            type: SwaggerDocgen,
+            type: GenerateSwaggerDoc,
             group: 'documentation',
             description: 'Generates an API document from the swagger specification.')
 
@@ -31,8 +31,8 @@ class SwaggerGeneratorPlugin implements Plugin<Project> {
             project.tasks.withType(GenerateSwaggerCode) { task ->
                 GenerateSwaggerCodeHelp.injectHelpTaskFor(task)
             }
-            project.tasks.withType(SwaggerDocgen) { task ->
-                SwaggerDocgen.injectGenerationTasksFor(task)
+            project.tasks.withType(GenerateSwaggerDoc) { task ->
+                GenerateSwaggerDoc.injectGenerationTasksFor(task)
             }
         }
     }

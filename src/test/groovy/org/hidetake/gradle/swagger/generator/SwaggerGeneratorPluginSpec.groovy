@@ -16,6 +16,7 @@ class SwaggerGeneratorPluginSpec extends Specification {
 
         then:
         project.GenerateSwaggerCode == GenerateSwaggerCode
+        project.GenerateSwaggerDoc == GenerateSwaggerDoc
     }
 
     def "plugin should add default tasks"() {
