@@ -17,6 +17,11 @@ class SwaggerGeneratorPlugin implements Plugin<Project> {
         project.ext.SwaggerCodegen = SwaggerCodegen
         project.ext.SwaggerDocgen = SwaggerDocgen
 
+        project.task('generateSwaggerCode',
+            type: SwaggerCodegen,
+            group: 'build',
+            description: 'Generates a source code from the swagger specification.')
+
         project.afterEvaluate {
             project.tasks.withType(SwaggerCodegen) { task ->
                 SwaggerCodegenHelp.injectHelpTaskFor(task)

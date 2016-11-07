@@ -7,18 +7,24 @@ repositories {
     jcenter()
 }
 
+sourceSets {
+    swaggerGenerator
+}
+
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.4.7'
-    compile 'io.swagger:swagger-codegen-cli:2.2.1'
+    swaggerGeneratorCompile 'org.codehaus.groovy:groovy-all:2.4.7'
+    swaggerGeneratorCompile 'io.swagger:swagger-codegen-cli:2.2.1'
     swaggerCodegen project
 }
 
-task generateMyServer(type: SwaggerCodegen, dependsOn: classes) {
-    classpath = sourceSets.main.runtimeClasspath
+generateSwaggerCode {
+    classpath = sourceSets.swaggerGenerator.runtimeClasspath
     language = 'MySpringCodegen'
     inputFile = file('petstore.yaml')
-    outputDir = file("$buildDir/generated/server")
-    configFile = file('server.swagger.json')
+    configFile = file('config.json')
     templateDir = file('src/template/server')
     components = ['models', 'apis']
 }
+
+compileJava.dependsOn generateSwaggerCode
+sourceSets.main.java.srcDir generateSwaggerCode.outputDir

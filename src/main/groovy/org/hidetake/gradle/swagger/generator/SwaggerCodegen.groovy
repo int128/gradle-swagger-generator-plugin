@@ -15,7 +15,7 @@ class SwaggerCodegen extends JavaExec {
     @InputFile
     File inputFile
 
-    @OutputDirectory
+    @Optional @OutputDirectory
     File outputDir
 
     @Optional @Input
@@ -29,6 +29,10 @@ class SwaggerCodegen extends JavaExec {
 
     @Optional @Input
     List<String> components
+
+    def SwaggerCodegen() {
+        outputDir = new File(project.buildDir, 'swagger-code')
+    }
 
     @TaskAction
     @Override

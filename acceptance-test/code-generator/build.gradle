@@ -1,4 +1,5 @@
 plugins {
+    id 'java'
     id 'org.hidetake.swagger.generator'
 }
 
@@ -7,19 +8,17 @@ repositories {
 }
 
 dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-web:1.4.1.RELEASE'
+    compile 'io.swagger:swagger-annotations:1.5.10'
     swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.1'
 }
 
-task generateServer(type: SwaggerCodegen) {
+generateSwaggerCode {
     language = 'spring'
     inputFile = file('petstore.yaml')
-    outputDir = file("$buildDir/generated/server")
-    configFile = file('server.swagger.json')
+    configFile = file('config.json')
+    components = ['models', 'apis']
 }
 
-task generateClient(type: SwaggerCodegen) {
-    language = 'spring'
-    library = 'spring-cloud'
-    inputFile = file('petstore.yaml')
-    outputDir = file("$buildDir/generated/client")
-}
+compileJava.dependsOn generateSwaggerCode
+sourceSets.main.java.srcDir generateSwaggerCode.outputDir
