@@ -10,7 +10,7 @@ import org.gradle.api.tasks.*
  *
  * @author Hidetake Iwata
  */
-class SwaggerDocgenMarkup extends DefaultTask {
+class Swagger2MarkupTask extends DefaultTask {
 
     @InputFile
     File inputFile
@@ -23,6 +23,9 @@ class SwaggerDocgenMarkup extends DefaultTask {
 
     @TaskAction
     void exec() {
+        project.delete(outputDir)
+        outputDir.mkdirs()
+
         def swagger2MarkupConfig = new Swagger2MarkupConfigBuilder(config ?: [:]).build()
         Swagger2MarkupConverter
             .from(inputFile.toPath())
