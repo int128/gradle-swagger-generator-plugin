@@ -1,8 +1,7 @@
 Gradle Swagger Generator Plugin [![Build Status](https://travis-ci.org/int128/gradle-swagger-generator-plugin.svg?branch=master)](https://travis-ci.org/int128/gradle-swagger-generator-plugin)
 =============================
 
-This is a Gradle plugin to generate server code, client code and API document.
-It depends on [Swagger Codegen](https://github.com/swagger-api/swagger-codegen) and [Swagger2Markup](https://github.com/Swagger2Markup/swagger2markup).
+This is a Gradle plugin to generate server code, client code and API document, using [Swagger Codegen](https://github.com/swagger-api/swagger-codegen) and [Swagger2Markup](https://github.com/Swagger2Markup/swagger2markup).
 
 
 Getting Started: Code Generation
@@ -32,7 +31,7 @@ generateSwaggerCode {
 }
 ```
 
-Run the task to generate code.
+The task generates source code into `build/swagger-code`.
 
 ```
 % ./gradlew generateSwaggerCode
@@ -86,9 +85,6 @@ The task generates an API document as `build/swagger-doc/index.html`.
 Custom code generation
 ----------------------
 
-The plugin supports a custom template and custom generator class.
-See projects under [acceptance-test](acceptance-test) for more.
-
 Task type `GenerateSwaggerCode` accepts below properties.
 
 Key           | Type              | Value                                   | Example value
@@ -101,8 +97,8 @@ Key           | Type              | Value                                   | Ex
 `templateDir` | File, optional    | Directory containing the template       | `file('src/template')`
 `components`  | List of Strings   | [Components to generate](https://github.com/swagger-api/swagger-codegen#selective-generation) that is a list of `models`, `apis` and `supportingFiles`. Defaults to all components | `['models', 'apis']`
 
-Since the task type is a [`JavaExec` task](https://docs.gradle.org/current/dsl/org.gradle.api.tasks.JavaExec.html),
-it accepts `JavaExec` properties such as `classpath` or `systemProperties`.
+The task supports a custom generator class by passing `classpath` property.
+See projects under [acceptance-test](acceptance-test) for more.
 
 
 Custom document generation
@@ -124,9 +120,6 @@ Contributions
 
 This is an open source software licensed under the Apache License Version 2.0.
 Feel free to open issues or pull requests.
-
-
-### Working with Travis CI
 
 Travis CI builds the plugin continuously.
 It also publishes the plugin if a tag is pushed and following variables are set.
