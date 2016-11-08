@@ -22,8 +22,19 @@ class GenerateSwaggerDoc extends DefaultTask {
     @Optional @Input
     Map<String, String> config
 
+    @Optional @Input
+    Map<String, String> options
+
+    @Optional @Input
+    Map<String, String> attributes
+
     def GenerateSwaggerDoc() {
         outputDir = new File(project.buildDir, 'swagger-doc')
+        attributes = [
+            toc: 'right',
+            sectnums: '',
+            sectanchors: '',
+        ]
     }
 
     static void injectGenerationTasksFor(GenerateSwaggerDoc task) {
@@ -44,6 +55,8 @@ class GenerateSwaggerDoc extends DefaultTask {
                 description: "Generate HTML for $task") {
                 sourceDir = task.outputDir
                 outputDir = task.outputDir
+                options = task.options
+                attributes = task.attributes
                 separateOutputDirs = false
             }
 

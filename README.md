@@ -110,7 +110,9 @@ Key           | Type              | Value                                   | Ex
 --------------|-------------------|-----------------------------------------|--------------
 `inputFile`   | File, required    | Swagger spec file                       | [`file('petstore.yaml')`](https://github.com/OAI/OpenAPI-Specification/blob/master/examples/v2.0/yaml/petstore.yaml)
 `outputDir`   | File, optional    | Directory to write the generated file. Defaults to `$buildDir/swagger-doc`. | `file('petstore')`
-`config`      | Map, optional     | [Configuration of Swagger2Markup](http://swagger2markup.github.io/swagger2markup/1.1.0/#_swagger2markup_properties) | `swagger2markup.pathsGroupedBy: 'TAGS'`
+`config`      | Map, optional     | [Configuration for Swagger2Markup](http://swagger2markup.github.io/swagger2markup/1.1.0/#_swagger2markup_properties) | `[swagger2markup.pathsGroupedBy: 'TAGS']`
+`options`     | Map, optional     | [Options for Asciidoctor Gradle Plugin](https://github.com/asciidoctor/asciidoctor-gradle-plugin#options--attributes). Defaults to none. | `[doctype: 'book']`
+`attributes`  | Map, optional     | [Attributes for Asciidoctor Gradle Plugin](https://github.com/asciidoctor/asciidoctor-gradle-plugin#options--attributes). Defaults to `[toc: 'right', sectnums: '', sectanchors: '']`. | `[:]`
 
 See projects under [acceptance-test](acceptance-test) for more.
 
