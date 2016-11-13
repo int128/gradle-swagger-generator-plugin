@@ -3,7 +3,7 @@ Gradle Swagger Generator Plugin [![Build Status](https://travis-ci.org/int128/gr
 
 This is a Gradle plugin to generate server code, client code and API document, using [Swagger Codegen](https://github.com/swagger-api/swagger-codegen) and [Swagger2Markup](https://github.com/Swagger2Markup/swagger2markup).
 
-See also [example projects](acceptance-test/) and [the example of API document](https://s3-ap-northeast-1.amazonaws.com/gradle-swagger-generator-plugin/SNAPSHOT/index.html).
+See also [example projects](acceptance-test/) and [the example of API document](https://int128.github.io/gradle-swagger-generator-plugin/).
 
 
 Getting Started: Code Generation
@@ -126,9 +126,10 @@ This is an open source software licensed under the Apache License Version 2.0.
 Feel free to open issues or pull requests.
 
 Travis CI builds the plugin continuously.
-It also publishes the plugin if a tag is pushed and following variables are set.
+Following variables should be set.
 
-Environment Variable        | Value
-----------------------------|------
-`$GRADLE_PUBLISH_KEY`       | `gradle.publish.key` of the API key
-`$GRADLE_PUBLISH_SECRET`    | `gradle.publish.secret` of the API key
+Environment Variable        | Purpose
+----------------------------|--------
+`$GRADLE_PUBLISH_KEY`       | Publish the plugin to Gradle Plugins
+`$GRADLE_PUBLISH_SECRET`    | Publish the plugin to Gradle Plugins
+`$GITHUB_TOKEN`             | Publish the example of API document to GitHub Pages
