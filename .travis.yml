@@ -6,8 +6,25 @@ install:
 - echo "gradle.publish.key=$GRADLE_PUBLISH_KEY" >> $HOME/.gradle/gradle.properties
 - echo "gradle.publish.secret=$GRADLE_PUBLISH_SECRET" >> $HOME/.gradle/gradle.properties
 
+- echo "https://${GITHUB_TOKEN}:@github.com" > "$HOME/.git-credentials"
+- git config --global user.name "$(git log -1 --format=format:%an)"
+- git config --global user.email "$(git log -1 --format=format:%ae)"
+- git config --global credential.helper store
+- git config --global core.autocrlf input
+- git config --global push.default current
+
 script:
 - ./gradlew check
+
+- |
+  pushd acceptance-test/html-generator/build/swagger-doc
+  git init
+  git add .
+  git commit -m 'Release example of API document'
+  git branch -m gh-pages
+  git remote add origin "https://github.com/$TRAVIS_REPO_SLUG"
+  git push origin -f
+  popd
 
 after_success:
 - test ${TRAVIS_TAG} && ./gradlew publishPlugins
