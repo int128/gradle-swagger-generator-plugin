@@ -84,6 +84,37 @@ The task generates an API document as `build/swagger-doc/index.html`.
 ```
 
 
+Getting Started: Swagger UI Generation
+--------------------------------------
+
+Create following build script.
+
+```groovy
+plugins {
+  id 'org.hidetake.swagger.generator' version '1.4.0'
+}
+
+repositories {
+  jcenter()
+}
+
+dependencies {
+    swaggerUI 'org.webjars:swagger-ui:2.2.6'
+}
+
+generateSwaggerUI {
+  inputFile = file('petstore.yaml')
+}
+```
+
+The task generates an API document as `build/swagger-ui`.
+
+```
+% ./gradlew generateSwaggerUI
+:generateSwaggerUI
+```
+
+
 Custom code generation
 ----------------------
 
@@ -115,6 +146,13 @@ Key           | Type              | Value                                   | Ex
 `config`      | Map, optional     | [Configuration for Swagger2Markup](http://swagger2markup.github.io/swagger2markup/1.1.0/#_swagger2markup_properties) | `[swagger2markup.pathsGroupedBy: 'TAGS']`
 `options`     | Map, optional     | [Options for Asciidoctor Gradle Plugin](https://github.com/asciidoctor/asciidoctor-gradle-plugin#options--attributes). Defaults to none. | `[doctype: 'book']`
 `attributes`  | Map, optional     | [Attributes for Asciidoctor Gradle Plugin](https://github.com/asciidoctor/asciidoctor-gradle-plugin#options--attributes). Defaults to `[toc: 'right', sectnums: '', sectanchors: '']`. | `[:]`
+
+Task type `GenerateSwaggerUI` accepts below properties.
+
+Key           | Type              | Value                                   | Example value
+--------------|-------------------|-----------------------------------------|--------------
+`inputFile`   | File, required    | Swagger spec file                       | [`file('petstore.yaml')`](https://github.com/OAI/OpenAPI-Specification/blob/master/examples/v2.0/yaml/petstore.yaml)
+`outputDir`   | File, optional    | Directory to write the generated file. Defaults to `$buildDir/swagger-ui`. | `file('petstore')`
 
 See projects under [acceptance-test](acceptance-test) for more.
 

@@ -7,8 +7,17 @@ repositories {
     jcenter()
 }
 
+dependencies {
+    swaggerUI 'org.webjars:swagger-ui:2.2.6'
+}
+
 generateSwaggerDoc {
     inputFile = file('petstore.yaml')
 }
 
+generateSwaggerUI {
+    inputFile = file('petstore.yaml')
+}
+
 build.dependsOn generateSwaggerDoc
+build.dependsOn generateSwaggerUI

@@ -13,6 +13,7 @@ class SwaggerGeneratorPlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
         project.configurations.create('swaggerCodegen')
+        project.configurations.create('swaggerUI')
 
         project.ext.GenerateSwaggerCode = GenerateSwaggerCode
         project.ext.GenerateSwaggerDoc = GenerateSwaggerDoc
@@ -26,6 +27,11 @@ class SwaggerGeneratorPlugin implements Plugin<Project> {
             type: GenerateSwaggerDoc,
             group: 'documentation',
             description: 'Generates an API document from the swagger specification.')
+
+        project.task('generateSwaggerUI',
+            type: GenerateSwaggerUI,
+            group: 'documentation',
+            description: 'Generates Swagger UI from the swagger specification.')
 
         project.afterEvaluate {
             project.tasks.withType(GenerateSwaggerCode) { task ->
