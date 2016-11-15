@@ -1,10 +1,7 @@
 package org.hidetake.gradle.swagger.generator
 
 import org.gradle.api.DefaultTask
-import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputFile
-import org.gradle.api.tasks.Optional
-import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.*
 
 /**
  * A task to generate an API document.
@@ -38,8 +35,19 @@ class GenerateSwaggerDoc extends DefaultTask {
     }
 
     static void injectGenerationTasksFor(GenerateSwaggerDoc task) {
+        def cleanTask = task.project.task("${task.name}_clean",
+            type: Delete,
+            group: 'build',
+            description: "Deletes the build directory $task") {
+            delete(task.outputDir)
+            doLast {
+                task.outputDir.mkdirs()
+            }
+        }
+
         def markupTask = task.project.task("${task.name}_swagger2markup",
             type: Swagger2MarkupTask,
+            dependsOn: cleanTask,
             group: 'documentation',
             description: "Generate Asciidoc for $task") {
             inputFile = task.inputFile

@@ -13,7 +13,7 @@ class HtmlGeneratorSpec extends Specification {
         new File(runner.projectDir, 'build').deleteDir()
     }
 
-    def 'build task should generate an API document'() {
+    def 'build task should generate an API document and Swagger UI'() {
         given:
         runner.withArguments('--stacktrace', 'build')
 
@@ -22,6 +22,7 @@ class HtmlGeneratorSpec extends Specification {
 
         then:
         new File("${runner.projectDir}/build/swagger-doc/index.html").exists()
+        new File("${runner.projectDir}/build/swagger-ui/index.html").exists()
     }
 
 }
