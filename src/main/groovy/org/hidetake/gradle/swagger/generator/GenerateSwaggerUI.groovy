@@ -27,6 +27,14 @@ class GenerateSwaggerUI extends DefaultTask {
 
     @TaskAction
     void exec() {
+        if (project.configurations.swaggerUI.dependencies.empty) {
+            throw new IllegalStateException('''\
+                Dependency for swagger-ui should be given as follows:
+                  dependencies {
+                    swaggerUI 'org.webjars:swagger-ui:x.x.x'
+                  }'''.stripIndent())
+        }
+
         project.delete(outputDir)
         outputDir.mkdirs()
 
