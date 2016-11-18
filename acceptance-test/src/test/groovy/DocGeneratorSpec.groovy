@@ -10,11 +10,11 @@ class DocGeneratorSpec extends Specification {
             .withProjectDir(new File('doc-generator'))
             .withPluginClasspath()
             .forwardOutput()
-        new File(runner.projectDir, 'build').deleteDir()
     }
 
     def 'build task should generate an API document and Swagger UI'() {
         given:
+        new File(runner.projectDir, 'build').deleteDir()
         runner.withArguments('--stacktrace', 'build')
 
         when:

@@ -10,11 +10,11 @@ class PublishS3Spec extends Specification {
             .withProjectDir(new File('publish-s3'))
             .withPluginClasspath()
             .forwardOutput()
-        new File(runner.projectDir, 'build').deleteDir()
     }
 
     def 'publish task should publish the API client and document'() {
         given:
+        new File(runner.projectDir, 'build').deleteDir()
         if (System.getenv('AWS_ACCESS_KEY_ID')) {
             runner.withArguments('--stacktrace', 'publish')
         } else {

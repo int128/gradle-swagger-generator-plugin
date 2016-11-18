@@ -1,18 +1,18 @@
 import org.gradle.testkit.runner.GradleRunner
 import spock.lang.Specification
 
-class CustomCodeGeneratorSpec extends Specification {
+class HtmlGeneratorSpec extends Specification {
 
     GradleRunner runner
 
     def setup() {
         runner = GradleRunner.create()
-            .withProjectDir(new File('custom-code-generator'))
+            .withProjectDir(new File('html-generator'))
             .withPluginClasspath()
             .forwardOutput()
     }
 
-    def 'generateSwaggerCode task should generate customized server code'() {
+    def 'generateSwaggerCode task should generate a document'() {
         given:
         new File(runner.projectDir, 'build').deleteDir()
         runner.withArguments('--stacktrace', 'generateSwaggerCode')
@@ -21,7 +21,7 @@ class CustomCodeGeneratorSpec extends Specification {
         runner.build()
 
         then:
-        new File(runner.projectDir, 'build/swagger-code/src/main/java/example/api/PetsApi.java').exists()
+        new File(runner.projectDir, 'build/swagger-html/index.html').exists()
     }
 
     def 'generateSwaggerCodeHelp task should show help'() {

@@ -17,10 +17,16 @@ script:
 - ./gradlew check
 
 - |
-  pushd acceptance-test/doc-generator/build/swagger-doc
+  mkdir build/publish
+  cp -av acceptance-test/doc-generator/build/swagger-doc build/publish
+  cp -av acceptance-test/doc-generator/build/swagger-ui build/publish
+  cp -av acceptance-test/html-generator/build/swagger-html build/publish
+
+- |
+  pushd build/publish
   git init
   git add .
-  git commit -m 'Release example of API document'
+  git commit -m 'Release example docs'
   git branch -m gh-pages
   git remote add origin "https://github.com/$TRAVIS_REPO_SLUG"
   git push origin -f

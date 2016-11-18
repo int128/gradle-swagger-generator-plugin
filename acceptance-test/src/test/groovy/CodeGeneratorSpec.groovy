@@ -10,7 +10,6 @@ class CodeGeneratorSpec extends Specification {
             .withProjectDir(new File('code-generator'))
             .withPluginClasspath()
             .forwardOutput()
-        new File(runner.projectDir, 'build').deleteDir()
     }
 
     def 'default tasks should be added into the project'() {
@@ -27,6 +26,7 @@ class CodeGeneratorSpec extends Specification {
 
     def 'generateSwaggerCode task should generate a code'() {
         given:
+        new File(runner.projectDir, 'build').deleteDir()
         runner.withArguments('--stacktrace', 'generateSwaggerCode')
 
         when:
@@ -38,6 +38,7 @@ class CodeGeneratorSpec extends Specification {
 
     def 'build task should build the generated code'() {
         given:
+        new File(runner.projectDir, 'build').deleteDir()
         runner.withArguments('--stacktrace', 'build')
 
         when:
