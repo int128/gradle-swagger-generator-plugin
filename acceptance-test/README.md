@@ -29,11 +29,11 @@ BUILD SUCCESSFUL
 ```
 
 
-Project: html-generator
------------------------
+Project: doc-generator
+----------------------
 
 This is a simple project to generate a HTML file of API document.
-See [the build script](html-generator/build.gradle) for more.
+See [the build script](doc-generator/build.gradle) for more.
 
 ```
 % ./gradlew build

@@ -17,7 +17,7 @@ script:
 - ./gradlew check
 
 - |
-  pushd acceptance-test/html-generator/build/swagger-doc
+  pushd acceptance-test/doc-generator/build/swagger-doc
   git init
   git add .
   git commit -m 'Release example of API document'

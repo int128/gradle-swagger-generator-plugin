@@ -1,13 +1,13 @@
 import org.gradle.testkit.runner.GradleRunner
 import spock.lang.Specification
 
-class HtmlGeneratorSpec extends Specification {
+class DocGeneratorSpec extends Specification {
 
     GradleRunner runner
 
     def setup() {
         runner = GradleRunner.create()
-            .withProjectDir(new File('html-generator'))
+            .withProjectDir(new File('doc-generator'))
             .withPluginClasspath()
             .forwardOutput()
         new File(runner.projectDir, 'build').deleteDir()
