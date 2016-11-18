@@ -3,7 +3,12 @@ Gradle Swagger Generator Plugin [![Build Status](https://travis-ci.org/int128/gr
 
 This is a Gradle plugin to generate server code, client code and API document, using [Swagger Codegen](https://github.com/swagger-api/swagger-codegen) and [Swagger2Markup](https://github.com/Swagger2Markup/swagger2markup).
 
-See also [example projects](acceptance-test/) and [the example of API document](https://int128.github.io/gradle-swagger-generator-plugin/).
+See also following examples:
+
+- [Generated API document using Swagger2Markup](https://int128.github.io/gradle-swagger-generator-plugin/swagger-doc/)
+- [Generated API document using Swagger Codegen HTML2](https://int128.github.io/gradle-swagger-generator-plugin/swagger-html/)
+- [Generated Swagger UI](https://int128.github.io/gradle-swagger-generator-plugin/swagger-ui/)
+- [Example Gradle Projects](acceptance-test/)
 
 
 Getting Started: Code Generation
