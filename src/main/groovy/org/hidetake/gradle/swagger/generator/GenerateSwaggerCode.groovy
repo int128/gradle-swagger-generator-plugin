@@ -37,9 +37,6 @@ class GenerateSwaggerCode extends JavaExec {
     @TaskAction
     @Override
     void exec() {
-        project.delete(outputDir)
-        outputDir.mkdirs()
-
         main = 'io.swagger.codegen.SwaggerCodegen'
         classpath(project.configurations.swaggerCodegen)
         args(buildOptions())
@@ -51,6 +48,17 @@ class GenerateSwaggerCode extends JavaExec {
                 [component, '']
             })
         }
+
+        if (classpath.empty) {
+            throw new IllegalStateException('''\
+                Dependency for swagger-codegen-cli should be given as follows:
+                  dependencies {
+                    swaggerCodegen 'io.swagger:swagger-codegen-cli:x.x.x'
+                  }'''.stripIndent())
+        }
+
+        project.delete(outputDir)
+        outputDir.mkdirs()
         super.exec()
     }
 

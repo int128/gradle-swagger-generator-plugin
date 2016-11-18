@@ -33,4 +33,36 @@ class SwaggerGeneratorPluginSpec extends Specification {
         project.tasks.findByName('generateSwaggerDoc')
     }
 
+    def "exception should be thrown if no dependency given in SwaggerCodegen"() {
+        given:
+        def project = ProjectBuilder.builder().build()
+
+        when:
+        project.with {
+            apply plugin: 'org.hidetake.swagger.generator'
+            generateSwaggerCode {
+                inputFile = file('nothing.yaml')
+                language = 'java'
+            }
+            tasks.generateSwaggerCode.exec()
+        }
+
+        then:
+        thrown(IllegalStateException)
+    }
+
+    def "exception should be thrown if no dependency given in SwaggerUI"() {
+        given:
+        def project = ProjectBuilder.builder().build()
+
+        when:
+        project.with {
+            apply plugin: 'org.hidetake.swagger.generator'
+            tasks.generateSwaggerUI.exec()
+        }
+
+        then:
+        thrown(IllegalStateException)
+    }
+
 }
