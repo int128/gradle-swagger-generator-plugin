@@ -120,15 +120,15 @@ Custom code generation
 
 Task type `GenerateSwaggerCode` accepts below properties.
 
-Key           | Type              | Value                                   | Example value
+Key           | Type              | Value                                   | Default value
 --------------|-------------------|-----------------------------------------|--------------
-`language`    | String, required  | Language to generate                    | `spring`
-`library`     | String, optional  | Library                                 | `spring-mvc`
-`inputFile`   | File, required    | Swagger spec file                       | [`file('petstore.yaml')`](https://github.com/OAI/OpenAPI-Specification/blob/master/examples/v2.0/yaml/petstore.yaml)
-`outputDir`   | File, optional    | Directory to write generated files. Defaults to `$buildDir/swagger-code`. | `file('petstore')`
-`configFile`  | File, optional    | [JSON configuration file](https://github.com/swagger-api/swagger-codegen#customizing-the-generator) | `file('config.json')`
-`templateDir` | File, optional    | Directory containing the template       | `file('src/template')`
-`components`  | List of Strings   | [Components to generate](https://github.com/swagger-api/swagger-codegen#selective-generation) that is a list of `models`, `apis` and `supportingFiles`. Defaults to all components | `['models', 'apis']`
+`language`    | String            | Language to generate.                   | Mandatory
+`inputFile`   | File              | Swagger spec file.                      | Mandatory
+`outputDir`   | File              | Directory to write generated files.     | `$buildDir/swagger-code`
+`library`     | String            | Library type.                           | None
+`configFile`  | File              | [JSON configuration file](https://github.com/swagger-api/swagger-codegen#customizing-the-generator). | None
+`templateDir` | File              | Directory containing the template.      | None
+`components`  | List of Strings   | [Components to generate](https://github.com/swagger-api/swagger-codegen#selective-generation) that is a list of `models`, `apis` and `supportingFiles`. | All components
 
 The task supports a custom generator class by passing `classpath` property.
 See projects under [acceptance-test](acceptance-test) for more.
@@ -139,20 +139,20 @@ Custom document generation
 
 Task type `GenerateSwaggerDoc` accepts below properties.
 
-Key           | Type              | Value                                   | Example value
+Key           | Type              | Value                                   | Default value
 --------------|-------------------|-----------------------------------------|--------------
-`inputFile`   | File, required    | Swagger spec file                       | [`file('petstore.yaml')`](https://github.com/OAI/OpenAPI-Specification/blob/master/examples/v2.0/yaml/petstore.yaml)
-`outputDir`   | File, optional    | Directory to write the generated file. Defaults to `$buildDir/swagger-doc`. | `file('petstore')`
-`config`      | Map, optional     | [Configuration for Swagger2Markup](http://swagger2markup.github.io/swagger2markup/1.1.0/#_swagger2markup_properties) | `[swagger2markup.pathsGroupedBy: 'TAGS']`
-`options`     | Map, optional     | [Options for Asciidoctor Gradle Plugin](https://github.com/asciidoctor/asciidoctor-gradle-plugin#options--attributes). Defaults to none. | `[doctype: 'book']`
-`attributes`  | Map, optional     | [Attributes for Asciidoctor Gradle Plugin](https://github.com/asciidoctor/asciidoctor-gradle-plugin#options--attributes). Defaults to `[toc: 'right', sectnums: '', sectanchors: '']`. | `[:]`
+`inputFile`   | File              | Swagger spec file.                      | Mandatory
+`outputDir`   | File              | Directory to write the generated file.  | `$buildDir/swagger-doc`
+`config`      | Map               | [Configuration for Swagger2Markup](http://swagger2markup.github.io/swagger2markup/1.1.0/#_swagger2markup_properties). | None
+`options`     | Map               | [Options for Asciidoctor Gradle Plugin](https://github.com/asciidoctor/asciidoctor-gradle-plugin#options--attributes). | None
+`attributes`  | Map               | [Attributes for Asciidoctor Gradle Plugin](https://github.com/asciidoctor/asciidoctor-gradle-plugin#options--attributes). | `[toc: 'right', sectnums: '', sectanchors: '']`
 
 Task type `GenerateSwaggerUI` accepts below properties.
 
-Key           | Type              | Value                                   | Example value
+Key           | Type              | Value                                   | Default value
 --------------|-------------------|-----------------------------------------|--------------
-`inputFile`   | File, required    | Swagger spec file                       | [`file('petstore.yaml')`](https://github.com/OAI/OpenAPI-Specification/blob/master/examples/v2.0/yaml/petstore.yaml)
-`outputDir`   | File, optional    | Directory to write the generated file. Defaults to `$buildDir/swagger-ui`. | `file('petstore')`
+`inputFile`   | File              | Swagger spec file.                      | Mandatory
+`outputDir`   | File              | Directory to write the generated file.  | `$buildDir/swagger-ui`
 
 See projects under [acceptance-test](acceptance-test) for more.
 
