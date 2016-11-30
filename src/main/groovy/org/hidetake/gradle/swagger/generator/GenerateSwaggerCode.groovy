@@ -32,6 +32,7 @@ class GenerateSwaggerCode extends JavaExec {
 
     def GenerateSwaggerCode() {
         outputDir = new File(project.buildDir, 'swagger-code')
+        defaultCharacterEncoding = 'UTF-8'
     }
 
     @TaskAction
