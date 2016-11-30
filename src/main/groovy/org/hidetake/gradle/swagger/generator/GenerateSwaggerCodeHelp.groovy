@@ -15,6 +15,10 @@ class GenerateSwaggerCodeHelp extends JavaExec {
     @Input
     String language
 
+    def GenerateSwaggerCodeHelp() {
+        defaultCharacterEncoding = 'UTF-8'
+    }
+
     @TaskAction
     @Override
     void exec() {
