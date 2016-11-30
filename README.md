@@ -18,7 +18,7 @@ Create following build script.
 
 ```groovy
 plugins {
-  id 'org.hidetake.swagger.generator' version '1.5.1'
+  id 'org.hidetake.swagger.generator' version '1.5.2'
 }
 
 repositories {
@@ -66,7 +66,7 @@ Create following build script.
 
 ```groovy
 plugins {
-  id 'org.hidetake.swagger.generator' version '1.5.1'
+  id 'org.hidetake.swagger.generator' version '1.5.2'
   id 'org.asciidoctor.convert' version '1.5.3'
 }
 
@@ -96,7 +96,7 @@ Create following build script.
 
 ```groovy
 plugins {
-  id 'org.hidetake.swagger.generator' version '1.5.1'
+  id 'org.hidetake.swagger.generator' version '1.5.2'
 }
 
 repositories {
