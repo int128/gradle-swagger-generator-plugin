@@ -10,23 +10,27 @@ See also following examples:
 - [Generated Swagger UI](https://int128.github.io/gradle-swagger-generator-plugin/swagger-ui/)
 - [Example Gradle Projects](acceptance-test/)
 
+Add the plugin into a build script as follows:
+
+```groovy
+plugins {
+  id 'org.asciidoctor.convert' version '1.5.3'
+}
+```
+
 
 Getting Started: Code Generation
 --------------------------------
 
-Create following build script.
+Add following into a build script.
 
 ```groovy
-plugins {
-  id 'org.hidetake.swagger.generator' version '1.5.2'
-}
-
 repositories {
   jcenter()
 }
 
 dependencies {
-  // define dependency for Swagger Codegen CLI
+  // Add dependency for Swagger Codegen CLI
   swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.1'
 }
 
@@ -59,46 +63,12 @@ CONFIG OPTIONS
 ```
 
 
-Getting Started: Document Generation
-------------------------------------
-
-Create following build script.
-
-```groovy
-plugins {
-  id 'org.hidetake.swagger.generator' version '1.5.2'
-  id 'org.asciidoctor.convert' version '1.5.3'
-}
-
-repositories {
-  jcenter()
-}
-
-generateSwaggerDoc {
-  inputFile = file('petstore.yaml')
-}
-```
-
-The task generates an API document as `build/swagger-doc/index.html`.
-
-```
-% ./gradlew generateSwaggerDoc
-:generateSwaggerDoc_swagger2markup
-:generateSwaggerDoc_asciidoctor
-:generateSwaggerDoc
-```
-
-
 Getting Started: Swagger UI Generation
 --------------------------------------
 
-Create following build script.
+Add following into a build script.
 
 ```groovy
-plugins {
-  id 'org.hidetake.swagger.generator' version '1.5.2'
-}
-
 repositories {
   jcenter()
 }
@@ -120,10 +90,43 @@ The task generates an API document as `build/swagger-ui`.
 ```
 
 
-Custom code generation
-----------------------
+Getting Started: Document Generation
+------------------------------------
 
-Task type `GenerateSwaggerCode` accepts below properties.
+Add following into a build script.
+
+```groovy
+plugins {
+  // Add dependency for Asciidoc generation
+  id 'org.asciidoctor.convert' version '1.5.3'
+}
+
+generateSwaggerDoc {
+  inputFile = file('petstore.yaml')
+}
+```
+
+The task generates an API document as `build/swagger-doc/index.html`.
+
+```
+% ./gradlew generateSwaggerDoc
+:generateSwaggerDoc_swagger2markup
+:generateSwaggerDoc_asciidoctor
+:generateSwaggerDoc
+```
+
+
+Custom generation
+-----------------
+
+The plugin adds `generateSwaggerCode`, `generateSwaggerUI` and `generateSwaggerDoc` tasks.
+
+See projects under [acceptance-test](acceptance-test) for more.
+
+
+### Task type `GenerateSwaggerCode`
+
+The task accepts below properties.
 
 Key           | Type              | Value                                   | Default value
 --------------|-------------------|-----------------------------------------|--------------
@@ -135,14 +138,12 @@ Key           | Type              | Value                                   | De
 `templateDir` | File              | Directory containing the template.      | None
 `components`  | List of Strings   | [Components to generate](https://github.com/swagger-api/swagger-codegen#selective-generation) that is a list of `models`, `apis` and `supportingFiles`. | All components
 
-The task supports a custom generator class by passing `classpath` property.
-See projects under [acceptance-test](acceptance-test) for more.
+The task is a `JavaExec` task and supports a custom generator class by passing the `classpath` property.
 
 
-Custom document generation
---------------------------
+### Task type `GenerateSwaggerDoc`
 
-Task type `GenerateSwaggerDoc` accepts below properties.
+The task accepts below properties.
 
 Key           | Type              | Value                                   | Default value
 --------------|-------------------|-----------------------------------------|--------------
@@ -152,14 +153,15 @@ Key           | Type              | Value                                   | De
 `options`     | Map               | [Options for Asciidoctor Gradle Plugin](https://github.com/asciidoctor/asciidoctor-gradle-plugin#options--attributes). | None
 `attributes`  | Map               | [Attributes for Asciidoctor Gradle Plugin](https://github.com/asciidoctor/asciidoctor-gradle-plugin#options--attributes). | `[toc: 'right', sectnums: '', sectanchors: '']`
 
-Task type `GenerateSwaggerUI` accepts below properties.
+
+### Task type `GenerateSwaggerUI`
+
+The task accepts below properties.
 
 Key           | Type              | Value                                   | Default value
 --------------|-------------------|-----------------------------------------|--------------
 `inputFile`   | File              | Swagger spec file.                      | Mandatory
 `outputDir`   | File              | Directory to write the generated file.  | `$buildDir/swagger-ui`
-
-See projects under [acceptance-test](acceptance-test) for more.
 
 
 Contributions
