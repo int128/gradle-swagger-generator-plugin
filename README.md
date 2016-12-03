@@ -19,6 +19,25 @@ plugins {
 ```
 
 
+Getting Started: Swagger YAML Validation
+----------------------------------------
+
+Add following into a build script.
+
+```groovy
+validateSwagger {
+  inputFile = file('petstore.yaml')
+}
+```
+
+The task validates a Swagger YAML against the JSON schema of Swagger specification.
+
+```
+% ./gradlew validateSwagger
+:validateSwagger
+```
+
+
 Getting Started: Code Generation
 --------------------------------
 

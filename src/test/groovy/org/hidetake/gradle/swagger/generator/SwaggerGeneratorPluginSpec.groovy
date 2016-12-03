@@ -65,4 +65,20 @@ class SwaggerGeneratorPluginSpec extends Specification {
         thrown(IllegalStateException)
     }
 
+    def "ValidationException should be thrown if invalid YAML is given"() {
+        given:
+        def path = SwaggerGeneratorPluginSpec.getResource('/petstore-invalid.yaml').path
+        def project = ProjectBuilder.builder().build()
+
+        when:
+        project.with {
+            apply plugin: 'org.hidetake.swagger.generator'
+            tasks.validateSwagger.inputFile = file(path)
+            tasks.validateSwagger.exec()
+        }
+
+        then:
+        thrown(ValidationException)
+    }
+
 }
