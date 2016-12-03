@@ -33,6 +33,11 @@ class SwaggerGeneratorPlugin implements Plugin<Project> {
             group: 'documentation',
             description: 'Generates Swagger UI from the swagger specification.')
 
+        project.task('validateSwagger',
+            type: ValidateSwagger,
+            group: 'verification',
+            description: 'Validates the swagger specification.')
+
         project.afterEvaluate {
             project.tasks.withType(GenerateSwaggerCode) { task ->
                 GenerateSwaggerCodeHelp.injectHelpTaskFor(task)
