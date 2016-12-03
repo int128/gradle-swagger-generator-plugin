@@ -74,7 +74,8 @@ repositories {
 }
 
 dependencies {
-    swaggerUI 'org.webjars:swagger-ui:2.2.6'
+  // Add dependency for Swagger UI
+  swaggerUI 'org.webjars:swagger-ui:2.2.6'
 }
 
 generateSwaggerUI {
