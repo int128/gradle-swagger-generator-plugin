@@ -14,7 +14,7 @@ Add the plugin into a build script as follows:
 
 ```groovy
 plugins {
-  id 'org.asciidoctor.convert' version '1.5.3'
+  id 'org.hidetake.swagger.generator' version '1.5.2'
 }
 ```
 
