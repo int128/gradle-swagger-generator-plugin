@@ -17,6 +17,8 @@ class SwaggerGeneratorPlugin implements Plugin<Project> {
 
         project.ext.GenerateSwaggerCode = GenerateSwaggerCode
         project.ext.GenerateSwaggerDoc = GenerateSwaggerDoc
+        project.ext.GenerateSwaggerUI = GenerateSwaggerUI
+        project.ext.ValidateSwagger = ValidateSwagger
 
         project.task('generateSwaggerCode',
             type: GenerateSwaggerCode,
