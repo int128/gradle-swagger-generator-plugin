@@ -17,6 +17,8 @@ class SwaggerGeneratorPluginSpec extends Specification {
         then:
         project.GenerateSwaggerCode == GenerateSwaggerCode
         project.GenerateSwaggerDoc == GenerateSwaggerDoc
+        project.GenerateSwaggerUI == GenerateSwaggerUI
+        project.ValidateSwagger == ValidateSwagger
     }
 
     def "plugin should add default tasks"() {
@@ -31,6 +33,8 @@ class SwaggerGeneratorPluginSpec extends Specification {
         then:
         project.tasks.findByName('generateSwaggerCode')
         project.tasks.findByName('generateSwaggerDoc')
+        project.tasks.findByName('generateSwaggerUI')
+        project.tasks.findByName('validateSwagger')
     }
 
     def "exception should be thrown if no dependency given in SwaggerCodegen"() {
