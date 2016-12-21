@@ -1,13 +1,12 @@
 package org.hidetake.gradle.swagger.generator
 
+import com.fasterxml.jackson.databind.JsonNode
 import io.swagger.util.Json
 import io.swagger.util.Yaml
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.FileCopyDetails
 import org.gradle.api.file.RelativePath
-import org.gradle.api.tasks.InputFile
-import org.gradle.api.tasks.OutputDirectory
-import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.*
 
 /**
  * A task to generate Swagger UI.
@@ -22,8 +21,15 @@ class GenerateSwaggerUI extends DefaultTask {
     @OutputDirectory
     File outputDir
 
+    @Optional @Input
+    Map<String, Object> options
+
+    @Optional @InputFiles
+    String header
+
     def GenerateSwaggerUI() {
         outputDir = new File(project.buildDir, 'swagger-ui')
+        options = [:]
     }
 
     @TaskAction
@@ -36,11 +42,19 @@ class GenerateSwaggerUI extends DefaultTask {
                   }'''.stripIndent())
         }
 
+        // Validate before extract
         def inputJson = Yaml.mapper().readTree(inputFile)
 
+        extractWebJar()
+        replaceSwaggerUiLoader(inputJson)
+        if (header) {
+            insertCustomHeader()
+        }
+    }
+
+    private void extractWebJar() {
         project.delete(outputDir)
         outputDir.mkdirs()
-
         project.copy {
             into(outputDir)
             project.configurations.swaggerUI.each { jar ->
@@ -54,23 +68,32 @@ class GenerateSwaggerUI extends DefaultTask {
                 }
             }
         }
+    }
 
-        def options = [
-            url: '',
-            spec: inputJson,
-        ]
-        def customLoaderScript = """
-// Overwrite options
-\$.each(
-    ${Json.mapper().valueToTree(options)},
-    function (key, value) { window.swaggerUi.setOption(key, value) }
-)
-// Load
-window.swaggerUi.load();
-"""
-
+    private void replaceSwaggerUiLoader(JsonNode inputJson) {
+        def swaggerUIoptions = [
+            url         : '',
+            validatorUrl: null,
+            spec        : inputJson,
+        ] << options
+        def customLoaderScript = """\
+            // Overwrite options
+            \$.each(
+                ${Json.mapper().valueToTree(swaggerUIoptions)},
+                function (key, value) { window.swaggerUi.setOption(key, value) }
+            );
+            // Load
+            window.swaggerUi.load();
+            """.stripIndent()
         def index = new File(outputDir, 'index.html')
         index.text = index.text.replace('window.swaggerUi.load();', customLoaderScript)
+    }
+
+    private void insertCustomHeader() {
+        assert header
+        def startOfScript = '<script type="text/javascript">'
+        def index = new File(outputDir, 'index.html')
+        index.text = index.text.replace(startOfScript, "$header\n$startOfScript")
     }
 
 }
