@@ -2,8 +2,6 @@ plugins {
     id 'java'
     id 'maven-publish'
     id 'org.hidetake.swagger.generator'
-    id 'org.asciidoctor.convert' version '1.5.3'
-    id 'jp.classmethod.aws.s3' version '0.30'
 }
 
 version = System.getenv('TRAVIS_TAG') ?: 'SNAPSHOT'
@@ -28,10 +26,6 @@ generateSwaggerCode {
 compileJava.dependsOn generateSwaggerCode
 sourceSets.main.java.srcDir generateSwaggerCode.outputDir
 
-generateSwaggerDoc {
-    inputFile = file('petstore.yaml')
-}
-
 publishing {
     repositories {
         maven {
@@ -51,11 +45,3 @@ publishing {
         }
     }
 }
-
-task publishSwaggerDoc(type: jp.classmethod.aws.gradle.s3.SyncTask, dependsOn: generateSwaggerDoc) {
-    source generateSwaggerDoc.outputDir
-    bucketName 'gradle-swagger-generator-plugin'
-    prefix "${project.version}/"
-}
-
-publish.dependsOn publishSwaggerDoc
