@@ -1,5 +1,7 @@
 package org.hidetake.gradle.swagger.generator
 
+import io.swagger.util.Json
+import io.swagger.util.Yaml
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.FileCopyDetails
 import org.gradle.api.file.RelativePath
@@ -34,15 +36,17 @@ class GenerateSwaggerUI extends DefaultTask {
                   }'''.stripIndent())
         }
 
+        def inputJson = Yaml.mapper().readTree(inputFile)
+
         project.delete(outputDir)
         outputDir.mkdirs()
 
         project.copy {
             into(outputDir)
-            from(inputFile)
             project.configurations.swaggerUI.each { jar ->
                 from(project.zipTree(jar)) {
                     include('META-INF/resources/webjars/swagger-ui/*/')
+                    exclude('**/*.gz')
                     eachFile { FileCopyDetails details ->
                         details.relativePath = new RelativePath(true,
                             details.relativePath.segments.drop(5))
@@ -51,11 +55,22 @@ class GenerateSwaggerUI extends DefaultTask {
             }
         }
 
+        def options = [
+            url: '',
+            spec: inputJson,
+        ]
+        def customLoaderScript = """
+// Overwrite options
+\$.each(
+    ${Json.mapper().valueToTree(options)},
+    function (key, value) { window.swaggerUi.setOption(key, value) }
+)
+// Load
+window.swaggerUi.load();
+"""
+
         def index = new File(outputDir, 'index.html')
-        index.text = index.text.replace(
-            'http://petstore.swagger.io/v2/swagger.json',
-            inputFile.name
-        )
+        index.text = index.text.replace('window.swaggerUi.load();', customLoaderScript)
     }
 
 }
