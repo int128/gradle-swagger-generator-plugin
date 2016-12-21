@@ -109,6 +109,7 @@ Custom generation
 -----------------
 
 The plugin adds `validateSwagger`, `generateSwaggerCode` and `generateSwaggerUI` tasks.
+A task will be skipped if no input file is given.
 
 See projects under [acceptance-test](acceptance-test) for more.
 

@@ -16,6 +16,12 @@ class GenerateSwaggerCodeHelp extends DefaultTask {
     @Input
     String language
 
+    def GenerateSwaggerCodeHelp() {
+        onlyIf {
+            language
+        }
+    }
+
     @TaskAction
     void exec() {
         println("Available JSON configuration for language $language:")

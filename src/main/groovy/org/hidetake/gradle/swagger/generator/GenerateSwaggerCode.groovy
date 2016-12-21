@@ -34,6 +34,9 @@ class GenerateSwaggerCode extends DefaultTask {
 
     def GenerateSwaggerCode() {
         outputDir = new File(project.buildDir, 'swagger-code')
+        onlyIf {
+            inputFile
+        }
     }
 
     @TaskAction
