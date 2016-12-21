@@ -12,6 +12,8 @@ dependencies {
 
 generateSwaggerUI {
     inputFile = file('petstore.yaml')
+    options.docExpansion = 'full'
+    options.supportedSubmitMethods = []
 }
 
 task build(dependsOn: generateSwaggerUI)

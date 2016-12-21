@@ -93,6 +93,7 @@ dependencies {
 
 generateSwaggerUI {
   inputFile = file('petstore.yaml')
+  options.docExpansion = 'full'
 }
 ```
 
@@ -144,6 +145,17 @@ Key           | Type              | Value                                   | De
 --------------|-------------------|-----------------------------------------|--------------
 `inputFile`   | File              | Swagger spec file.                      | Mandatory
 `outputDir`   | File              | Directory to write the generated file.  | `$buildDir/swagger-ui`
+`options`     | Map of Objects    | [Swagger UI options](https://github.com/swagger-api/swagger-ui#parameters). | Empty map
+
+The plugin replaces the Swagger UI loader with custom one containing following and given `options`:
+
+```json
+{
+  "url":"",
+  "validatorUrl":null,
+  "spec":{"swagger":"2.0","info":"... converted from YAML input ..."}
+}
+```
 
 
 Contributions

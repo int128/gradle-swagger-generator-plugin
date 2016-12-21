@@ -5,6 +5,7 @@ import io.swagger.util.Yaml
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.FileCopyDetails
 import org.gradle.api.file.RelativePath
+import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
@@ -22,8 +23,12 @@ class GenerateSwaggerUI extends DefaultTask {
     @OutputDirectory
     File outputDir
 
+    @Input
+    Map<String, Object> options
+
     def GenerateSwaggerUI() {
         outputDir = new File(project.buildDir, 'swagger-ui')
+        options = [:]
     }
 
     @TaskAction
@@ -55,14 +60,15 @@ class GenerateSwaggerUI extends DefaultTask {
             }
         }
 
-        def options = [
+        def swaggerUIoptions = [
             url: '',
+            validatorUrl: null,
             spec: inputJson,
-        ]
+        ] << options
         def customLoaderScript = """
 // Overwrite options
 \$.each(
-    ${Json.mapper().valueToTree(options)},
+    ${Json.mapper().valueToTree(swaggerUIoptions)},
     function (key, value) { window.swaggerUi.setOption(key, value) }
 )
 // Load
