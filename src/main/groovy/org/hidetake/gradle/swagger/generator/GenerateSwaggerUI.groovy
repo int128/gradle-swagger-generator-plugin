@@ -1,14 +1,12 @@
 package org.hidetake.gradle.swagger.generator
 
+import com.fasterxml.jackson.databind.JsonNode
 import io.swagger.util.Json
 import io.swagger.util.Yaml
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.FileCopyDetails
 import org.gradle.api.file.RelativePath
-import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputFile
-import org.gradle.api.tasks.OutputDirectory
-import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.*
 
 /**
  * A task to generate Swagger UI.
@@ -23,7 +21,7 @@ class GenerateSwaggerUI extends DefaultTask {
     @OutputDirectory
     File outputDir
 
-    @Input
+    @Optional @Input
     Map<String, Object> options
 
     def GenerateSwaggerUI() {
@@ -41,11 +39,16 @@ class GenerateSwaggerUI extends DefaultTask {
                   }'''.stripIndent())
         }
 
+        // Validate before extract
         def inputJson = Yaml.mapper().readTree(inputFile)
 
+        extractWebJar()
+        replaceSwaggerUiLoader(inputJson)
+    }
+
+    private void extractWebJar() {
         project.delete(outputDir)
         outputDir.mkdirs()
-
         project.copy {
             into(outputDir)
             project.configurations.swaggerUI.each { jar ->
@@ -59,22 +62,23 @@ class GenerateSwaggerUI extends DefaultTask {
                 }
             }
         }
+    }
 
+    private void replaceSwaggerUiLoader(JsonNode inputJson) {
         def swaggerUIoptions = [
-            url: '',
+            url         : '',
             validatorUrl: null,
-            spec: inputJson,
+            spec        : inputJson,
         ] << options
-        def customLoaderScript = """
-// Overwrite options
-\$.each(
-    ${Json.mapper().valueToTree(swaggerUIoptions)},
-    function (key, value) { window.swaggerUi.setOption(key, value) }
-)
-// Load
-window.swaggerUi.load();
-"""
-
+        def customLoaderScript = """\
+            // Overwrite options
+            \$.each(
+                ${Json.mapper().valueToTree(swaggerUIoptions)},
+                function (key, value) { window.swaggerUi.setOption(key, value) }
+            );
+            // Load
+            window.swaggerUi.load();
+            """.stripIndent()
         def index = new File(outputDir, 'index.html')
         index.text = index.text.replace('window.swaggerUi.load();', customLoaderScript)
     }
