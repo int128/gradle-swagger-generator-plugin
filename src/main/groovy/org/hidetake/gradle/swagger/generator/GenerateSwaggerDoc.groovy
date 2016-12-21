@@ -13,7 +13,7 @@ class GenerateSwaggerDoc extends DefaultTask {
     @InputFile
     File inputFile
 
-    @Optional @OutputDirectory
+    @OutputDirectory
     File outputDir
 
     @Optional @Input
@@ -22,7 +22,7 @@ class GenerateSwaggerDoc extends DefaultTask {
     @Optional @Input
     Map<String, String> options
 
-    @Optional @Input
+    @Input
     Map<String, String> attributes
 
     def GenerateSwaggerDoc() {

@@ -1,5 +1,7 @@
 package org.hidetake.gradle.swagger.generator
 
+import io.swagger.codegen.SwaggerCodegen
+import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.*
 
 /**
@@ -7,7 +9,7 @@ import org.gradle.api.tasks.*
  *
  * @author Hidetake Iwata
  */
-class GenerateSwaggerCode extends JavaExec {
+class GenerateSwaggerCode extends DefaultTask {
 
     @Input
     String language
@@ -15,7 +17,7 @@ class GenerateSwaggerCode extends JavaExec {
     @InputFile
     File inputFile
 
-    @Optional @OutputDirectory
+    @OutputDirectory
     File outputDir
 
     @Optional @Input
@@ -32,41 +34,27 @@ class GenerateSwaggerCode extends JavaExec {
 
     def GenerateSwaggerCode() {
         outputDir = new File(project.buildDir, 'swagger-code')
-        defaultCharacterEncoding = 'UTF-8'
     }
 
     @TaskAction
-    @Override
     void exec() {
-        main = 'io.swagger.codegen.SwaggerCodegen'
-        classpath(project.configurations.swaggerCodegen)
-        args(buildOptions())
-        if (components) {
-            assert components.every { component ->
-                component in ['models', 'apis', 'supportingFiles']
-            }
-            systemProperties(components.collectEntries { component ->
-                [component, '']
-            })
+        def args = buildOptions()
+        applySystemProperties {
+            project.delete(outputDir)
+            outputDir.mkdirs()
+            SwaggerCodegen.main(*args)
         }
-
-        if (classpath.empty) {
-            throw new IllegalStateException('''\
-                Dependency for swagger-codegen-cli should be given as follows:
-                  dependencies {
-                    swaggerCodegen 'io.swagger:swagger-codegen-cli:x.x.x'
-                  }'''.stripIndent())
-        }
-
-        project.delete(outputDir)
-        outputDir.mkdirs()
-        super.exec()
     }
 
     private List<String> buildOptions() {
         assert language, "language should be set in the task $name"
         assert inputFile, "inputFile should be set in the task $name"
         assert outputDir, "outputDir should be set in the task $name"
+        if (components) {
+            assert components.every { component ->
+                component in ['models', 'apis', 'supportingFiles']
+            }
+        }
 
         def options = []
         options << 'generate'
@@ -83,6 +71,19 @@ class GenerateSwaggerCode extends JavaExec {
             options << '-t' << templateDir.path
         }
         options
+    }
+
+    private <T> T applySystemProperties(Closure<T> closure) {
+        components?.each { component ->
+            System.setProperty(component, '')
+        }
+        try {
+            closure()
+        } finally {
+            components?.each { component ->
+                System.clearProperty(component)
+            }
+        }
     }
 
 }

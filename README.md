@@ -48,11 +48,6 @@ repositories {
   jcenter()
 }
 
-dependencies {
-  // Add dependency for Swagger Codegen CLI
-  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.1'
-}
-
 generateSwaggerCode {
   language = 'spring'
   inputFile = file('petstore.yaml')
@@ -157,8 +152,6 @@ Key           | Type              | Value                                   | De
 `configFile`  | File              | [JSON configuration file](https://github.com/swagger-api/swagger-codegen#customizing-the-generator). | None
 `templateDir` | File              | Directory containing the template.      | None
 `components`  | List of Strings   | [Components to generate](https://github.com/swagger-api/swagger-codegen#selective-generation) that is a list of `models`, `apis` and `supportingFiles`. | All components
-
-The task is a `JavaExec` task and supports a custom generator class by passing the `classpath` property.
 
 
 ### Task type `GenerateSwaggerDoc`

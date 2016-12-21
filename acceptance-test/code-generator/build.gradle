@@ -10,7 +10,6 @@ repositories {
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web:1.4.1.RELEASE'
     compile 'io.swagger:swagger-annotations:1.5.10'
-    swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.1'
 }
 
 generateSwaggerCode {
