@@ -15,6 +15,12 @@ class ValidateSwagger extends DefaultTask {
     @InputFile
     File inputFile
 
+    def ValidateSwagger() {
+        onlyIf {
+            inputFile
+        }
+    }
+
     @TaskAction
     void exec() {
         def schemaResource = ValidateSwagger.getResourceAsStream('/schema.json')

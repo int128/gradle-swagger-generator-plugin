@@ -30,6 +30,9 @@ class GenerateSwaggerUI extends DefaultTask {
     def GenerateSwaggerUI() {
         outputDir = new File(project.buildDir, 'swagger-ui')
         options = [:]
+        onlyIf {
+            inputFile
+        }
     }
 
     @TaskAction
