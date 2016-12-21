@@ -12,7 +12,7 @@ class DocGeneratorSpec extends Specification {
             .forwardOutput()
     }
 
-    def 'build task should generate an API document and Swagger UI'() {
+    def 'build task should generate an Swagger UI'() {
         given:
         new File(runner.projectDir, 'build').deleteDir()
         runner.withArguments('--stacktrace', 'build')
@@ -21,7 +21,6 @@ class DocGeneratorSpec extends Specification {
         runner.build()
 
         then:
-        new File("${runner.projectDir}/build/swagger-doc/index.html").exists()
         new File("${runner.projectDir}/build/swagger-ui/index.html").exists()
     }
 

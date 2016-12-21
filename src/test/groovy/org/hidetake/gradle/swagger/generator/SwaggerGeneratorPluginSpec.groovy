@@ -16,7 +16,6 @@ class SwaggerGeneratorPluginSpec extends Specification {
 
         then:
         project.GenerateSwaggerCode == GenerateSwaggerCode
-        project.GenerateSwaggerDoc == GenerateSwaggerDoc
         project.GenerateSwaggerUI == GenerateSwaggerUI
         project.ValidateSwagger == ValidateSwagger
     }
@@ -32,7 +31,6 @@ class SwaggerGeneratorPluginSpec extends Specification {
 
         then:
         project.tasks.findByName('generateSwaggerCode')
-        project.tasks.findByName('generateSwaggerDoc')
         project.tasks.findByName('generateSwaggerUI')
         project.tasks.findByName('validateSwagger')
     }

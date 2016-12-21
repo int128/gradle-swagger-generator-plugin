@@ -12,7 +12,7 @@ class PublishS3Spec extends Specification {
             .forwardOutput()
     }
 
-    def 'publish task should publish the API client and document'() {
+    def 'publish task should publish the API client'() {
         given:
         new File(runner.projectDir, 'build').deleteDir()
         if (System.getenv('AWS_ACCESS_KEY_ID')) {
