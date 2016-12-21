@@ -5,15 +5,15 @@ This is a Gradle plugin to generate server code, client code and API document, u
 
 See also following examples:
 
-- [Generated API document using Swagger Codegen HTML2](https://int128.github.io/gradle-swagger-generator-plugin/swagger-html/)
 - [Generated Swagger UI](https://int128.github.io/gradle-swagger-generator-plugin/swagger-ui/)
+- [Generated HTML document](https://int128.github.io/gradle-swagger-generator-plugin/swagger-html/)
 - [Example Gradle Projects](acceptance-test/)
 
 Add the plugin into a build script as follows:
 
 ```groovy
 plugins {
-  id 'org.hidetake.swagger.generator' version '2.0.1'
+  id 'org.hidetake.swagger.generator' version '2.1.0'
 }
 ```
 
