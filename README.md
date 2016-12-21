@@ -107,9 +107,18 @@ The task generates an API document as `build/swagger-ui`.
 Custom generation
 -----------------
 
-The plugin adds `generateSwaggerCode` and `generateSwaggerUI` tasks.
+The plugin adds `validateSwagger`, `generateSwaggerCode` and `generateSwaggerUI` tasks.
 
 See projects under [acceptance-test](acceptance-test) for more.
+
+
+### Task type `ValidateSwagger`
+
+The task accepts below properties.
+
+Key           | Type              | Value                                   | Default value
+--------------|-------------------|-----------------------------------------|--------------
+`inputFile`   | File              | Swagger spec file.                      | Mandatory
 
 
 ### Task type `GenerateSwaggerCode`
