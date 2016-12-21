@@ -144,8 +144,9 @@ The task accepts below properties.
 Key           | Type              | Value                                   | Default value
 --------------|-------------------|-----------------------------------------|--------------
 `inputFile`   | File              | Swagger spec file.                      | Mandatory
-`outputDir`   | File              | Directory to write the generated file.  | `$buildDir/swagger-ui`
+`outputDir`   | File              | Directory to write Swagger UI files.    | `$buildDir/swagger-ui`
 `options`     | Map of Objects    | [Swagger UI options](https://github.com/swagger-api/swagger-ui#parameters). | Empty map
+`header`      | String            | Custom tags before loading Swagger UI.  | None
 
 The plugin replaces the Swagger UI loader with custom one containing following and given `options`:
 

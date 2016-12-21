@@ -24,6 +24,9 @@ class GenerateSwaggerUI extends DefaultTask {
     @Optional @Input
     Map<String, Object> options
 
+    @Optional @InputFiles
+    String header
+
     def GenerateSwaggerUI() {
         outputDir = new File(project.buildDir, 'swagger-ui')
         options = [:]
@@ -44,6 +47,9 @@ class GenerateSwaggerUI extends DefaultTask {
 
         extractWebJar()
         replaceSwaggerUiLoader(inputJson)
+        if (header) {
+            insertCustomHeader()
+        }
     }
 
     private void extractWebJar() {
@@ -81,6 +87,13 @@ class GenerateSwaggerUI extends DefaultTask {
             """.stripIndent()
         def index = new File(outputDir, 'index.html')
         index.text = index.text.replace('window.swaggerUi.load();', customLoaderScript)
+    }
+
+    private void insertCustomHeader() {
+        assert header
+        def startOfScript = '<script type="text/javascript">'
+        def index = new File(outputDir, 'index.html')
+        index.text = index.text.replace(startOfScript, "$header\n$startOfScript")
     }
 
 }
