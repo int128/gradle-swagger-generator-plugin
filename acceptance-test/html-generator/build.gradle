@@ -6,10 +6,6 @@ repositories {
     jcenter()
 }
 
-dependencies {
-    swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.1'
-}
-
 generateSwaggerCode {
     language = 'html2'
     inputFile = file('petstore.yaml')

@@ -7,21 +7,11 @@ repositories {
     jcenter()
 }
 
-sourceSets {
-    swaggerGenerator
-}
-
-dependencies {
-    swaggerGeneratorCompile 'org.codehaus.groovy:groovy-all:2.4.7'
-    swaggerGeneratorCompile 'io.swagger:swagger-codegen-cli:2.2.1'
-}
-
 generateSwaggerCode {
-    classpath = sourceSets.swaggerGenerator.runtimeClasspath
-    language = 'MySpringCodegen'
+    language = 'spring'
     inputFile = file('petstore.yaml')
     configFile = file('config.json')
-    templateDir = file('src/template/server')
+    templateDir = file('template/server')
     components = ['models', 'apis']
 }
 
