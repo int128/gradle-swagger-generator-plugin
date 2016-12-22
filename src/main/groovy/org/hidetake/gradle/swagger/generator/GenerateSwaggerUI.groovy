@@ -24,7 +24,7 @@ class GenerateSwaggerUI extends DefaultTask {
     @Optional @Input
     Map<String, Object> options
 
-    @Optional @InputFiles
+    @Optional @Input
     String header
 
     def GenerateSwaggerUI() {
@@ -77,7 +77,6 @@ class GenerateSwaggerUI extends DefaultTask {
         def swaggerUIoptions = [
             url         : '',
             validatorUrl: null,
-            spec        : inputJson,
         ] << options
         def customLoaderScript = """\
             // Overwrite options
@@ -85,7 +84,9 @@ class GenerateSwaggerUI extends DefaultTask {
                 ${Json.mapper().valueToTree(swaggerUIoptions)},
                 function (key, value) { window.swaggerUi.setOption(key, value) }
             );
-            // Load
+            // Set Swagger JSON
+            window.swaggerUi.setOption('spec', ${inputJson.toString()});
+            // Load UI
             window.swaggerUi.load();
             """.stripIndent()
         def index = new File(outputDir, 'index.html')
