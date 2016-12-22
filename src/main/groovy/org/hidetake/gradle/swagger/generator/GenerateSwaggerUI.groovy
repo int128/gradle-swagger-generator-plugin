@@ -78,17 +78,19 @@ class GenerateSwaggerUI extends DefaultTask {
             url         : '',
             validatorUrl: null,
         ] << options
+        def swaggerUIoptionsString = Json.mapper().valueToTree(swaggerUIoptions)
+        def inputJsonString = inputJson.toString()
         def customLoaderScript = """\
             // Overwrite options
             \$.each(
-                ${Json.mapper().valueToTree(swaggerUIoptions)},
+                $swaggerUIoptionsString,
                 function (key, value) { window.swaggerUi.setOption(key, value) }
             );
             // Set Swagger JSON
-            window.swaggerUi.setOption('spec', ${inputJson.toString()});
+            window.swaggerUi.setOption('spec', $inputJsonString);
             // Load UI
             window.swaggerUi.load();
-            """.stripIndent()
+            """
         def index = new File(outputDir, 'index.html')
         index.text = index.text.replace('window.swaggerUi.load();', customLoaderScript)
     }
