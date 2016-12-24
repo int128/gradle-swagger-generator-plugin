@@ -131,7 +131,7 @@ Key           | Type              | Value                                   | De
 --------------|-------------------|-----------------------------------------|--------------
 `language`    | String            | Language to generate.                   | Mandatory
 `inputFile`   | File              | Swagger spec file.                      | Mandatory
-`outputDir`   | File              | Directory to write generated files.     | `$buildDir/swagger-code`
+`outputDir`   | File              | Directory to write generated files, wiped before generation. Do not specify the project directory. | `$buildDir/swagger-code`
 `library`     | String            | Library type.                           | None
 `configFile`  | File              | [JSON configuration file](https://github.com/swagger-api/swagger-codegen#customizing-the-generator). | None
 `templateDir` | File              | Directory containing the template.      | None
@@ -145,7 +145,7 @@ The task accepts below properties.
 Key           | Type              | Value                                   | Default value
 --------------|-------------------|-----------------------------------------|--------------
 `inputFile`   | File              | Swagger spec file.                      | Mandatory
-`outputDir`   | File              | Directory to write Swagger UI files.    | `$buildDir/swagger-ui`
+`outputDir`   | File              | Directory to write Swagger UI files, wiped before generation. Do not specify the project directory. | `$buildDir/swagger-ui`
 `options`     | Map of Objects    | [Swagger UI options](https://github.com/swagger-api/swagger-ui#parameters). | Empty map
 `header`      | String            | Custom tags before loading Swagger UI.  | None
 
