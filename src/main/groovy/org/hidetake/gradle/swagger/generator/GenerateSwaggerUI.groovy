@@ -45,8 +45,13 @@ class GenerateSwaggerUI extends DefaultTask {
                   }'''.stripIndent())
         }
 
+        assert outputDir != project.projectDir, 'Prevent wiping the project directory'
+
         // Validate before extract
         def inputJson = Yaml.mapper().readTree(inputFile)
+
+        project.delete(outputDir)
+        outputDir.mkdirs()
 
         extractWebJar()
         replaceSwaggerUiLoader(inputJson)
@@ -56,8 +61,6 @@ class GenerateSwaggerUI extends DefaultTask {
     }
 
     private void extractWebJar() {
-        project.delete(outputDir)
-        outputDir.mkdirs()
         project.copy {
             into(outputDir)
             project.configurations.swaggerUI.each { jar ->

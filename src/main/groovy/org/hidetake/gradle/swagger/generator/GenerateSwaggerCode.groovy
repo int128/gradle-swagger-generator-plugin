@@ -41,15 +41,6 @@ class GenerateSwaggerCode extends DefaultTask {
 
     @TaskAction
     void exec() {
-        def args = buildOptions()
-        applySystemProperties {
-            project.delete(outputDir)
-            outputDir.mkdirs()
-            SwaggerCodegen.main(*args)
-        }
-    }
-
-    private List<String> buildOptions() {
         assert language, "language should be set in the task $name"
         assert inputFile, "inputFile should be set in the task $name"
         assert outputDir, "outputDir should be set in the task $name"
@@ -59,6 +50,18 @@ class GenerateSwaggerCode extends DefaultTask {
             }
         }
 
+        assert outputDir != project.projectDir, 'Prevent wiping the project directory'
+
+        project.delete(outputDir)
+        outputDir.mkdirs()
+
+        def args = buildOptions()
+        applySystemProperties {
+            SwaggerCodegen.main(*args)
+        }
+    }
+
+    private List<String> buildOptions() {
         def options = []
         options << 'generate'
         options << '-l' << language
