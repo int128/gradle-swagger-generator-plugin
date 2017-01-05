@@ -17,6 +17,7 @@ script:
 - ./gradlew check
 
 - |
+  ./gradlew generateSwaggerHtml generateSwaggerUI
   mkdir build/publish
   cp -av acceptance-test/doc-generator/build/swagger-ui build/publish
   cp -av acceptance-test/html-generator/build/swagger-html build/publish
