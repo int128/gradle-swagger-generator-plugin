@@ -1,6 +1,9 @@
 import org.gradle.testkit.runner.GradleRunner
 import spock.lang.Specification
 
+import static Fixture.cleanBuildDir
+import static Fixture.placePetstoreYaml
+
 class HtmlGeneratorSpec extends Specification {
 
     GradleRunner runner
@@ -10,11 +13,12 @@ class HtmlGeneratorSpec extends Specification {
             .withProjectDir(new File('html-generator'))
             .withPluginClasspath()
             .forwardOutput()
+        cleanBuildDir(runner)
     }
 
     def 'generateSwaggerCode task should generate a document'() {
         given:
-        new File(runner.projectDir, 'build').deleteDir()
+        placePetstoreYaml(runner, Fixture.PetstoreYaml.valid)
         runner.withArguments('--stacktrace', 'generateSwaggerCode')
 
         when:

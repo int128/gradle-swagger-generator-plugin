@@ -1,6 +1,9 @@
 import org.gradle.testkit.runner.GradleRunner
 import spock.lang.Specification
 
+import static Fixture.cleanBuildDir
+import static Fixture.placePetstoreYaml
+
 class CustomCodeGeneratorSpec extends Specification {
 
     GradleRunner runner
@@ -10,11 +13,12 @@ class CustomCodeGeneratorSpec extends Specification {
             .withProjectDir(new File('custom-code-generator'))
             .withPluginClasspath()
             .forwardOutput()
+        cleanBuildDir(runner)
     }
 
     def 'generateSwaggerCode task should generate customized server code'() {
         given:
-        new File(runner.projectDir, 'build').deleteDir()
+        placePetstoreYaml(runner, Fixture.PetstoreYaml.valid)
         runner.withArguments('--stacktrace', 'generateSwaggerCode')
 
         when:

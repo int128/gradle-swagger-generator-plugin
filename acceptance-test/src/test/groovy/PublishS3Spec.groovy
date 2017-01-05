@@ -1,6 +1,9 @@
 import org.gradle.testkit.runner.GradleRunner
 import spock.lang.Specification
 
+import static Fixture.cleanBuildDir
+import static Fixture.placePetstoreYaml
+
 class PublishS3Spec extends Specification {
 
     GradleRunner runner
@@ -10,11 +13,13 @@ class PublishS3Spec extends Specification {
             .withProjectDir(new File('publish-s3'))
             .withPluginClasspath()
             .forwardOutput()
+        cleanBuildDir(runner)
     }
 
     def 'publish task should publish the API client'() {
         given:
-        new File(runner.projectDir, 'build').deleteDir()
+        placePetstoreYaml(runner, Fixture.PetstoreYaml.valid)
+
         if (System.getenv('AWS_ACCESS_KEY_ID')) {
             runner.withArguments('--stacktrace', 'publish')
         } else {

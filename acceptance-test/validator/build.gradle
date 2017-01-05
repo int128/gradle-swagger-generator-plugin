@@ -3,5 +3,5 @@ plugins {
 }
 
 validateSwagger {
-    inputFile = file('petstore.yaml')
+    inputFile = file("$buildDir/petstore.yaml")
 }

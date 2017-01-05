@@ -23,3 +23,15 @@ gradlePlugin {
 test {
     systemProperty 'current.gradle.version', gradle.gradleVersion
 }
+
+task generateSwaggerHtml(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = 'Main'
+    args = ['html-generator', 'generateSwaggerCode']
+}
+
+task generateSwaggerUI(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = 'Main'
+    args = ['doc-generator', 'generateSwaggerUI']
+}

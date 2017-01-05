@@ -11,7 +11,7 @@ dependencies {
 }
 
 generateSwaggerUI {
-    inputFile = file('petstore.yaml')
+    inputFile = file("$buildDir/petstore.yaml")
 
     // Swagger UI options
     options.docExpansion = 'full'

@@ -121,6 +121,7 @@ The task accepts below properties.
 Key           | Type              | Value                                   | Default value
 --------------|-------------------|-----------------------------------------|--------------
 `inputFile`   | File              | Swagger spec file.                      | Mandatory
+`reportFile`  | File              | File to write validation report.        | `$buildDir/tmp/validateSwagger/report.yaml`
 
 
 ### Task type `GenerateSwaggerCode`
