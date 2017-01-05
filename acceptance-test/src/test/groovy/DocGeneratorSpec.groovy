@@ -1,4 +1,5 @@
 import org.gradle.testkit.runner.GradleRunner
+import org.gradle.testkit.runner.TaskOutcome
 import spock.lang.Specification
 
 class DocGeneratorSpec extends Specification {
@@ -18,10 +19,17 @@ class DocGeneratorSpec extends Specification {
         runner.withArguments('--stacktrace', 'build')
 
         when:
-        runner.build()
+        def result = runner.build()
 
         then:
+        result.tasks.first().outcome == TaskOutcome.SUCCESS
         new File("${runner.projectDir}/build/swagger-ui/index.html").exists()
+
+        when:
+        def rerunResult = runner.build()
+
+        then:
+        rerunResult.tasks.first().outcome == TaskOutcome.UP_TO_DATE
     }
 
 }
