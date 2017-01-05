@@ -1,6 +1,10 @@
 import org.gradle.testkit.runner.GradleRunner
+import org.gradle.testkit.runner.TaskOutcome
 import org.gradle.testkit.runner.UnexpectedBuildFailure
 import spock.lang.Specification
+
+import static Fixture.cleanBuildDir
+import static Fixture.placePetstoreYaml
 
 class ValidatorSpec extends Specification {
 
@@ -11,10 +15,24 @@ class ValidatorSpec extends Specification {
             .withProjectDir(new File('validator'))
             .withPluginClasspath()
             .forwardOutput()
+        cleanBuildDir(runner)
+    }
+
+    def 'validateSwagger task should success'() {
+        given:
+        placePetstoreYaml(runner, Fixture.PetstoreYaml.valid)
+        runner.withArguments('validateSwagger')
+
+        when:
+        def result = runner.build()
+
+        then:
+        result.tasks.head().outcome == TaskOutcome.SUCCESS
     }
 
     def 'validateSwagger task should fail due to YAML error'() {
         given:
+        placePetstoreYaml(runner, Fixture.PetstoreYaml.invalid)
         runner.withArguments('validateSwagger')
 
         when:

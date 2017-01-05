@@ -2,6 +2,9 @@ import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
 import spock.lang.Specification
 
+import static Fixture.cleanBuildDir
+import static Fixture.placePetstoreYaml
+
 class DocGeneratorSpec extends Specification {
 
     GradleRunner runner
@@ -11,11 +14,12 @@ class DocGeneratorSpec extends Specification {
             .withProjectDir(new File('doc-generator'))
             .withPluginClasspath()
             .forwardOutput()
+        cleanBuildDir(runner)
     }
 
     def 'build task should generate an Swagger UI'() {
         given:
-        new File(runner.projectDir, 'build').deleteDir()
+        placePetstoreYaml(runner, Fixture.PetstoreYaml.valid)
         runner.withArguments('--stacktrace', 'build')
 
         when:

@@ -2,6 +2,9 @@ import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
 import spock.lang.Specification
 
+import static Fixture.cleanBuildDir
+import static Fixture.placePetstoreYaml
+
 class CodeGeneratorSpec extends Specification {
 
     GradleRunner runner
@@ -11,6 +14,7 @@ class CodeGeneratorSpec extends Specification {
             .withProjectDir(new File('code-generator'))
             .withPluginClasspath()
             .forwardOutput()
+        cleanBuildDir(runner)
     }
 
     def 'default tasks should be added into the project'() {
@@ -27,7 +31,7 @@ class CodeGeneratorSpec extends Specification {
 
     def 'generateSwaggerCode task should generate a code'() {
         given:
-        new File(runner.projectDir, 'build').deleteDir()
+        placePetstoreYaml(runner, Fixture.PetstoreYaml.valid)
         runner.withArguments('--stacktrace', 'generateSwaggerCode')
 
         when:
@@ -46,7 +50,7 @@ class CodeGeneratorSpec extends Specification {
 
     def 'build task should build the generated code'() {
         given:
-        new File(runner.projectDir, 'build').deleteDir()
+        placePetstoreYaml(runner, Fixture.PetstoreYaml.valid)
         runner.withArguments('--stacktrace', 'build')
 
         when:

@@ -8,6 +8,6 @@ repositories {
 
 generateSwaggerCode {
     language = 'html2'
-    inputFile = file('petstore.yaml')
+    inputFile = file("$buildDir/petstore.yaml")
     outputDir = file("$buildDir/swagger-html")
 }

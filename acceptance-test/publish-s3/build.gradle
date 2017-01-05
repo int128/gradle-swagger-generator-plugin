@@ -19,7 +19,7 @@ dependencies {
 
 generateSwaggerCode {
     language = 'spring'
-    inputFile = file('petstore.yaml')
+    inputFile = file("$buildDir/petstore.yaml")
     configFile = file('config.json')
 }
 
