@@ -28,12 +28,26 @@ class ValidatorSpec extends Specification {
 
         then:
         result.tasks.head().outcome == TaskOutcome.SUCCESS
+        new File("${runner.projectDir}/build/tmp/validateSwagger/report.yaml").exists()
+
+        when:
+        def rerunResult = runner.build()
+
+        then:
+        rerunResult.tasks.first().outcome == TaskOutcome.UP_TO_DATE
     }
 
     def 'validateSwagger task should fail due to YAML error'() {
         given:
         placePetstoreYaml(runner, Fixture.PetstoreYaml.invalid)
         runner.withArguments('validateSwagger')
+
+        when:
+        runner.build()
+
+        then:
+        new File("${runner.projectDir}/build/tmp/validateSwagger/report.yaml").exists()
+        thrown(UnexpectedBuildFailure)
 
         when:
         runner.build()
