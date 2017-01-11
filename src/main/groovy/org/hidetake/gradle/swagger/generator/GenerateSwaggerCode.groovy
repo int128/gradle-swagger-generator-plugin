@@ -30,6 +30,9 @@ class GenerateSwaggerCode extends DefaultTask {
     File templateDir
 
     @Optional @Input
+    Map<String, String> additionalProperties
+
+    @Optional @Input
     List<String> components
 
     def GenerateSwaggerCode() {
@@ -61,7 +64,7 @@ class GenerateSwaggerCode extends DefaultTask {
         }
     }
 
-    private List<String> buildOptions() {
+    List<String> buildOptions() {
         def options = []
         options << 'generate'
         options << '-l' << language
@@ -75,6 +78,11 @@ class GenerateSwaggerCode extends DefaultTask {
         }
         if (templateDir) {
             options << '-t' << templateDir.path
+        }
+        if (additionalProperties) {
+            options << '--additional-properties' << additionalProperties.collect { key, value ->
+                "$key=$value"
+            }.join(',')
         }
         options
     }
