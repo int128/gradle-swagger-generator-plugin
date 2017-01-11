@@ -50,4 +50,28 @@ class GenerateSwaggerCodeSpec extends Specification {
         e.message.contains('project directory')
     }
 
+    def "plugin should build options for Swagger Codegen"() {
+        given:
+        def project = ProjectBuilder.builder().build()
+
+        when:
+        def options = project.with {
+            apply plugin: 'org.hidetake.swagger.generator'
+            tasks.generateSwaggerCode.language = 'java'
+            tasks.generateSwaggerCode.inputFile = new File('input')
+            tasks.generateSwaggerCode.outputDir = new File('output')
+            tasks.generateSwaggerCode.additionalProperties = [foo: 'bar', baz: 'zzz']
+            tasks.generateSwaggerCode.buildOptions()
+        }
+
+        then:
+        options == [
+            'generate',
+            '-l', 'java',
+            '-i', 'input',
+            '-o', 'output',
+            '--additional-properties', 'foo=bar,baz=zzz'
+        ]
+    }
+
 }
