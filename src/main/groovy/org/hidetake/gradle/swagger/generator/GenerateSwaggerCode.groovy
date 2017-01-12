@@ -14,7 +14,7 @@ class GenerateSwaggerCode extends DefaultTask {
     @Input
     String language
 
-    @InputFile
+    @SkipWhenEmpty @InputFiles
     File inputFile
 
     @OutputDirectory
@@ -37,9 +37,6 @@ class GenerateSwaggerCode extends DefaultTask {
 
     def GenerateSwaggerCode() {
         outputDir = new File(project.buildDir, 'swagger-code')
-        onlyIf {
-            inputFile
-        }
     }
 
     @TaskAction
