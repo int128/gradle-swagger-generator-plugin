@@ -47,6 +47,11 @@ repositories {
   jcenter()
 }
 
+dependencies {
+  // Add dependency for Swagger Codegen CLI
+  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.1'
+}
+
 generateSwaggerCode {
   language = 'spring'
   inputFile = file('petstore.yaml')
@@ -105,8 +110,8 @@ The task generates an API document as `build/swagger-ui`.
 ```
 
 
-Custom generation
------------------
+Settings
+--------
 
 The plugin adds `validateSwagger`, `generateSwaggerCode` and `generateSwaggerUI` tasks.
 A task will be skipped if no input file is given.
@@ -160,6 +165,43 @@ The plugin replaces the Swagger UI loader with custom one containing following a
   "spec":{"swagger":"2.0","info":"... converted from YAML input ..."}
 }
 ```
+
+
+Custom Generator
+----------------
+
+We can provide a custom generator class for the code generation as follows:
+
+```groovy
+// build.gradle
+generateSwaggerCode {
+  // FQCN of the custom generator class
+  language = 'CustomGenerator'
+  inputFile = file('petstore.yaml')
+}
+```
+
+```groovy
+// buildSrc/build.gradle
+repositories {
+  jcenter()
+}
+
+dependencies {
+  // Add dependency here (do not specify in the parent project)
+  compile 'io.swagger:swagger-codegen-cli:2.2.1'
+}
+```
+
+```groovy
+// buildSrc/src/main/groovy/CustomGenerator.groovy
+import io.swagger.codegen.languages.SpringCodegen
+
+class CustomGenerator extends SpringCodegen {
+}
+```
+
+See also [custom-code-generator project](acceptance-test/custom-code-generator) in examples.
 
 
 Contributions

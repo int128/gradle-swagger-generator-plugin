@@ -31,7 +31,7 @@ class GenerateSwaggerCodeSpec extends Specification {
         project.tasks.findByName('generateSwaggerCode')
     }
 
-    def "exception should be thrown if projectDir is given"() {
+    def "plugin should throw exception if projectDir is given"() {
         given:
         def path = GenerateSwaggerCodeSpec.getResource('/petstore-invalid.yaml').path
         def project = ProjectBuilder.builder().build()
@@ -48,6 +48,24 @@ class GenerateSwaggerCodeSpec extends Specification {
         then:
         AssertionError e = thrown()
         e.message.contains('project directory')
+    }
+
+    def "plugin should throw exception if no dependency of Swagger Codegen is given"() {
+        given:
+        def path = GenerateSwaggerCodeSpec.getResource('/petstore-invalid.yaml').path
+        def project = ProjectBuilder.builder().build()
+
+        when:
+        project.with {
+            apply plugin: 'org.hidetake.swagger.generator'
+            tasks.generateSwaggerCode.language = 'java'
+            tasks.generateSwaggerCode.inputFile = file(path)
+            tasks.generateSwaggerCode.exec()
+        }
+
+        then:
+        IllegalStateException e = thrown()
+        e.message.contains('swaggerCodegen')
     }
 
     def "plugin should build options for Swagger Codegen"() {

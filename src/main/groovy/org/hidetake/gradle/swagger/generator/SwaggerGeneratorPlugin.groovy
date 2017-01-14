@@ -12,6 +12,7 @@ class SwaggerGeneratorPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
+        project.configurations.create('swaggerCodegen')
         project.configurations.create('swaggerUI')
 
         project.ext.GenerateSwaggerCode = GenerateSwaggerCode

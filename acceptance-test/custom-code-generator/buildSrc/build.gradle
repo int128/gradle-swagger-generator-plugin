@@ -1,0 +1,7 @@
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'io.swagger:swagger-codegen-cli:2.2.1'
+}
