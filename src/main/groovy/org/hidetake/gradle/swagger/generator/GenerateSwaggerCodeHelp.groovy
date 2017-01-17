@@ -17,9 +17,7 @@ class GenerateSwaggerCodeHelp extends DefaultTask {
     String language
 
     def GenerateSwaggerCodeHelp() {
-        onlyIf {
-            language
-        }
+        onlyIf { language }
     }
 
     @TaskAction

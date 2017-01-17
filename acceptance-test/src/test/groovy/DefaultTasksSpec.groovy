@@ -1,7 +1,9 @@
 import org.gradle.testkit.runner.GradleRunner
-import org.gradle.testkit.runner.TaskOutcome
 import spock.lang.Specification
 import spock.lang.Unroll
+
+import static org.gradle.testkit.runner.TaskOutcome.SKIPPED
+import static org.gradle.testkit.runner.TaskOutcome.UP_TO_DATE
 
 class DefaultTasksSpec extends Specification {
 
@@ -15,7 +17,7 @@ class DefaultTasksSpec extends Specification {
     }
 
     @Unroll
-    def 'task #taskName should be skipped'() {
+    def 'task #taskName should be #status if no input is given'() {
         given:
         runner.withArguments(taskName)
 
@@ -23,15 +25,14 @@ class DefaultTasksSpec extends Specification {
         def result = runner.build()
 
         then:
-        result.tasks.head().outcome == TaskOutcome.SKIPPED
+        result.tasks.head().outcome == status
 
         where:
-        taskName << [
-            'generateSwaggerCode',
-            'generateSwaggerCodeHelp',
-            'generateSwaggerUI',
-            'validateSwagger',
-        ]
+        taskName                    | status
+        'generateSwaggerCode'       | UP_TO_DATE
+        'generateSwaggerCodeHelp'   | SKIPPED
+        'generateSwaggerUI'         | UP_TO_DATE
+        'validateSwagger'           | UP_TO_DATE
     }
 
 }

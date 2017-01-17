@@ -15,7 +15,7 @@ import org.gradle.api.tasks.*
  */
 class GenerateSwaggerUI extends DefaultTask {
 
-    @InputFile
+    @SkipWhenEmpty @InputFiles
     File inputFile
 
     @OutputDirectory
@@ -30,9 +30,6 @@ class GenerateSwaggerUI extends DefaultTask {
     def GenerateSwaggerUI() {
         outputDir = new File(project.buildDir, 'swagger-ui')
         options = [:]
-        onlyIf {
-            inputFile
-        }
     }
 
     @TaskAction

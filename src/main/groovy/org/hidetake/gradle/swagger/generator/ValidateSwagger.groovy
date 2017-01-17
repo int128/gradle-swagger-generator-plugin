@@ -5,14 +5,15 @@ import groovy.util.logging.Slf4j
 import io.swagger.util.Json
 import io.swagger.util.Yaml
 import org.gradle.api.DefaultTask
-import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.OutputFile
+import org.gradle.api.tasks.SkipWhenEmpty
 import org.gradle.api.tasks.TaskAction
 
 @Slf4j
 class ValidateSwagger extends DefaultTask {
 
-    @InputFile
+    @SkipWhenEmpty @InputFiles
     File inputFile
 
     @OutputFile
@@ -20,9 +21,6 @@ class ValidateSwagger extends DefaultTask {
 
     def ValidateSwagger() {
         reportFile = new File(temporaryDir, 'report.yaml')
-        onlyIf {
-            inputFile
-        }
     }
 
     @TaskAction
