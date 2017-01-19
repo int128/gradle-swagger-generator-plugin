@@ -2,8 +2,6 @@ package org.hidetake.gradle.swagger.generator
 
 import com.github.fge.jsonschema.main.JsonSchemaFactory
 import groovy.util.logging.Slf4j
-import io.swagger.util.Json
-import io.swagger.util.Yaml
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.OutputFile
@@ -27,13 +25,14 @@ class ValidateSwagger extends DefaultTask {
     void exec() {
         def schemaResource = ValidateSwagger.getResourceAsStream('/schema.json')
         assert schemaResource, 'JSON schema should be exist in resource'
-        def schemaNode = Json.mapper().readTree(schemaResource)
+
+        def schemaNode = Mappers.JSON.readTree(schemaResource)
+        def swaggerNode = Mappers.YAML.readTree(inputFile)
+
         def schema = JsonSchemaFactory.byDefault().getJsonSchema(schemaNode)
-
-        def swaggerNode = Yaml.mapper().readTree(inputFile)
-
         def validation = schema.validate(swaggerNode)
-        def validationReport = Yaml.mapper().writeValueAsString(
+
+        def validationReport = Mappers.YAML.writeValueAsString(
             success: validation.success,
             messages: validation*.asJson()
         )

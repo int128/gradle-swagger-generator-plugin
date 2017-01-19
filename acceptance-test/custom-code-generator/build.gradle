@@ -3,17 +3,10 @@ plugins {
     id 'org.hidetake.swagger.generator'
 }
 
-repositories {
-    jcenter()
-}
-
 generateSwaggerCode {
-    language = 'spring'
+    language = 'CustomGenerator'
     inputFile = file("$buildDir/petstore.yaml")
     configFile = file('config.json')
     templateDir = file('template/server')
     components = ['models', 'apis']
 }
-
-compileJava.dependsOn generateSwaggerCode
-sourceSets.main.java.srcDir generateSwaggerCode.outputDir

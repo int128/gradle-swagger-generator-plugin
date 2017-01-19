@@ -1,6 +1,5 @@
 package org.hidetake.gradle.swagger.generator
 
-import io.swagger.codegen.SwaggerCodegen
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.*
 
@@ -56,9 +55,10 @@ class GenerateSwaggerCode extends DefaultTask {
         outputDir.mkdirs()
 
         def args = buildOptions()
-        applySystemProperties {
-            SwaggerCodegen.main(*args)
+        def systemProperties = components?.collectEntries { component ->
+            [(component): '']
         }
+        SwaggerCodegenExecutor.getInstance(project).execute(systemProperties, args)
     }
 
     List<String> buildOptions() {
@@ -82,19 +82,6 @@ class GenerateSwaggerCode extends DefaultTask {
             }.join(',')
         }
         options
-    }
-
-    private <T> T applySystemProperties(Closure<T> closure) {
-        components?.each { component ->
-            System.setProperty(component, '')
-        }
-        try {
-            closure()
-        } finally {
-            components?.each { component ->
-                System.clearProperty(component)
-            }
-        }
     }
 
 }

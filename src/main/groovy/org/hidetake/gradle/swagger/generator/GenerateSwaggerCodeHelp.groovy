@@ -1,6 +1,5 @@
 package org.hidetake.gradle.swagger.generator
 
-import io.swagger.codegen.SwaggerCodegen
 import org.gradle.api.DefaultTask
 import org.gradle.api.Task
 import org.gradle.api.tasks.Input
@@ -23,7 +22,7 @@ class GenerateSwaggerCodeHelp extends DefaultTask {
     @TaskAction
     void exec() {
         println("Available JSON configuration for language $language:")
-        SwaggerCodegen.main('config-help', '-l', language)
+        SwaggerCodegenExecutor.getInstance(project).execute(['config-help', '-l', language])
     }
 
     static Task injectHelpTaskFor(GenerateSwaggerCode task) {

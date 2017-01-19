@@ -1,8 +1,6 @@
 package org.hidetake.gradle.swagger.generator
 
 import com.fasterxml.jackson.databind.JsonNode
-import io.swagger.util.Json
-import io.swagger.util.Yaml
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.FileCopyDetails
 import org.gradle.api.file.RelativePath
@@ -45,7 +43,7 @@ class GenerateSwaggerUI extends DefaultTask {
         assert outputDir != project.projectDir, 'Prevent wiping the project directory'
 
         // Validate before extract
-        def inputJson = Yaml.mapper().readTree(inputFile)
+        def inputJson = Mappers.YAML.readTree(inputFile)
 
         project.delete(outputDir)
         outputDir.mkdirs()
@@ -78,8 +76,8 @@ class GenerateSwaggerUI extends DefaultTask {
             url         : '',
             validatorUrl: null,
         ] << options
-        def swaggerUIoptionsString = Json.mapper().valueToTree(swaggerUIoptions)
-        def inputJsonString = inputJson.toString()
+        def swaggerUIoptionsString = Mappers.JSON.writeValueAsString(swaggerUIoptions)
+        def inputJsonString = Mappers.JSON.writeValueAsString(inputJson)
         def customLoaderScript = """\
             // Overwrite options
             \$.each(
