@@ -13,7 +13,7 @@ Add the plugin into a build script as follows:
 
 ```groovy
 plugins {
-  id 'org.hidetake.swagger.generator' version '2.4.0'
+  id 'org.hidetake.swagger.generator' version '2.4.1'
 }
 ```
 
