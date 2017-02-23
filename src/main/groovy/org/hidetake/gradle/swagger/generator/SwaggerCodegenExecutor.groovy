@@ -36,7 +36,7 @@ class SwaggerCodegenExecutor {
         } catch (ClassNotFoundException ignore) {
             def urls = project.configurations.swaggerCodegen.collect { jar -> jar.toURI().toURL() } as URL[]
             CLASS_CACHE.computeIfAbsent(urls) {
-                def classLoader = new URLClassLoader(urls)
+                def classLoader = new URLClassLoader(urls, project.buildscript.classLoader)
                 try {
                     Class.forName(CLASS_NAME, true, classLoader)
                 } catch (ClassNotFoundException e) {
