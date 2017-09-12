@@ -2,8 +2,8 @@ import org.gradle.testkit.runner.GradleRunner
 import spock.lang.Specification
 import spock.lang.Unroll
 
+import static org.gradle.testkit.runner.TaskOutcome.NO_SOURCE
 import static org.gradle.testkit.runner.TaskOutcome.SKIPPED
-import static org.gradle.testkit.runner.TaskOutcome.UP_TO_DATE
 
 class DefaultTasksSpec extends Specification {
 
@@ -29,10 +29,10 @@ class DefaultTasksSpec extends Specification {
 
         where:
         taskName                    | status
-        'generateSwaggerCode'       | UP_TO_DATE
+        'generateSwaggerCode'       | NO_SOURCE
         'generateSwaggerCodeHelp'   | SKIPPED
-        'generateSwaggerUI'         | UP_TO_DATE
-        'validateSwagger'           | UP_TO_DATE
+        'generateSwaggerUI'         | NO_SOURCE
+        'validateSwagger'           | NO_SOURCE
     }
 
 }
