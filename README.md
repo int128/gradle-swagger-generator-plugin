@@ -49,7 +49,7 @@ repositories {
 
 dependencies {
   // Add dependency for Swagger Codegen CLI
-  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.1'
+  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.3'
 }
 
 generateSwaggerCode {
@@ -199,7 +199,7 @@ repositories {
 }
 
 dependencies {
-  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.1'
+  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.3'
   // Add dependency for template
   swaggerTemplate 'com.example:swagger-templates:1.0.0.RELEASE'
 }
@@ -237,7 +237,7 @@ repositories {
 
 dependencies {
   // Add dependency here (do not specify in the parent project)
-  compile 'io.swagger:swagger-codegen-cli:2.2.1'
+  compile 'io.swagger:swagger-codegen-cli:2.2.3'
 }
 ```
 
