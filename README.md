@@ -167,8 +167,56 @@ The plugin replaces the Swagger UI loader with custom one containing following a
 ```
 
 
-Custom Generator
+Custom: Template
 ----------------
+
+We can provide a custom template for the code generation as follows:
+
+```groovy
+// build.gradle
+generateSwaggerCode {
+  language = 'java'
+  inputFile = file('petstore.yaml')
+  templateDir = file('templates/server')
+}
+```
+
+For more about Swagger template, see [Building your own Templates](https://github.com/swagger-api/swagger-codegen/wiki/Building-your-own-Templates).
+
+
+Custom: Externalize Template
+----------------------------
+
+In some large use case, we can release a template to an external repository and use it from projects.
+
+```groovy
+// build.gradle
+repositories {
+  maven {
+    url 'https://example.com/nexus-or-artifactory'
+  }
+  jcenter()
+}
+
+dependencies {
+  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.1'
+  // Add dependency for template
+  swaggerTemplate 'com.example:swagger-templates:1.0.0.RELEASE'
+}
+
+generateSwaggerCode {
+  language = 'spring'
+  inputFile = file('petstore.yaml')
+  // The plugin automatically extracts template JAR into below destination
+  templateDir = file("${resolveSwaggerTemplate.destinationDir}/spring-mvc")
+}
+```
+
+For more, see [externalize-template project](acceptance-test/externalize-template) in examples.
+
+
+Custom: Generator Class
+-----------------------
 
 We can provide a custom generator class for the code generation as follows:
 
