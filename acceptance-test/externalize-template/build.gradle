@@ -20,5 +20,5 @@ repositories {
 
 dependencies {
     swaggerTemplate 'org.hidetake:swagger-templates:1.0.0'
-    swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.1'
+    swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.3'
 }
