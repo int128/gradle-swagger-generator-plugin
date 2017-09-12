@@ -1,0 +1,24 @@
+plugins {
+    id 'org.hidetake.swagger.generator'
+}
+
+generateSwaggerCode {
+    language = 'java'
+    inputFile = file("$buildDir/petstore.yaml")
+    configFile = file('config.json')
+    templateDir = file("${resolveSwaggerTemplate.destinationDir}/resttemplate")
+    components = ['models', 'apis']
+}
+
+repositories {
+    // This example assumes the swagger template is published on the Maven local repository.
+    // Actually it can be external such as Nexus or Artifactory.
+    mavenLocal()
+
+    jcenter()
+}
+
+dependencies {
+    swaggerTemplate 'org.hidetake:swagger-templates:1.0.0'
+    swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.1'
+}

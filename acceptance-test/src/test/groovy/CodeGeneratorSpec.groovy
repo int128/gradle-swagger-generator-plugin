@@ -38,14 +38,14 @@ class CodeGeneratorSpec extends Specification {
         def result = runner.build()
 
         then:
-        result.tasks.first().outcome == TaskOutcome.SUCCESS
+        result.tasks.find { it.path == ':generateSwaggerCode' }.outcome == TaskOutcome.SUCCESS
         new File(runner.projectDir, 'build/swagger-code/src/main/java/example/api/PetsApi.java').exists()
 
         when:
         def rerunResult = runner.build()
 
         then:
-        rerunResult.tasks.first().outcome == TaskOutcome.UP_TO_DATE
+        rerunResult.tasks.find { it.path == ':generateSwaggerCode' }.outcome == TaskOutcome.UP_TO_DATE
     }
 
     def 'build task should build the generated code'() {
