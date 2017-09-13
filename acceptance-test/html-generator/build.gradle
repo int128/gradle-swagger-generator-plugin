@@ -10,8 +10,12 @@ dependencies {
     swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.3'
 }
 
-generateSwaggerCode {
-    language = 'html2'
-    inputFile = file("$buildDir/petstore.yaml")
-    outputDir = file("$buildDir/swagger-html")
+swaggerSources {
+    petstore {
+        code {
+            language = 'html2'
+            inputFile = file("$buildDir/petstore.yaml")
+            outputDir = file("$buildDir/swagger-html")
+        }
+    }
 }

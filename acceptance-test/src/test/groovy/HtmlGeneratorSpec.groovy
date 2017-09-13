@@ -26,13 +26,14 @@ class HtmlGeneratorSpec extends Specification {
         def result = runner.build()
 
         then:
-        result.task(':generateSwaggerCode').outcome == TaskOutcome.SUCCESS
+        result.task(':generateSwaggerCode').outcome == TaskOutcome.NO_SOURCE
+        result.task(':generateSwaggerCodePetstore').outcome == TaskOutcome.SUCCESS
         new File(runner.projectDir, 'build/swagger-html/index.html').exists()
     }
 
-    def 'generateSwaggerCodeHelp task should show help'() {
+    def 'generateSwaggerCodePetstoreHelp task should show help'() {
         given:
-        runner.withArguments('--stacktrace', 'generateSwaggerCodeHelp')
+        runner.withArguments('--stacktrace', 'generateSwaggerCodePetstoreHelp')
 
         when:
         def result = runner.build()

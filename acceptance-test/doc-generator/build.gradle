@@ -10,17 +10,18 @@ dependencies {
     swaggerUI 'org.webjars:swagger-ui:2.2.6'
 }
 
-generateSwaggerUI {
-    inputFile = file("$buildDir/petstore.yaml")
+swaggerSources {
+    petstore {
+        inputFile = file("$buildDir/petstore.yaml")
+        ui {
+            // Swagger UI options
+            options.docExpansion = 'full'
+            options.supportedSubmitMethods = []
 
-    // Swagger UI options
-    options.docExpansion = 'full'
-    options.supportedSubmitMethods = []
-
-    // Custom header
-    header = '''\
-        <style>#header { display: none; }</style>
-        '''.stripIndent()
+            // Custom header
+            header = '''\
+                <style>#header { display: none; }</style>
+                '''.stripIndent()
+        }
+    }
 }
-
-task build(dependsOn: generateSwaggerUI)

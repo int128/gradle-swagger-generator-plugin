@@ -20,14 +20,13 @@ class GenerateSwaggerUI extends DefaultTask {
     File outputDir
 
     @Optional @Input
-    Map<String, Object> options
+    Map<String, Object> options = [:]
 
     @Optional @Input
     String header
 
     def GenerateSwaggerUI() {
         outputDir = new File(project.buildDir, 'swagger-ui')
-        options = [:]
     }
 
     @TaskAction

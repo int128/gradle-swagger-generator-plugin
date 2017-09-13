@@ -2,6 +2,8 @@ plugins {
     id 'org.hidetake.swagger.generator'
 }
 
-validateSwagger {
-    inputFile = file("$buildDir/petstore.yaml")
+swaggerSources {
+    petstore {
+        inputFile = file("$buildDir/petstore.yaml")
+    }
 }

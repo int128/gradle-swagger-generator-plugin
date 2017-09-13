@@ -17,23 +17,25 @@ class DocGeneratorSpec extends Specification {
         cleanBuildDir(runner)
     }
 
-    def 'build task should generate an Swagger UI'() {
+    def 'generateSwaggerUI task should generate an Swagger UI'() {
         given:
         placePetstoreYaml(runner, Fixture.PetstoreYaml.valid)
-        runner.withArguments('--stacktrace', 'build')
+        runner.withArguments('--stacktrace', 'generateSwaggerUI')
 
         when:
         def result = runner.build()
 
         then:
-        result.task(':generateSwaggerUI').outcome == TaskOutcome.SUCCESS
-        new File("${runner.projectDir}/build/swagger-ui/index.html").exists()
+        result.task(':generateSwaggerUI').outcome == TaskOutcome.NO_SOURCE
+        result.task(':generateSwaggerUIPetstore').outcome == TaskOutcome.SUCCESS
+        new File("${runner.projectDir}/build/swagger-ui-petstore/index.html").exists()
 
         when:
         def rerunResult = runner.build()
 
         then:
-        rerunResult.task(':generateSwaggerUI').outcome == TaskOutcome.UP_TO_DATE
+        rerunResult.task(':generateSwaggerUI').outcome == TaskOutcome.NO_SOURCE
+        rerunResult.task(':generateSwaggerUIPetstore').outcome == TaskOutcome.UP_TO_DATE
     }
 
 }

@@ -1,0 +1,43 @@
+plugins {
+    id 'org.hidetake.swagger.generator'
+    id 'java'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-web:1.5.7.RELEASE'
+    compile 'io.swagger:swagger-annotations:1.5.10'
+    swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.3'
+    swaggerUI 'org.webjars:swagger-ui:2.2.6'
+}
+
+swaggerSources {
+    petstoreV1 {
+        inputFile = file('v1-petstore.yaml')
+        code {
+            language = 'spring'
+            components = ['models', 'apis']
+            configFile = file('v1-config.json')
+        }
+        ui {
+            outputDir = file("$buildDir/docs/v1")
+        }
+    }
+    petstoreV2 {
+        inputFile = file('v2-petstore.yaml')
+        code {
+            language = 'spring'
+            components = ['models', 'apis']
+            configFile = file('v2-config.json')
+        }
+        ui {
+            outputDir = file("$buildDir/docs/v2")
+        }
+    }
+}
+
+compileJava.dependsOn swaggerSources.petstoreV1.code, swaggerSources.petstoreV2.code
+sourceSets.main.java.srcDirs swaggerSources.petstoreV1.code.outputDir, swaggerSources.petstoreV2.code.outputDir

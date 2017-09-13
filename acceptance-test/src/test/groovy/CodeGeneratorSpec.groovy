@@ -38,14 +38,16 @@ class CodeGeneratorSpec extends Specification {
         def result = runner.build()
 
         then:
-        result.task(':generateSwaggerCode').outcome == TaskOutcome.SUCCESS
-        new File(runner.projectDir, 'build/swagger-code/src/main/java/example/api/PetsApi.java').exists()
+        result.task(':generateSwaggerCode').outcome == TaskOutcome.NO_SOURCE
+        result.task(':generateSwaggerCodePetstore').outcome == TaskOutcome.SUCCESS
+        new File(runner.projectDir, 'build/swagger-code-petstore/src/main/java/example/api/PetsApi.java').exists()
 
         when:
         def rerunResult = runner.build()
 
         then:
-        rerunResult.task(':generateSwaggerCode').outcome == TaskOutcome.UP_TO_DATE
+        rerunResult.task(':generateSwaggerCode').outcome == TaskOutcome.NO_SOURCE
+        rerunResult.task(':generateSwaggerCodePetstore').outcome == TaskOutcome.UP_TO_DATE
     }
 
     def 'build task should build the generated code'() {
@@ -60,9 +62,9 @@ class CodeGeneratorSpec extends Specification {
         new File(runner.projectDir, 'build/libs/code-generator.jar').exists()
     }
 
-    def 'generateSwaggerCodeHelp task should show help'() {
+    def 'generateSwaggerCodePetstoreHelp task should show help'() {
         given:
-        runner.withArguments('--stacktrace', 'generateSwaggerCodeHelp')
+        runner.withArguments('--stacktrace', 'generateSwaggerCodePetstoreHelp')
 
         when:
         def result = runner.build()

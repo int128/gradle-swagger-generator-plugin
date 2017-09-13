@@ -10,11 +10,11 @@ import org.gradle.api.tasks.*
  */
 class GenerateSwaggerCode extends DefaultTask {
 
-    @Input
-    String language
-
     @SkipWhenEmpty @InputFiles
     File inputFile
+
+    @Input
+    String language
 
     @OutputDirectory
     File outputDir

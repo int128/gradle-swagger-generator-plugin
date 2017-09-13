@@ -27,14 +27,16 @@ class ValidatorSpec extends Specification {
         def result = runner.build()
 
         then:
-        result.task(':validateSwagger').outcome == TaskOutcome.SUCCESS
-        new File("${runner.projectDir}/build/tmp/validateSwagger/report.yaml").exists()
+        result.task(':validateSwagger').outcome == TaskOutcome.NO_SOURCE
+        result.task(':validateSwaggerPetstore').outcome == TaskOutcome.SUCCESS
+        new File("${runner.projectDir}/build/swagger-validation-petstore.yaml").exists()
 
         when:
         def rerunResult = runner.build()
 
         then:
-        rerunResult.tasks.first().outcome == TaskOutcome.UP_TO_DATE
+        rerunResult.task(':validateSwagger').outcome == TaskOutcome.NO_SOURCE
+        rerunResult.task(':validateSwaggerPetstore').outcome == TaskOutcome.UP_TO_DATE
     }
 
     def 'validateSwagger task should fail due to YAML error'() {
@@ -46,7 +48,7 @@ class ValidatorSpec extends Specification {
         runner.build()
 
         then:
-        new File("${runner.projectDir}/build/tmp/validateSwagger/report.yaml").exists()
+        new File("${runner.projectDir}/build/swagger-validation-petstore.yaml").exists()
         thrown(UnexpectedBuildFailure)
 
         when:

@@ -18,7 +18,7 @@ class ValidateSwagger extends DefaultTask {
     File reportFile
 
     def ValidateSwagger() {
-        reportFile = new File(temporaryDir, 'report.yaml')
+        reportFile = new File(project.buildDir, 'swagger-validation.yaml')
     }
 
     @TaskAction
@@ -37,6 +37,7 @@ class ValidateSwagger extends DefaultTask {
             messages: validation*.asJson()
         )
 
+        reportFile.parentFile.mkdirs()
         reportFile.text = validationReport
 
         if (validation.success) {

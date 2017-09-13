@@ -28,7 +28,6 @@ class GenerateSwaggerCodeHelp extends DefaultTask {
     static Task injectHelpTaskFor(GenerateSwaggerCode task) {
         task.project.task("${task.name}Help",
             description: "Displays available JSON configuration for $task",
-            dependsOn: task.dependsOn,
             group: 'help',
             type: GenerateSwaggerCodeHelp) {
             language = task.language

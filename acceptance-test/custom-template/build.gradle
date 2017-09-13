@@ -10,10 +10,14 @@ dependencies {
     swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.3'
 }
 
-generateSwaggerCode {
-    language = 'spring'
-    inputFile = file("$buildDir/petstore.yaml")
-    configFile = file('config.json')
-    templateDir = file('template/server')
-    components = ['models', 'apis']
+swaggerSources {
+    petstore {
+        inputFile = file("$buildDir/petstore.yaml")
+        code {
+            language = 'spring'
+            configFile = file('config.json')
+            templateDir = file('template/server')
+            components = ['models', 'apis']
+        }
+    }
 }
