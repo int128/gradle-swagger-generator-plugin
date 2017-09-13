@@ -53,37 +53,3 @@ Project: custom-code-generator
 
 This project uses the custom generator class.
 See [the build script](custom-code-generator/build.gradle) for more.
-
-
-Project: publish-s3
--------------------
-
-This project publishes the API client JAR and the API document into the S3 bucket.
-
-```
-% export AWS_ACCESS_KEY_ID=...
-% export AWS_SECRET_ACCESS_KEY=...
-% ./gradlew publish
-```
-
-In order to serve the API document on the web site,
-the static web hosting and following bucket policy should be enabled on S3.
-
-```javascript
-{
-	"Version": "2012-10-17",
-	"Statement": [
-		{
-			"Sid": "AddPerm",
-			"Effect": "Allow",
-			"Principal": "*",
-			"Action": [
-				"s3:GetObject"
-			],
-			"Resource": [
-				"arn:aws:s3:::gradle-swagger-generator-plugin/*"
-			]
-		}
-	]
-}
-```
