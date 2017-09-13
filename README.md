@@ -7,7 +7,7 @@ See also following examples:
 
 - [Generated Swagger UI](https://int128.github.io/gradle-swagger-generator-plugin/swagger-ui/)
 - [Generated HTML document](https://int128.github.io/gradle-swagger-generator-plugin/swagger-html/)
-- [Example Gradle Projects](acceptance-test/)
+- [Example `build.gradle` and projects](acceptance-test/)
 
 Add the plugin into a build script as follows:
 
@@ -249,7 +249,7 @@ class CustomGenerator extends SpringCodegen {
 }
 ```
 
-See also [custom-code-generator project](acceptance-test/custom-code-generator) in examples.
+See also [custom-class project](acceptance-test/custom-class) in examples.
 
 
 Contributions
