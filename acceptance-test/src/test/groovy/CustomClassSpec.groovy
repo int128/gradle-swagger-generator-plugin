@@ -4,13 +4,13 @@ import spock.lang.Specification
 import static Fixture.cleanBuildDir
 import static Fixture.placePetstoreYaml
 
-class CustomCodeGeneratorSpec extends Specification {
+class CustomClassSpec extends Specification {
 
     GradleRunner runner
 
     def setup() {
         runner = GradleRunner.create()
-            .withProjectDir(new File('custom-code-generator'))
+            .withProjectDir(new File('custom-class'))
             .withPluginClasspath()
             .forwardOutput()
         cleanBuildDir(runner)
