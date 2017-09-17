@@ -26,14 +26,14 @@ class DocGeneratorSpec extends Specification {
         def result = runner.build()
 
         then:
-        result.tasks.first().outcome == TaskOutcome.SUCCESS
+        result.task(':generateSwaggerUI').outcome == TaskOutcome.SUCCESS
         new File("${runner.projectDir}/build/swagger-ui/index.html").exists()
 
         when:
         def rerunResult = runner.build()
 
         then:
-        rerunResult.tasks.first().outcome == TaskOutcome.UP_TO_DATE
+        rerunResult.task(':generateSwaggerUI').outcome == TaskOutcome.UP_TO_DATE
     }
 
 }

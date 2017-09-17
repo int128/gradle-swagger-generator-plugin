@@ -25,7 +25,7 @@ class DefaultTasksSpec extends Specification {
         def result = runner.build()
 
         then:
-        result.tasks.find { it.path == ":$taskName" }.outcome == status
+        result.task(":$taskName").outcome == status
 
         where:
         taskName                    | status

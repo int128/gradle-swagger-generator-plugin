@@ -27,7 +27,7 @@ class ValidatorSpec extends Specification {
         def result = runner.build()
 
         then:
-        result.tasks.head().outcome == TaskOutcome.SUCCESS
+        result.task(':validateSwagger').outcome == TaskOutcome.SUCCESS
         new File("${runner.projectDir}/build/tmp/validateSwagger/report.yaml").exists()
 
         when:
