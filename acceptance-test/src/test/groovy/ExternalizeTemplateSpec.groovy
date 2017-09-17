@@ -30,8 +30,8 @@ class ExternalizeTemplateSpec extends Specification {
         def result = runner.build()
 
         then:
-        result.tasks.find { it.path == ':resolveSwaggerTemplate' }.outcome == TaskOutcome.SUCCESS
-        result.tasks.find { it.path == ':generateSwaggerCode' }.outcome == TaskOutcome.SUCCESS
+        result.task(':resolveSwaggerTemplate').outcome == TaskOutcome.SUCCESS
+        result.task(':generateSwaggerCode').outcome == TaskOutcome.SUCCESS
     }
 
 }

@@ -1,4 +1,5 @@
 import org.gradle.testkit.runner.GradleRunner
+import org.gradle.testkit.runner.TaskOutcome
 import spock.lang.Specification
 
 import static Fixture.cleanBuildDir
@@ -22,9 +23,10 @@ class CustomTemplateSpec extends Specification {
         runner.withArguments('--stacktrace', 'generateSwaggerCode')
 
         when:
-        runner.build()
+        def result = runner.build()
 
         then:
+        result.task(':generateSwaggerCode').outcome == TaskOutcome.SUCCESS
         new File(runner.projectDir, 'build/swagger-code/src/main/java/example/api/PetsApi.java').exists()
     }
 
