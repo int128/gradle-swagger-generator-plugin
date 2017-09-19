@@ -1,1 +1,2 @@
 include 'acceptance-test'
+include 'template-project'

@@ -22,6 +22,7 @@ script:
   cp -av acceptance-test/doc-generator/build/swagger-ui build/publish
   cp -av acceptance-test/html-generator/build/swagger-html build/publish
 
+after_success:
 - |
   if [ "$TRAVIS_BRANCH" = "master" ]; then
     pushd build/publish
@@ -34,5 +35,13 @@ script:
     popd
   fi
 
-after_success:
-- test ${TRAVIS_TAG} && ./gradlew publishPlugins
+- |
+  if [ "${TRAVIS_TAG}" ]; then
+    ./gradlew publishPlugins
+    sed -i -e "s/version '[0-9.]*'/version '$TRAVIS_TAG'/g" README.md template-project/build.gradle
+    git checkout -b "verify-$TRAVIS_TAG"
+    git add .
+    git commit -m "Bump to $TRAVIS_TAG"
+    git remote add origin "https://github.com/$TRAVIS_REPO_SLUG"
+    git push origin "verify-$TRAVIS_TAG"
+  fi
