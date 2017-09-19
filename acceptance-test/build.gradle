@@ -31,15 +31,3 @@ task run(type: JavaExec) {
         args project.args.split(' ')
     }
 }
-
-task generateSwaggerHtml(type: JavaExec) {
-    classpath = sourceSets.test.runtimeClasspath
-    main = 'Main'
-    args = ['html-generator', 'generateSwaggerCode']
-}
-
-task generateSwaggerUI(type: JavaExec) {
-    classpath = sourceSets.test.runtimeClasspath
-    main = 'Main'
-    args = ['doc-generator', 'generateSwaggerUI']
-}
