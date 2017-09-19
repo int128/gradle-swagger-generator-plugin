@@ -23,14 +23,16 @@ script:
   cp -av acceptance-test/html-generator/build/swagger-html build/publish
 
 - |
-  pushd build/publish
-  git init
-  git add .
-  git commit -m 'Release example docs'
-  git branch -m gh-pages
-  git remote add origin "https://github.com/$TRAVIS_REPO_SLUG"
-  git push origin -f
-  popd
+  if [ "$TRAVIS_BRANCH" = "master" ]; then
+    pushd build/publish
+    git init
+    git add .
+    git commit -m 'Release example docs'
+    git branch -m gh-pages
+    git remote add origin "https://github.com/$TRAVIS_REPO_SLUG"
+    git push origin -f
+    popd
+  fi
 
 after_success:
 - test ${TRAVIS_TAG} && ./gradlew publishPlugins
