@@ -27,7 +27,6 @@ dependencies {
   swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.3'
 }
 
-
 swaggerSources {
   petstore {
     inputFile = file('petstore.yaml')
@@ -165,40 +164,6 @@ swaggerSources {
 For more, see [custom-template project](acceptance-test/custom-template) in examples.
 
 
-### Using external template
-
-In some large use case, we can release a template to an external repository and use it from projects.
-
-```groovy
-// build.gradle
-repositories {
-  maven {
-    url 'https://example.com/nexus-or-artifactory'
-  }
-  jcenter()
-}
-
-dependencies {
-  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.3'
-  // Add dependency for the template
-  swaggerTemplate 'com.example:swagger-templates:1.0.0.RELEASE'
-}
-
-swaggerSources {
-  petstore {
-    inputFile = file('petstore.yaml')
-    code {
-      language = 'spring'
-      // The plugin automatically extracts template JAR into below destination
-      templateDir = file("${resolveSwaggerTemplate.destinationDir}/spring-mvc")
-    }
-  }
-}
-```
-
-For more, see [externalize-template project](acceptance-test/externalize-template) in examples.
-
-
 ### Using custom generator class
 
 We can use a custom generator class for the code generation as follows:
@@ -236,7 +201,45 @@ class CustomGenerator extends SpringCodegen {
 }
 ```
 
-See also [custom-class project](acceptance-test/custom-class) in examples.
+For more, see [custom-class project](acceptance-test/custom-class) in examples.
+
+
+### Externalize template or generator class
+
+In some large use case, we can release a template and generator class to an external repository and use them from projects.
+
+```groovy
+// build.gradle
+repositories {
+  // Use external repository for the template and the generator class
+  maven {
+    url 'https://example.com/nexus-or-artifactory'
+  }
+  jcenter()
+}
+
+dependencies {
+  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.3'
+  // Add dependency for the template
+  swaggerTemplate 'com.example:swagger-templates:1.0.0'
+  // Add dependency for the generator class
+  swaggerTemplate 'com.example:swagger-generators:1.0.0'
+}
+
+swaggerSources {
+  petstore {
+    inputFile = file('petstore.yaml')
+    code {
+      language = 'spring'
+      // The plugin automatically extracts template JAR into below destination
+      templateDir = file("${resolveSwaggerTemplate.destinationDir}/spring-mvc")
+    }
+  }
+}
+```
+
+For more, see [externalize-template project](acceptance-test/externalize-template) and
+[externalize-class project](acceptance-test/externalize-class) in examples.
 
 
 ### Multiple sources

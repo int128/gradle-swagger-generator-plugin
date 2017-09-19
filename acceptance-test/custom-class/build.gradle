@@ -7,7 +7,7 @@ swaggerSources {
     petstore {
         inputFile = file("$buildDir/petstore.yaml")
         code {
-            language = 'CustomGenerator'
+            language = 'generators.MySpring'
             configFile = file('config.json')
             components = ['models', 'apis']
         }
