@@ -1,0 +1,24 @@
+plugins {
+    id 'groovy'
+    id 'maven-publish'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile localGroovy()
+    compile 'io.swagger:swagger-codegen-cli:2.2.3'
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId 'org.hidetake'
+            artifactId 'swagger-generators'
+            version '1.0.0'
+            from components.java
+        }
+    }
+}
