@@ -22,7 +22,7 @@ after_success:
 - |
   if [ "$TRAVIS_BRANCH" = "master" ]; then
     mkdir build/publish
-    cp -av acceptance-test/doc-generator/build/swagger-ui build/publish
+    cp -av acceptance-test/doc-generator/build/swagger-ui-petstore build/publish
     cp -av acceptance-test/html-generator/build/swagger-html build/publish
     pushd build/publish
     git init
