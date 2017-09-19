@@ -7,42 +7,17 @@ See also following examples:
 
 - [Generated Swagger UI](https://int128.github.io/gradle-swagger-generator-plugin/swagger-ui/)
 - [Generated HTML document](https://int128.github.io/gradle-swagger-generator-plugin/swagger-html/)
-- [Example `build.gradle` and projects](acceptance-test/)
 
-Add the plugin into a build script as follows:
+
+## Code Generation
+
+Create a project with following build script.
 
 ```groovy
 plugins {
   id 'org.hidetake.swagger.generator' version '2.5.3'
 }
-```
 
-
-Getting Started: Swagger YAML Validation
-----------------------------------------
-
-Add following into a build script.
-
-```groovy
-validateSwagger {
-  inputFile = file('petstore.yaml')
-}
-```
-
-The task validates a Swagger YAML against the JSON schema of Swagger specification.
-
-```
-% ./gradlew validateSwagger
-:validateSwagger
-```
-
-
-Getting Started: Code Generation
---------------------------------
-
-Add following into a build script.
-
-```groovy
 repositories {
   jcenter()
 }
@@ -52,28 +27,33 @@ dependencies {
   swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.3'
 }
 
-generateSwaggerCode {
-  language = 'spring'
-  inputFile = file('petstore.yaml')
-  configFile = file('config.json')
-  components = ['models', 'apis']
+
+swaggerSources {
+  petstore {
+    inputFile = file('petstore.yaml')
+    code {
+      language = 'spring'
+      configFile = file('config.json')
+    }
+  }
 }
 ```
 
-The task generates source code into `build/swagger-code`.
+The task generates source code into `build/swagger-code-petstore`.
 
 ```
 % ./gradlew generateSwaggerCode
-:generateSwaggerCode
-[main] INFO io.swagger.parser.Swagger20Parser - reading from ...
+:resolveSwaggerTemplate NO-SOURCE
+:generateSwaggerCodePetstore
+:generateSwaggerCode NO-SOURCE
 ```
 
 Run the task with `Help` postfix to show available JSON configuration.
 
 ```
-% ./gradlew generateSwaggerCodeHelp
-:generateSwaggerCodeHelp
-Available JSON configuration for task ':generateSwaggerCode':
+% ./gradlew generateSwaggerCodePetstoreHelp
+:generateSwaggerCodePetstoreHelp
+Available JSON configuration for language spring:
 
 CONFIG OPTIONS
 	sortParamsByRequiredFlag
@@ -81,14 +61,13 @@ CONFIG OPTIONS
 ```
 
 
-Getting Started: Swagger UI Generation
---------------------------------------
+## Swagger UI Generation
 
-Add following into a build script.
+Create a project with following build script.
 
 ```groovy
-repositories {
-  jcenter()
+plugins {
+  id 'org.hidetake.swagger.generator' version '2.5.3'
 }
 
 dependencies {
@@ -96,27 +75,204 @@ dependencies {
   swaggerUI 'org.webjars:swagger-ui:2.2.6'
 }
 
-generateSwaggerUI {
-  inputFile = file('petstore.yaml')
-  options.docExpansion = 'full'
+swaggerSources {
+  petstore {
+    inputFile = file('petstore.yaml')
+    ui {
+      options.docExpansion = 'full'
+    }
+  }
 }
 ```
 
-The task generates an API document as `build/swagger-ui`.
+The task generates an API document as `build/swagger-ui-petstore`.
 
 ```
 % ./gradlew generateSwaggerUI
-:generateSwaggerUI
+:generateSwaggerUIPetstore
+:generateSwaggerUI NO-SOURCE
 ```
 
 
-Settings
---------
+## Recipes
+
+There are some examples in [acceptance-test project](acceptance-test).
+
+### Build generated code
+
+It is recommended to generate code into `build` directory and exclude from a Git repository.
+We can compile generated code as follows:
+
+```groovy
+swaggerSources {
+  petstore {
+    inputFile = file('petstore.yaml')
+    code {
+      language = 'spring'
+      configFile = file('config.json')
+      // Generate only models and controllers
+      components = ['models', 'apis']
+    }
+  }
+}
+
+// Configure compile task dependency and source
+compileJava.dependsOn swaggerSources.petstore.code
+sourceSets.main.java.srcDir swaggerSources.petstore.code.outputDir
+```
+
+For more, see [code-generator project](acceptance-test/code-generator) in examples.
+
+
+### Validate YAML before code genetation
+
+It is recommended to validate an OpenAPI YAML before code generation in order to avoid invalid code generated.
+We can validate a YAML as follows:
+
+```groovy
+swaggerSources {
+  petstore {
+    inputFile = file('petstore.yaml')
+    code {
+      language = 'spring'
+      configFile = file('config.json')
+      // Validate YAML before code generation
+      dependsOn validation
+    }
+  }
+}
+```
+
+For more, see [code-generator project](acceptance-test/code-generator) in examples.
+
+
+### Using custom template
+
+We can use a custom template for the code generation as follows:
+
+```groovy
+// build.gradle
+swaggerSources {
+  inputFile = file('petstore.yaml')
+  petstore {
+    language = 'spring'
+    // Path to the template directory
+    templateDir = file('templates/spring-mvc')
+  }
+}
+```
+
+For more, see [custom-template project](acceptance-test/custom-template) in examples.
+
+
+### Using external template
+
+In some large use case, we can release a template to an external repository and use it from projects.
+
+```groovy
+// build.gradle
+repositories {
+  maven {
+    url 'https://example.com/nexus-or-artifactory'
+  }
+  jcenter()
+}
+
+dependencies {
+  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.3'
+  // Add dependency for the template
+  swaggerTemplate 'com.example:swagger-templates:1.0.0.RELEASE'
+}
+
+swaggerSources {
+  petstore {
+    inputFile = file('petstore.yaml')
+    code {
+      language = 'spring'
+      // The plugin automatically extracts template JAR into below destination
+      templateDir = file("${resolveSwaggerTemplate.destinationDir}/spring-mvc")
+    }
+  }
+}
+```
+
+For more, see [externalize-template project](acceptance-test/externalize-template) in examples.
+
+
+### Using custom generator class
+
+We can use a custom generator class for the code generation as follows:
+
+```groovy
+// build.gradle
+swaggerSources {
+  petstore {
+    inputFile = file('petstore.yaml')
+    code {
+      // FQCN of the custom generator class
+      language = 'CustomGenerator'
+    }
+  }
+}
+```
+
+```groovy
+// buildSrc/build.gradle
+repositories {
+  jcenter()
+}
+
+dependencies {
+  // Add dependency here (do not specify in the parent project)
+  compile 'io.swagger:swagger-codegen-cli:2.2.3'
+}
+```
+
+```groovy
+// buildSrc/src/main/groovy/CustomGenerator.groovy
+import io.swagger.codegen.languages.SpringCodegen
+
+class CustomGenerator extends SpringCodegen {
+}
+```
+
+See also [custom-class project](acceptance-test/custom-class) in examples.
+
+
+### Multiple sources
+
+We can handle multiple sources in a project as follows:
+
+```groovy
+// build.gradle
+swaggerSources {
+    petstoreV1 {
+        inputFile = file('v1-petstore.yaml')
+        code {
+            language = 'spring'
+            configFile = file('v1-config.json')
+        }
+    }
+    petstoreV2 {
+        inputFile = file('v2-petstore.yaml')
+        code {
+            language = 'spring'
+            configFile = file('v2-config.json')
+        }
+    }
+}
+
+compileJava.dependsOn swaggerSources.petstoreV1.code, swaggerSources.petstoreV2.code
+sourceSets.main.java.srcDirs swaggerSources.petstoreV1.code.outputDir, swaggerSources.petstoreV2.code.outputDir
+```
+
+For more, see [multiple-sources project](acceptance-test/multiple-sources) in examples.
+
+
+## Settings
 
 The plugin adds `validateSwagger`, `generateSwaggerCode` and `generateSwaggerUI` tasks.
 A task will be skipped if no input file is given.
-
-See projects under [acceptance-test](acceptance-test) for more.
 
 
 ### Task type `ValidateSwagger`
@@ -167,93 +323,7 @@ The plugin replaces the Swagger UI loader with custom one containing following a
 ```
 
 
-Custom: Template
-----------------
-
-We can provide a custom template for the code generation as follows:
-
-```groovy
-// build.gradle
-generateSwaggerCode {
-  language = 'java'
-  inputFile = file('petstore.yaml')
-  templateDir = file('templates/server')
-}
-```
-
-For more about Swagger template, see [Building your own Templates](https://github.com/swagger-api/swagger-codegen/wiki/Building-your-own-Templates).
-
-
-Custom: Externalize Template
-----------------------------
-
-In some large use case, we can release a template to an external repository and use it from projects.
-
-```groovy
-// build.gradle
-repositories {
-  maven {
-    url 'https://example.com/nexus-or-artifactory'
-  }
-  jcenter()
-}
-
-dependencies {
-  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.3'
-  // Add dependency for template
-  swaggerTemplate 'com.example:swagger-templates:1.0.0.RELEASE'
-}
-
-generateSwaggerCode {
-  language = 'spring'
-  inputFile = file('petstore.yaml')
-  // The plugin automatically extracts template JAR into below destination
-  templateDir = file("${resolveSwaggerTemplate.destinationDir}/spring-mvc")
-}
-```
-
-For more, see [externalize-template project](acceptance-test/externalize-template) in examples.
-
-
-Custom: Generator Class
------------------------
-
-We can provide a custom generator class for the code generation as follows:
-
-```groovy
-// build.gradle
-generateSwaggerCode {
-  // FQCN of the custom generator class
-  language = 'CustomGenerator'
-  inputFile = file('petstore.yaml')
-}
-```
-
-```groovy
-// buildSrc/build.gradle
-repositories {
-  jcenter()
-}
-
-dependencies {
-  // Add dependency here (do not specify in the parent project)
-  compile 'io.swagger:swagger-codegen-cli:2.2.3'
-}
-```
-
-```groovy
-// buildSrc/src/main/groovy/CustomGenerator.groovy
-import io.swagger.codegen.languages.SpringCodegen
-
-class CustomGenerator extends SpringCodegen {
-}
-```
-
-See also [custom-class project](acceptance-test/custom-class) in examples.
-
-
-Contributions
--------------
+## Contributions
 
 This is an open source software licensed under the Apache License Version 2.0.
 Feel free to open issues or pull requests.

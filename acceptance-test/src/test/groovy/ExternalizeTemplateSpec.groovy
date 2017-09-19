@@ -31,7 +31,8 @@ class ExternalizeTemplateSpec extends Specification {
 
         then:
         result.task(':resolveSwaggerTemplate').outcome == TaskOutcome.SUCCESS
-        result.task(':generateSwaggerCode').outcome == TaskOutcome.SUCCESS
+        result.task(':generateSwaggerCode').outcome == TaskOutcome.NO_SOURCE
+        result.task(':generateSwaggerCodePetstore').outcome == TaskOutcome.SUCCESS
     }
 
 }

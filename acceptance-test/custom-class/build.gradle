@@ -3,9 +3,13 @@ plugins {
     id 'org.hidetake.swagger.generator'
 }
 
-generateSwaggerCode {
-    language = 'CustomGenerator'
-    inputFile = file("$buildDir/petstore.yaml")
-    configFile = file('config.json')
-    components = ['models', 'apis']
+swaggerSources {
+    petstore {
+        inputFile = file("$buildDir/petstore.yaml")
+        code {
+            language = 'CustomGenerator'
+            configFile = file('config.json')
+            components = ['models', 'apis']
+        }
+    }
 }

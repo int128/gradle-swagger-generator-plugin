@@ -26,13 +26,14 @@ class CustomTemplateSpec extends Specification {
         def result = runner.build()
 
         then:
-        result.task(':generateSwaggerCode').outcome == TaskOutcome.SUCCESS
-        new File(runner.projectDir, 'build/swagger-code/src/main/java/example/api/PetsApi.java').exists()
+        result.task(':generateSwaggerCode').outcome == TaskOutcome.NO_SOURCE
+        result.task(':generateSwaggerCodePetstore').outcome == TaskOutcome.SUCCESS
+        new File(runner.projectDir, 'build/swagger-code-petstore/src/main/java/example/api/PetsApi.java').exists()
     }
 
-    def 'generateSwaggerCodeHelp task should show help'() {
+    def 'generateSwaggerCodePetstoreHelp task should show help'() {
         given:
-        runner.withArguments('--stacktrace', 'generateSwaggerCodeHelp')
+        runner.withArguments('--stacktrace', 'generateSwaggerCodePetstoreHelp')
 
         when:
         def result = runner.build()

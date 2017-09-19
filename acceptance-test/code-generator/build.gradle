@@ -8,17 +8,22 @@ repositories {
 }
 
 dependencies {
-    compile 'org.springframework.boot:spring-boot-starter-web:1.4.1.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-web:1.5.7.RELEASE'
     compile 'io.swagger:swagger-annotations:1.5.10'
     swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.3'
 }
 
-generateSwaggerCode {
-    language = 'spring'
-    inputFile = file("$buildDir/petstore.yaml")
-    configFile = file('config.json')
-    components = ['models', 'apis']
+swaggerSources {
+    petstore {
+        inputFile = file("$buildDir/petstore.yaml")
+        code {
+            language = 'spring'
+            configFile = file('config.json')
+            components = ['models', 'apis']
+            dependsOn validation
+        }
+    }
 }
 
-compileJava.dependsOn generateSwaggerCode
-sourceSets.main.java.srcDir generateSwaggerCode.outputDir
+compileJava.dependsOn swaggerSources.petstore.code
+sourceSets.main.java.srcDir swaggerSources.petstore.code.outputDir
