@@ -3,9 +3,9 @@ Gradle Swagger Generator Plugin [![Build Status](https://travis-ci.org/int128/gr
 
 This is a Gradle plugin to do following tasks:
 
-- Validate OpenAPI YAML.
-- Generate source from OpenAPI YAML using [Swagger Codegen](https://github.com/swagger-api/swagger-codegen).
-- Generate Swagger UI.
+- Validate an OpenAPI YAML.
+- Generate source from an OpenAPI YAML using [Swagger Codegen](https://github.com/swagger-api/swagger-codegen).
+- Generate Swagger UI with an OpenAPI YAML.
 
 See also following examples:
 
@@ -210,7 +210,7 @@ For more, see [custom-class project](acceptance-test/custom-class) in examples.
 
 ### Externalize template or generator class
 
-In some large use case, we can release a template and generator class to an external repository and use them from projects.
+In some large use case, we can release a template or generator to an external repository and use them from projects.
 
 ```groovy
 // build.gradle
@@ -227,7 +227,7 @@ dependencies {
   // Add dependency for the template
   swaggerTemplate 'com.example:swagger-templates:1.0.0'
   // Add dependency for the generator class
-  swaggerTemplate 'com.example:swagger-generators:1.0.0'
+  swaggerCodegen 'com.example:swagger-generators:1.0.0'
 }
 
 swaggerSources {
