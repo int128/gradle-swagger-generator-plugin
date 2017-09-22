@@ -1,5 +1,6 @@
 plugins {
     id 'org.hidetake.swagger.generator'
+    id 'base'
 }
 
 repositories {
@@ -25,3 +26,5 @@ swaggerSources {
         }
     }
 }
+
+build.dependsOn generateSwaggerUI, generateReDoc
