@@ -32,7 +32,7 @@ class GenerateSwaggerCode extends DefaultTask {
     Map<String, String> additionalProperties
 
     @Optional @Input
-    List<String> components
+    def components
 
     def GenerateSwaggerCode() {
         outputDir = new File(project.buildDir, 'swagger-code')
@@ -43,21 +43,13 @@ class GenerateSwaggerCode extends DefaultTask {
         assert language, "language should be set in the task $name"
         assert inputFile, "inputFile should be set in the task $name"
         assert outputDir, "outputDir should be set in the task $name"
-        if (components) {
-            assert components.every { component ->
-                component in ['models', 'apis', 'supportingFiles']
-            }
-        }
-
         assert outputDir != project.projectDir, 'Prevent wiping the project directory'
 
         project.delete(outputDir)
         outputDir.mkdirs()
 
         def args = buildOptions()
-        def systemProperties = components?.collectEntries { component ->
-            [(component): '']
-        }
+        def systemProperties = buildSystemProperties()
         SwaggerCodegenExecutor.getInstance(project).execute(systemProperties, args)
     }
 
@@ -82,6 +74,28 @@ class GenerateSwaggerCode extends DefaultTask {
             }.join(',')
         }
         options
+    }
+
+    Map<String, String> buildSystemProperties() {
+        if (components instanceof Collection) {
+            components.collectEntries { k -> [(k as String): ''] }
+        } else if (components instanceof Map) {
+            components.collectEntries { k, v ->
+                if (v instanceof Collection) {
+                    [(k as String): v.join(',')]
+                } else if (v == true) {
+                    [(k as String): '']
+                } else if (v == false || v == null) {
+                    [(k as String): 'false']
+                } else {
+                    [(k as String): v as String]
+                }
+            } as Map<String, String>
+        } else if (components == null) {
+            null
+        } else {
+            throw new IllegalArgumentException("components must be Collection or Map")
+        }
     }
 
 }
