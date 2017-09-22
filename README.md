@@ -113,8 +113,6 @@ swaggerSources {
     code {
       language = 'spring'
       configFile = file('config.json')
-      // Generate only models and controllers
-      components = ['models', 'apis']
     }
   }
 }
@@ -147,6 +145,44 @@ swaggerSources {
 ```
 
 For more, see [code-generator project](acceptance-test/code-generator) in examples.
+
+
+### Selective generation
+
+We can control output of code generation.
+At default everything is generated but only models and APIs are generated in following:
+
+```groovy
+swaggerSources {
+  petstore {
+    inputFile = file('petstore.yaml')
+    code {
+      language = 'spring'
+      configFile = file('config.json')
+      // Generate only models and controllers
+      components = ['models', 'apis']
+    }
+  }
+}
+```
+
+`components` property accepts a list of strings or map.
+
+```groovy
+// generates only models
+components = ['models']
+components = [models: true]
+
+// generate only User and Pet models
+components = [models: ['User', 'Pet']]
+components = [models: 'User,Pet']
+
+// generate only APIs (without tests)
+components = [apis: true, apiTests: false]
+components = [apis: true, apiTests: null]
+```
+
+For details, see [selective generation](https://github.com/swagger-api/swagger-codegen#selective-generation).
 
 
 ### Using custom template
@@ -304,7 +340,7 @@ Key           | Type              | Value                                   | De
 `library`     | String            | Library type.                           | None
 `configFile`  | File              | [JSON configuration file](https://github.com/swagger-api/swagger-codegen#customizing-the-generator). | None
 `templateDir` | File              | Directory containing the template.      | None
-`components`  | List of Strings   | [Components to generate](https://github.com/swagger-api/swagger-codegen#selective-generation) that is a list of `models`, `apis` and `supportingFiles`. | All components
+`components`  | List or Map       | [Components to generate](https://github.com/swagger-api/swagger-codegen#selective-generation) that is a list of `models`, `apis` and `supportingFiles`. | All components
 `additionalProperties` | Map of String, String | [Additional properties](https://github.com/swagger-api/swagger-codegen#to-generate-a-sample-client-library). | None
 
 

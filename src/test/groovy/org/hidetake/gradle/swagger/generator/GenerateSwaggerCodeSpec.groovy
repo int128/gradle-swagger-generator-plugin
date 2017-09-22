@@ -2,6 +2,7 @@ package org.hidetake.gradle.swagger.generator
 
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class GenerateSwaggerCodeSpec extends Specification {
 
@@ -90,6 +91,37 @@ class GenerateSwaggerCodeSpec extends Specification {
             '-o', 'output',
             '--additional-properties', 'foo=bar,baz=zzz'
         ]
+    }
+
+    @Unroll
+    def "plugin should system properties on components=#givenComponents"() {
+        given:
+        def project = ProjectBuilder.builder().build()
+
+        when:
+        def systemProperties = project.with {
+            apply plugin: 'org.hidetake.swagger.generator'
+            tasks.generateSwaggerCode.components = givenComponents
+            tasks.generateSwaggerCode.buildSystemProperties()
+        }
+
+        then:
+        systemProperties == expectedSystemProperties
+
+        where:
+        givenComponents                                         | expectedSystemProperties
+        null                                                    | null
+        []                                                      | [:]
+        ['models']                                              | [models: '']
+        ['models', 'apis']                                      | [models: '', apis: '']
+        [models: true]                                          | [models: '']
+        [models: false]                                         | [models: 'false']
+        [models: null]                                          | [models: 'false']
+        [models: 'User']                                        | [models: 'User']
+        [models: ['User']]                                      | [models: 'User']
+        [models: 'User,Pet']                                    | [models: 'User,Pet']
+        [models: ['User', 'Pet']]                               | [models: 'User,Pet']
+        [models: 'User', supportingFiles: 'StringUtil.java']    | [models: 'User', supportingFiles: 'StringUtil.java']
     }
 
 }
