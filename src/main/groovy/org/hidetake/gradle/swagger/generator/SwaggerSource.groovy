@@ -29,6 +29,13 @@ class SwaggerSource {
         ui
     }
 
+    GenerateReDoc reDoc
+
+    GenerateReDoc reDoc(@DelegatesTo(GenerateReDoc) Closure closure) {
+        reDoc.configure(closure)
+        reDoc
+    }
+
     ValidateSwagger validation
 
     ValidateSwagger validation(@DelegatesTo(ValidateSwagger) Closure closure) {
@@ -37,8 +44,6 @@ class SwaggerSource {
     }
 
     void setInputFile(File inputFile) {
-        code.inputFile = inputFile
-        ui.inputFile = inputFile
-        validation.inputFile = inputFile
+        [code, ui, reDoc, validation]*.inputFile = inputFile
     }
 }

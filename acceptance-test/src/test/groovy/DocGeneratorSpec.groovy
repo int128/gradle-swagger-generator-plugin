@@ -38,4 +38,25 @@ class DocGeneratorSpec extends Specification {
         rerunResult.task(':generateSwaggerUIPetstore').outcome == TaskOutcome.UP_TO_DATE
     }
 
+    def 'generateReDoc task should generate an ReDoc'() {
+        given:
+        placePetstoreYaml(runner, Fixture.PetstoreYaml.valid)
+        runner.withArguments('--stacktrace', 'generateReDoc')
+
+        when:
+        def result = runner.build()
+
+        then:
+        result.task(':generateReDoc').outcome == TaskOutcome.NO_SOURCE
+        result.task(':generateReDocPetstore').outcome == TaskOutcome.SUCCESS
+        new File("${runner.projectDir}/build/redoc-petstore/index.html").exists()
+
+        when:
+        def rerunResult = runner.build()
+
+        then:
+        rerunResult.task(':generateReDoc').outcome == TaskOutcome.NO_SOURCE
+        rerunResult.task(':generateReDocPetstore').outcome == TaskOutcome.UP_TO_DATE
+    }
+
 }

@@ -21,6 +21,7 @@ class SwaggerGeneratorPlugin implements Plugin<Project> {
 
         project.ext.GenerateSwaggerCode = GenerateSwaggerCode
         project.ext.GenerateSwaggerUI = GenerateSwaggerUI
+        project.ext.GenerateReDoc = GenerateReDoc
         project.ext.ValidateSwagger = ValidateSwagger
 
         project.task('resolveSwaggerTemplate',
@@ -31,20 +32,24 @@ class SwaggerGeneratorPlugin implements Plugin<Project> {
         createValidateSwagger(project)
         createGenerateSwaggerCode(project)
         createGenerateSwaggerUI(project)
+        createGenerateReDoc(project)
 
         swaggerSources.all {
             def swaggerSource = delegate as SwaggerSource
             swaggerSource.validation = createValidateSwagger(project, swaggerSource.name)
             swaggerSource.code = createGenerateSwaggerCode(project, swaggerSource.name)
             swaggerSource.ui = createGenerateSwaggerUI(project, swaggerSource.name)
+            swaggerSource.reDoc = createGenerateReDoc(project, swaggerSource.name)
 
             project.tasks.validateSwagger.dependsOn(swaggerSource.validation)
             project.tasks.generateSwaggerCode.dependsOn(swaggerSource.code)
             project.tasks.generateSwaggerUI.dependsOn(swaggerSource.ui)
+            project.tasks.generateReDoc.dependsOn(swaggerSource.reDoc)
 
             swaggerSource.validation.reportFile = new File(project.buildDir, "swagger-validation-${swaggerSource.name}.yaml")
             swaggerSource.code.outputDir = new File(project.buildDir, "swagger-code-${swaggerSource.name}")
             swaggerSource.ui.outputDir = new File(project.buildDir, "swagger-ui-${swaggerSource.name}")
+            swaggerSource.reDoc.outputDir = new File(project.buildDir, "redoc-${swaggerSource.name}")
         }
 
         project.afterEvaluate {
@@ -74,6 +79,13 @@ class SwaggerGeneratorPlugin implements Plugin<Project> {
             type: GenerateSwaggerUI,
             group: 'documentation',
             description: "Generates Swagger UI from ${sourceName ?: 'the OpenAPI specification'}.") as GenerateSwaggerUI
+    }
+
+    private static createGenerateReDoc(Project project, String sourceName = null) {
+        project.task("generateReDoc${sourceName ? sourceName.capitalize() : ''}",
+            type: GenerateReDoc,
+            group: 'documentation',
+            description: "Generates ReDoc from ${sourceName ?: 'the OpenAPI specification'}.") as GenerateReDoc
     }
 
 }
