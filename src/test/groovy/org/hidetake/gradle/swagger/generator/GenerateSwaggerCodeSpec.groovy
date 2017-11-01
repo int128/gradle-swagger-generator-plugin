@@ -93,6 +93,30 @@ class GenerateSwaggerCodeSpec extends Specification {
         ]
     }
 
+    def "plugin should build raw options"() {
+        given:
+        def project = ProjectBuilder.builder().build()
+
+        when:
+        def options = project.with {
+            apply plugin: 'org.hidetake.swagger.generator'
+            tasks.generateSwaggerCode.language = 'java'
+            tasks.generateSwaggerCode.inputFile = new File('input')
+            tasks.generateSwaggerCode.outputDir = new File('output')
+            tasks.generateSwaggerCode.rawOptions = ['--verbose']
+            tasks.generateSwaggerCode.buildOptions()
+        }
+
+        then:
+        options == [
+            'generate',
+            '-l', 'java',
+            '-i', 'input',
+            '-o', 'output',
+            '--verbose'
+        ]
+    }
+
     @Unroll
     def "plugin should system properties on components=#givenComponents"() {
         given:
