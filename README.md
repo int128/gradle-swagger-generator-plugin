@@ -148,7 +148,8 @@ swaggerSources {
 
 // Configure compile task dependency and source
 compileJava.dependsOn swaggerSources.petstore.code
-sourceSets.main.java.srcDir swaggerSources.petstore.code.outputDir
+sourceSets.main.java.srcDir "${swaggerSources.petstore.code.outputDir}/src/main/java"
+sourceSets.main.resources.srcDir "${swaggerSources.petstore.code.outputDir}/src/main/resources"
 ```
 
 For more, see [code-generator project](acceptance-test/code-generator) in examples.
@@ -335,7 +336,8 @@ swaggerSources {
 }
 
 compileJava.dependsOn swaggerSources.petstoreV1.code, swaggerSources.petstoreV2.code
-sourceSets.main.java.srcDirs swaggerSources.petstoreV1.code.outputDir, swaggerSources.petstoreV2.code.outputDir
+sourceSets.main.java.srcDirs "${swaggerSources.petstoreV1.code.outputDir}/src/main/java", "${swaggerSources.petstoreV2.code.outputDir}/src/main/java"
+sourceSets.main.resources.srcDirs "${swaggerSources.petstoreV1.code.outputDir}/src/main/resources", "${swaggerSources.petstoreV2.code.outputDir}/src/main/resources"
 ```
 
 For more, see [multiple-sources project](acceptance-test/multiple-sources) in examples.

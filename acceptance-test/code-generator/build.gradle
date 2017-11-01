@@ -26,4 +26,5 @@ swaggerSources {
 }
 
 compileJava.dependsOn swaggerSources.petstore.code
-sourceSets.main.java.srcDir swaggerSources.petstore.code.outputDir
+sourceSets.main.java.srcDir "${swaggerSources.petstore.code.outputDir}/src/main/java"
+sourceSets.main.resources.srcDir "${swaggerSources.petstore.code.outputDir}/src/main/resources"
