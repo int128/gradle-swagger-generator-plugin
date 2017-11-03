@@ -21,7 +21,10 @@ class GenerateSwaggerCodeHelp extends DefaultTask {
 
     @TaskAction
     void exec() {
-        println("Available JSON configuration for language $language:")
+        println("=== Available rawOptions ===")
+        SwaggerCodegenExecutor.getInstance(project).execute(['help', 'generate'])
+
+        println("=== Available JSON configuration for language $language ===")
         SwaggerCodegenExecutor.getInstance(project).execute(['config-help', '-l', language])
     }
 

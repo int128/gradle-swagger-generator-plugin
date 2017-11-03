@@ -53,16 +53,25 @@ The task generates source code into `build/swagger-code-petstore`.
 :generateSwaggerCode NO-SOURCE
 ```
 
-Run the task with `Help` postfix to show available JSON configuration.
+Run the task with `Help` postfix to show available `rawOptions` and JSON configuration.
 
 ```
 % ./gradlew generateSwaggerCodePetstoreHelp
 :generateSwaggerCodePetstoreHelp
-Available JSON configuration for language spring:
+=== Available raw options
+NAME
+        swagger-codegen-cli generate - Generate code with chosen lang
+
+SYNOPSIS
+        swagger-codegen-cli generate
+                [(-a <authorization> | --auth <authorization>)]
+...
+
+=== Available JSON configuration for language spring:
 
 CONFIG OPTIONS
 	sortParamsByRequiredFlag
-  ...
+...
 ```
 
 
@@ -373,6 +382,7 @@ Key           | Type              | Value                                   | De
 `templateDir` | File              | Directory containing the template.      | None
 `components`  | List or Map       | [Components to generate](https://github.com/swagger-api/swagger-codegen#selective-generation) that is a list of `models`, `apis` and `supportingFiles`. | All components
 `additionalProperties` | Map of String, String | [Additional properties](https://github.com/swagger-api/swagger-codegen#to-generate-a-sample-client-library). | None
+`rawOptions`  | List of Strings   | Raw command line options for Swagger Codegen | None
 
 
 ### Task type `GenerateSwaggerUI`

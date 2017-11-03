@@ -34,6 +34,9 @@ class GenerateSwaggerCode extends DefaultTask {
     @Optional @Input
     def components
 
+    @Optional @Input
+    List<String> rawOptions
+
     def GenerateSwaggerCode() {
         outputDir = new File(project.buildDir, 'swagger-code')
     }
@@ -72,6 +75,9 @@ class GenerateSwaggerCode extends DefaultTask {
             options << '--additional-properties' << additionalProperties.collect { key, value ->
                 "$key=$value"
             }.join(',')
+        }
+        if (rawOptions) {
+            options.addAll(rawOptions)
         }
         options
     }
