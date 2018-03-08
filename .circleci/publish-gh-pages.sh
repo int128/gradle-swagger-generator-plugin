@@ -9,7 +9,7 @@ test "$CIRCLE_USERNAME"
 mkdir -pv /tmp/gh-pages
 cp -av ./acceptance-test/doc-generator/build/swagger-ui-petstore /tmp/gh-pages
 cp -av ./acceptance-test/doc-generator/build/redoc-petstore /tmp/gh-pages
-cp -av ./acceptance-test/html-generator/build/swagger-html /tmp/gh-pages
+cp -av ./acceptance-test/doc-generator/build/swagger-html /tmp/gh-pages
 cp -av ./.circleci /tmp/gh-pages
 
 cd /tmp/gh-pages

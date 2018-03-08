@@ -24,10 +24,8 @@ test {
     systemProperty 'current.gradle.version', gradle.gradleVersion
 }
 
-task run(type: JavaExec) {
+task buildDoc(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
     main = 'Main'
-    if (project.hasProperty('args')) {
-        args project.args.split(' ')
-    }
+    args = ['doc-generator', 'build']
 }
