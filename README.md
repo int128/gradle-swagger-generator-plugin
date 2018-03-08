@@ -30,7 +30,7 @@ repositories {
 
 dependencies {
   // Add dependency for Swagger Codegen CLI
-  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.3'
+  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.3.1'
 }
 
 swaggerSources {
@@ -88,7 +88,7 @@ plugins {
 
 dependencies {
   // Add dependency for Swagger UI
-  swaggerUI 'org.webjars:swagger-ui:2.2.6'
+  swaggerUI 'org.webjars:swagger-ui:2.2.10'
 }
 
 swaggerSources {
@@ -268,7 +268,7 @@ repositories {
 
 dependencies {
   // Add dependency here (do not specify in the parent project)
-  compile 'io.swagger:swagger-codegen-cli:2.2.3'
+  compile 'io.swagger:swagger-codegen-cli:2.3.1'
 }
 ```
 
@@ -298,7 +298,7 @@ repositories {
 }
 
 dependencies {
-  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.3'
+  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.3.1'
   // Add dependency for the template
   swaggerTemplate 'com.example:swagger-templates:1.0.0'
   // Add dependency for the generator class

@@ -7,7 +7,7 @@ repositories {
 }
 
 dependencies {
-    swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.3'
+    swaggerCodegen 'io.swagger:swagger-codegen-cli:2.3.1'
 }
 
 swaggerSources {

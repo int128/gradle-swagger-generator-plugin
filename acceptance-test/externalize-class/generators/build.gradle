@@ -9,7 +9,7 @@ repositories {
 
 dependencies {
     compile localGroovy()
-    compile 'io.swagger:swagger-codegen-cli:2.2.3'
+    compile 'io.swagger:swagger-codegen-cli:2.3.1'
 }
 
 publishing {

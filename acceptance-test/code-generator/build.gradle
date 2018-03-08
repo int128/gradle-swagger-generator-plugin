@@ -8,9 +8,9 @@ repositories {
 }
 
 dependencies {
-    compile 'org.springframework.boot:spring-boot-starter-web:1.5.7.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-web:2.0.0.RELEASE'
     compile 'io.swagger:swagger-annotations:1.5.10'
-    swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.3'
+    swaggerCodegen 'io.swagger:swagger-codegen-cli:2.3.1'
 }
 
 swaggerSources {
