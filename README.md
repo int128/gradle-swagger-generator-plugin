@@ -1,5 +1,4 @@
-Gradle Swagger Generator Plugin [![Build Status](https://travis-ci.org/int128/gradle-swagger-generator-plugin.svg?branch=master)](https://travis-ci.org/int128/gradle-swagger-generator-plugin) [![Gradle Status](https://gradleupdate.appspot.com/int128/gradle-swagger-generator-plugin/status.svg)](https://gradleupdate.appspot.com/int128/gradle-swagger-generator-plugin/status)
-=============================
+# Gradle Swagger Generator Plugin [![CircleCI](https://circleci.com/gh/int128/gradle-swagger-generator-plugin.svg?style=shield)](https://circleci.com/gh/int128/gradle-swagger-generator-plugin) [![Gradle Status](https://gradleupdate.appspot.com/int128/gradle-swagger-generator-plugin/status.svg)](https://gradleupdate.appspot.com/int128/gradle-swagger-generator-plugin/status)
 
 This is a Gradle plugin to do following tasks:
 
