@@ -59,4 +59,29 @@ class DocGeneratorSpec extends Specification {
         rerunResult.task(':generateReDocPetstore').outcome == TaskOutcome.UP_TO_DATE
     }
 
+    def 'generateSwaggerCode task should generate a document'() {
+        given:
+        placePetstoreYaml(runner, Fixture.PetstoreYaml.valid)
+        runner.withArguments('--stacktrace', 'generateSwaggerCode')
+
+        when:
+        def result = runner.build()
+
+        then:
+        result.task(':generateSwaggerCode').outcome == TaskOutcome.NO_SOURCE
+        result.task(':generateSwaggerCodePetstore').outcome == TaskOutcome.SUCCESS
+        new File(runner.projectDir, 'build/swagger-html/index.html').exists()
+    }
+
+    def 'generateSwaggerCodePetstoreHelp task should show help'() {
+        given:
+        runner.withArguments('--stacktrace', 'generateSwaggerCodePetstoreHelp')
+
+        when:
+        def result = runner.build()
+
+        then:
+        result.output.contains('CONFIG OPTIONS')
+    }
+
 }

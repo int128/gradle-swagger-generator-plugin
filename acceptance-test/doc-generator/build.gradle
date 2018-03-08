@@ -9,11 +9,13 @@ repositories {
 
 dependencies {
     swaggerUI 'org.webjars:swagger-ui:2.2.10'
+    swaggerCodegen 'io.swagger:swagger-codegen-cli:2.3.1'
 }
 
 swaggerSources {
     petstore {
         inputFile = file("$buildDir/petstore.yaml")
+
         ui {
             // Swagger UI options
             options.docExpansion = 'full'
@@ -24,7 +26,12 @@ swaggerSources {
                 <style>#header { display: none; }</style>
                 '''.stripIndent()
         }
+
+        code {
+            language = 'html2'
+            outputDir = file("$buildDir/swagger-html")
+        }
     }
 }
 
-build.dependsOn generateSwaggerUI, generateReDoc
+build.dependsOn generateSwaggerUI, generateReDoc, generateSwaggerCode

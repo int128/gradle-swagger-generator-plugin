@@ -26,8 +26,7 @@ jobs:
           keys:
           - v1-dependencies-{{ checksum "build.gradle" }}
           - v1-dependencies-
-      - run: ./gradlew acceptance-test:run -Pargs='html-generator generateSwaggerCode'
-      - run: ./gradlew acceptance-test:run -Pargs='doc-generator build'
+      - run: ./gradlew acceptance-test:buildDoc
       - run: ./.circleci/publish-gh-pages.sh
 
   release:
