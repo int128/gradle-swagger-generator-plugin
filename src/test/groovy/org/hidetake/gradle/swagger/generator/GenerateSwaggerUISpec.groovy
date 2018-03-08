@@ -54,7 +54,7 @@ class GenerateSwaggerUISpec extends Specification {
         project.with {
             apply plugin: 'org.hidetake.swagger.generator'
             dependencies {
-                swaggerUI 'org.webjars:swagger-ui:2.2.6'
+                swaggerUI 'org.webjars:swagger-ui:2.2.10'
             }
             tasks.generateSwaggerUI.inputFile = file(path)
             tasks.generateSwaggerUI.outputDir = projectDir

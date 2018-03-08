@@ -1,6 +1,6 @@
 plugins {
-    id 'org.hidetake.swagger.generator'
     id 'java'
+    id 'org.hidetake.swagger.generator'
 }
 
 repositories {
@@ -8,10 +8,10 @@ repositories {
 }
 
 dependencies {
-    compile 'org.springframework.boot:spring-boot-starter-web:1.5.7.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-web:2.0.0.RELEASE'
     compile 'io.swagger:swagger-annotations:1.5.10'
-    swaggerCodegen 'io.swagger:swagger-codegen-cli:2.2.3'
-    swaggerUI 'org.webjars:swagger-ui:2.2.6'
+    swaggerCodegen 'io.swagger:swagger-codegen-cli:2.3.1'
+    swaggerUI 'org.webjars:swagger-ui:2.2.10'
 }
 
 swaggerSources {
