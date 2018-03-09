@@ -1,0 +1,29 @@
+plugins {
+    id 'org.hidetake.swagger.generator'
+    id 'base'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    swaggerUI 'org.webjars:swagger-ui:2.2.10'
+}
+
+swaggerSources {
+    petstore {
+        inputFile = file("$buildDir/petstore.yaml")
+        ui {
+            doLast {
+                // overwrite index.html for Swagger UI 2.x
+                copy {
+                    from 'index.html'
+                    into outputDir
+                }
+            }
+        }
+    }
+}
+
+build.dependsOn generateSwaggerUI

@@ -87,15 +87,12 @@ plugins {
 
 dependencies {
   // Add dependency for Swagger UI
-  swaggerUI 'org.webjars:swagger-ui:2.2.10'
+  swaggerUI 'org.webjars:swagger-ui:3.10.0'
 }
 
 swaggerSources {
   petstore {
     inputFile = file('petstore.yaml')
-    ui {
-      options.docExpansion = 'full'
-    }
   }
 }
 ```
@@ -107,6 +104,9 @@ The task generates an API document as `build/swagger-ui-petstore`.
 :generateSwaggerUIPetstore
 :generateSwaggerUI NO-SOURCE
 ```
+
+If you need Swagger UI 2.x,
+see [doc-generator-swagger-ui-v2 project](acceptance-test/doc-generator-swagger-ui-v2) in examples.
 
 
 ### ReDoc
@@ -351,6 +351,39 @@ sourceSets.main.resources.srcDirs "${swaggerSources.petstoreV1.code.outputDir}/s
 For more, see [multiple-sources project](acceptance-test/multiple-sources) in examples.
 
 
+### Configure Swagger UI
+
+We can [configure Swagger UI](https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/configuration.md)
+by overwriting [the default `index.html`](src/main/resources/swagger-ui.html) as follows:
+
+```groovy
+swaggerSources {
+  petstore {
+    inputFile = file('petstore.yaml')
+    ui {
+      doLast {
+        copy {
+          from 'index.html'
+          into outputDir
+        }
+      }
+    }
+  }
+}
+```
+
+You can create an `index.html` from [the Swagger UI official one](https://github.com/swagger-api/swagger-ui/blob/master/dist/index.html).
+It must satisfy the followings:
+
+- Put `<script src="./swagger-spec.js">` in order to load a Swagger spec.
+  The plugin exports the Swagger spec as `swagger-spec.js` file while generation.
+- Set `spec: window.swaggerSpec` in `SwaggerUIBundle()` parameters.
+- Set `validatorUrl: null` in `SwaggerUIBundle()` parameters in order to turn off the validator badge.
+
+If you need Swagger UI 2.x,
+see [doc-generator-swagger-ui-v2 project](acceptance-test/doc-generator-swagger-ui-v2) in examples.
+
+
 ## Settings
 
 The plugin adds `validateSwagger`, `generateSwaggerCode`, `generateSwaggerUI` and `GenerateReDoc` tasks.
@@ -392,18 +425,9 @@ Key           | Type              | Value                                   | De
 --------------|-------------------|-----------------------------------------|--------------
 `inputFile`   | File              | Swagger spec file.                      | Mandatory
 `outputDir`   | File              | Directory to write Swagger UI files, wiped before generation. Do not specify the project directory. | `$buildDir/swagger-ui`
-`options`     | Map of Objects    | [Swagger UI options](https://github.com/swagger-api/swagger-ui#parameters). | Empty map
-`header`      | String            | Custom tags before loading Swagger UI.  | None
 
-The plugin replaces the Swagger UI loader with custom one containing following and given `options`:
-
-```json
-{
-  "url":"",
-  "validatorUrl":null,
-  "spec":{"swagger":"2.0","info":"... converted from YAML input ..."}
-}
-```
+Note that `options` and `header` are no longer supported since 2.10.0.
+See the [Migration Guide](https://github.com/int128/gradle-swagger-generator-plugin/issues/81) for details.
 
 
 ### Task type `GenerateReDoc`
