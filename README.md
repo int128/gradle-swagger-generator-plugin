@@ -353,7 +353,7 @@ For more, see [multiple-sources project](acceptance-test/multiple-sources) in ex
 
 ## Settings
 
-The plugin adds `validateSwagger`, `generateSwaggerCode` and `generateSwaggerUI` tasks.
+The plugin adds `validateSwagger`, `generateSwaggerCode`, `generateSwaggerUI` and `GenerateReDoc` tasks.
 A task will be skipped if no input file is given.
 
 
