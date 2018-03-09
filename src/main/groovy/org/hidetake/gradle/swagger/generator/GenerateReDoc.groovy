@@ -31,10 +31,9 @@ class GenerateReDoc extends DefaultTask {
     void exec() {
         assert outputDir != project.projectDir, 'Prevent wiping the project directory'
 
-        def htmlResource = ValidateSwagger.getResourceAsStream('/redoc.html')
-        assert htmlResource, 'ReDoc HTML should be exist in resource'
-
-        def html = new XmlParser(false, false, true).parse(htmlResource)
+        def html = Resources.withInputStream('/redoc.html') { inputStream ->
+            new XmlParser(false, false, true).parse(inputStream)
+        }
         html.head.first().title.first().value = "ReDoc - ${inputFile.name}"
         html.body.first().redoc.first().attributes().'spec-url' = inputFile.name
         html.body.first().redoc.first().attributes().putAll(options)

@@ -83,9 +83,7 @@ class GenerateSwaggerUI extends DefaultTask {
     }
 
     private void buildIndexHtml() {
-        def htmlResource = GenerateSwaggerUI.getResourceAsStream('/swagger-ui.html')
-        assert htmlResource, 'swagger-ui.html should be exist in resource'
-        htmlResource.withStream { inputStream ->
+        Resources.withInputStream('/swagger-ui.html') { inputStream ->
             new File(outputDir, 'index.html').withOutputStream { outputStream ->
                 outputStream << inputStream
             }
