@@ -1,6 +1,6 @@
 package org.hidetake.gradle.swagger.generator
 
-import com.fasterxml.jackson.databind.JsonNode
+import groovy.util.logging.Slf4j
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.FileCopyDetails
 import org.gradle.api.file.RelativePath
@@ -11,6 +11,7 @@ import org.gradle.api.tasks.*
  *
  * @author Hidetake Iwata
  */
+@Slf4j
 class GenerateSwaggerUI extends DefaultTask {
 
     @SkipWhenEmpty @InputFiles
@@ -19,10 +20,10 @@ class GenerateSwaggerUI extends DefaultTask {
     @OutputDirectory
     File outputDir
 
-    @Optional @Input
+    @Optional @Input @Deprecated
     Map<String, Object> options = [:]
 
-    @Optional @Input
+    @Optional @Input @Deprecated
     String header
 
     def GenerateSwaggerUI() {
@@ -41,17 +42,20 @@ class GenerateSwaggerUI extends DefaultTask {
 
         assert outputDir != project.projectDir, 'Prevent wiping the project directory'
 
-        // Validate before extract
-        def inputJson = Mappers.YAML.readTree(inputFile)
+        // TODO: remove in the future release
+        if (options) {
+            log.warn('WARNING: GenerateSwaggerUI.options is no longer supported. See https://github.com/int128/gradle-swagger-generator-plugin/issues/81')
+        }
+        if (header) {
+            log.warn('WARNING: GenerateSwaggerUI.header is no longer supported. See https://github.com/int128/gradle-swagger-generator-plugin/issues/81')
+        }
 
         project.delete(outputDir)
         outputDir.mkdirs()
 
         extractWebJar()
-        replaceSwaggerUiLoader(inputJson)
-        if (header) {
-            insertCustomHeader()
-        }
+        buildSwaggerSpec()
+        buildIndexHtml()
     }
 
     private void extractWebJar() {
@@ -70,33 +74,22 @@ class GenerateSwaggerUI extends DefaultTask {
         }
     }
 
-    private void replaceSwaggerUiLoader(JsonNode inputJson) {
-        def swaggerUIoptions = [
-            url         : '',
-            validatorUrl: null,
-        ] << options
-        def swaggerUIoptionsString = Mappers.JSON.writeValueAsString(swaggerUIoptions)
-        def inputJsonString = Mappers.JSON.writeValueAsString(inputJson)
-        def customLoaderScript = """\
-            // Overwrite options
-            \$.each(
-                $swaggerUIoptionsString,
-                function (key, value) { window.swaggerUi.setOption(key, value) }
-            );
-            // Set Swagger JSON
-            window.swaggerUi.setOption('spec', $inputJsonString);
-            // Load UI
-            window.swaggerUi.load();
-            """
-        def index = new File(outputDir, 'index.html')
-        index.text = index.text.replace('window.swaggerUi.load();', customLoaderScript)
+    private void buildSwaggerSpec() {
+        def inputJson = Mappers.YAML.readTree(inputFile)
+        new File(outputDir, 'swagger-spec.js').withWriter { writer ->
+            writer.append('window.swaggerSpec=')
+            Mappers.JSON.writeValue(writer, inputJson)
+        }
     }
 
-    private void insertCustomHeader() {
-        assert header
-        def startOfScript = '<script type="text/javascript">'
-        def index = new File(outputDir, 'index.html')
-        index.text = index.text.replace(startOfScript, "$header\n$startOfScript")
+    private void buildIndexHtml() {
+        def htmlResource = GenerateSwaggerUI.getResourceAsStream('/swagger-ui.html')
+        assert htmlResource, 'swagger-ui.html should be exist in resource'
+        htmlResource.withStream { inputStream ->
+            new File(outputDir, 'index.html').withOutputStream { outputStream ->
+                outputStream << inputStream
+            }
+        }
     }
 
 }

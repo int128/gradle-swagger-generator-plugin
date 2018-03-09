@@ -29,3 +29,10 @@ task buildDoc(type: JavaExec) {
     main = 'Main'
     args = ['doc-generator', 'build']
 }
+
+task buildDocSwaggerUIv2(type: JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = 'Main'
+    args = ['doc-generator-swagger-ui-v2', 'build']
+}
+buildDoc.dependsOn buildDocSwaggerUIv2
