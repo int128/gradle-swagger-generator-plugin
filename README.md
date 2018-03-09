@@ -447,11 +447,10 @@ Key           | Type              | Value                                   | De
 This is an open source software licensed under the Apache License Version 2.0.
 Feel free to open issues or pull requests.
 
-Travis CI builds the plugin continuously.
+CircleCI builds the plugin continuously.
 Following variables should be set.
 
 Environment Variable        | Purpose
 ----------------------------|--------
 `$GRADLE_PUBLISH_KEY`       | Publish the plugin to Gradle Plugins
 `$GRADLE_PUBLISH_SECRET`    | Publish the plugin to Gradle Plugins
-`$GITHUB_TOKEN`             | Publish the example of API document to GitHub Pages

@@ -23,7 +23,7 @@ dependencies {
 }
 
 group = 'org.hidetake'
-version = System.getenv('TRAVIS_TAG') ?: 'SNAPSHOT'
+version = System.getenv('CIRCLE_TAG') ?: 'SNAPSHOT'
 
 pluginBundle {
     website = 'https://github.com/int128/gradle-swagger-generator-plugin'

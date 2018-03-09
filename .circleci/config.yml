@@ -54,6 +54,8 @@ workflows:
           filters:
             branches:
               ignore: gh-pages
+            tags:
+              only: /.*/
       - gh-pages:
           requires:
             - build
