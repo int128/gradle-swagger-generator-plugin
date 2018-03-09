@@ -23,10 +23,9 @@ class ValidateSwagger extends DefaultTask {
 
     @TaskAction
     void exec() {
-        def schemaResource = ValidateSwagger.getResourceAsStream('/schema.json')
-        assert schemaResource, 'JSON schema should be exist in resource'
-
-        def schemaNode = Mappers.JSON.readTree(schemaResource)
+        def schemaNode = Resources.withInputStream('/schema.json') { inputStream ->
+            Mappers.JSON.readTree(inputStream)
+        }
         def swaggerNode = Mappers.YAML.readTree(inputFile)
 
         def schema = JsonSchemaFactory.byDefault().getJsonSchema(schemaNode)
