@@ -18,6 +18,9 @@ class GenerateReDoc extends DefaultTask {
     File outputDir
 
     @Optional @Input
+    boolean wipeOutputDir = true
+
+    @Optional @Input
     String scriptSrc = '//rebilly.github.io/ReDoc/releases/latest/redoc.min.js'
 
     @Optional @Input
@@ -29,8 +32,6 @@ class GenerateReDoc extends DefaultTask {
 
     @TaskAction
     void exec() {
-        assert outputDir != project.projectDir, 'Prevent wiping the project directory'
-
         def html = Resources.withInputStream('/redoc.html') { inputStream ->
             new XmlParser(false, false, true).parse(inputStream)
         }
@@ -39,7 +40,10 @@ class GenerateReDoc extends DefaultTask {
         html.body.first().redoc.first().attributes().putAll(options)
         html.body.first().script.first().attributes().src = scriptSrc
 
-        project.delete(outputDir)
+        if (wipeOutputDir) {
+            assert outputDir != project.projectDir, 'Prevent wiping the project directory'
+            project.delete(outputDir)
+        }
         outputDir.mkdirs()
 
         new File(outputDir, 'index.html').withWriter { writer ->
