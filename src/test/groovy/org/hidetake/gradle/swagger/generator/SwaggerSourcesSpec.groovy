@@ -1,31 +1,21 @@
 package org.hidetake.gradle.swagger.generator
 
 import org.gradle.api.NamedDomainObjectContainer
-import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 
 class SwaggerSourcesSpec extends Specification {
 
     def "plugin should add swaggerSources container"() {
-        given:
-        def project = ProjectBuilder.builder().build()
-
         when:
-        project.with {
-            apply plugin: 'org.hidetake.swagger.generator'
-        }
+        def project = Fixture.projectWithPlugin()
 
         then:
         project.extensions.findByName('swaggerSources') instanceof NamedDomainObjectContainer
     }
 
     def "swaggerSources container should have default values"() {
-        given:
-        def project = ProjectBuilder.builder().build()
-
         when:
-        project.with {
-            apply plugin: 'org.hidetake.swagger.generator'
+        def project = Fixture.projectWithPlugin {
             swaggerSources {
                 foo {
                     inputFile = file('foo.yaml')

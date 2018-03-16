@@ -10,7 +10,7 @@ class Main {
             .withArguments(args.tail())
 
         Fixture.cleanBuildDir(runner)
-        Fixture.placePetstoreYaml(runner, Fixture.PetstoreYaml.valid)
+        Fixture.setupFixture(runner, Fixture.YAML.petstore)
 
         runner.build()
     }

@@ -3,7 +3,7 @@ import org.gradle.testkit.runner.TaskOutcome
 import spock.lang.Specification
 
 import static Fixture.cleanBuildDir
-import static Fixture.placePetstoreYaml
+import static Fixture.setupFixture
 
 class CustomClassSpec extends Specification {
 
@@ -19,7 +19,7 @@ class CustomClassSpec extends Specification {
 
     def 'generateSwaggerCode task should generate customized server code'() {
         given:
-        placePetstoreYaml(runner, Fixture.PetstoreYaml.valid)
+        setupFixture(runner, Fixture.YAML.petstore)
         runner.withArguments('--stacktrace', 'generateSwaggerCode')
 
         when:

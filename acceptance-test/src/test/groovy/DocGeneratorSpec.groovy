@@ -3,7 +3,7 @@ import org.gradle.testkit.runner.TaskOutcome
 import spock.lang.Specification
 
 import static Fixture.cleanBuildDir
-import static Fixture.placePetstoreYaml
+import static Fixture.setupFixture
 
 class DocGeneratorSpec extends Specification {
 
@@ -17,9 +17,9 @@ class DocGeneratorSpec extends Specification {
         cleanBuildDir(runner)
     }
 
-    def 'generateSwaggerUI task should generate an Swagger UI'() {
+    def 'generateSwaggerUI task should generate Swagger UI'() {
         given:
-        placePetstoreYaml(runner, Fixture.PetstoreYaml.valid)
+        setupFixture(runner, Fixture.YAML.petstore)
         runner.withArguments('--stacktrace', 'generateSwaggerUI')
 
         when:
@@ -38,9 +38,9 @@ class DocGeneratorSpec extends Specification {
         rerunResult.task(':generateSwaggerUIPetstore').outcome == TaskOutcome.UP_TO_DATE
     }
 
-    def 'generateReDoc task should generate an ReDoc'() {
+    def 'generateReDoc task should generate ReDoc'() {
         given:
-        placePetstoreYaml(runner, Fixture.PetstoreYaml.valid)
+        setupFixture(runner, Fixture.YAML.petstore)
         runner.withArguments('--stacktrace', 'generateReDoc')
 
         when:
@@ -59,9 +59,9 @@ class DocGeneratorSpec extends Specification {
         rerunResult.task(':generateReDocPetstore').outcome == TaskOutcome.UP_TO_DATE
     }
 
-    def 'generateSwaggerCode task should generate a document'() {
+    def 'generateSwaggerCode task should generate HTML document'() {
         given:
-        placePetstoreYaml(runner, Fixture.PetstoreYaml.valid)
+        setupFixture(runner, Fixture.YAML.petstore)
         runner.withArguments('--stacktrace', 'generateSwaggerCode')
 
         when:

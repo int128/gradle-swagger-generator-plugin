@@ -3,7 +3,7 @@ import org.gradle.testkit.runner.TaskOutcome
 import spock.lang.Specification
 
 import static Fixture.cleanBuildDir
-import static Fixture.placePetstoreYaml
+import static Fixture.setupFixture
 
 class CodeGeneratorSpec extends Specification {
 
@@ -17,7 +17,7 @@ class CodeGeneratorSpec extends Specification {
         cleanBuildDir(runner)
     }
 
-    def 'default tasks should be added into the project'() {
+    def 'plugin should add default tasks into the project'() {
         given:
         runner.withArguments('--stacktrace', 'tasks')
 
@@ -29,9 +29,9 @@ class CodeGeneratorSpec extends Specification {
         result.output.contains('generateSwaggerCodeHelp -')
     }
 
-    def 'generateSwaggerCode task should generate a code'() {
+    def 'generateSwaggerCode task should generate code'() {
         given:
-        placePetstoreYaml(runner, Fixture.PetstoreYaml.valid)
+        setupFixture(runner, Fixture.YAML.petstore)
         runner.withArguments('--stacktrace', 'generateSwaggerCode')
 
         when:
@@ -50,9 +50,9 @@ class CodeGeneratorSpec extends Specification {
         rerunResult.task(':generateSwaggerCodePetstore').outcome == TaskOutcome.UP_TO_DATE
     }
 
-    def 'build task should build the generated code'() {
+    def 'build task should generate and build code'() {
         given:
-        placePetstoreYaml(runner, Fixture.PetstoreYaml.valid)
+        setupFixture(runner, Fixture.YAML.petstore)
         runner.withArguments('--stacktrace', 'build')
 
         when:

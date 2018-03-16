@@ -4,7 +4,7 @@ import spock.lang.Specification
 import spock.lang.Unroll
 
 import static Fixture.cleanBuildDir
-import static Fixture.placePetstoreYaml
+import static Fixture.setupFixture
 
 class MultipleSourcesSpec extends Specification {
 
@@ -18,7 +18,7 @@ class MultipleSourcesSpec extends Specification {
         cleanBuildDir(runner)
     }
 
-    def 'tasks should be added into the project'() {
+    def 'tasks should exist in the project'() {
         given:
         runner.withArguments('--stacktrace', 'tasks')
 
@@ -34,7 +34,7 @@ class MultipleSourcesSpec extends Specification {
         result.output.contains('validateSwaggerPetstoreV2 -')
     }
 
-    def 'generateSwaggerCode task should generate sources'() {
+    def 'generateSwaggerCode task should generate code'() {
         given:
         runner.withArguments('--stacktrace', 'generateSwaggerCode')
 
@@ -57,7 +57,7 @@ class MultipleSourcesSpec extends Specification {
 
     def 'build task should build the generated code'() {
         given:
-        placePetstoreYaml(runner, Fixture.PetstoreYaml.valid)
+        setupFixture(runner, Fixture.YAML.petstore)
         runner.withArguments('--stacktrace', 'build')
 
         when:
@@ -82,7 +82,7 @@ class MultipleSourcesSpec extends Specification {
         taskName << ['generateSwaggerCodePetstoreV1Help', 'generateSwaggerCodePetstoreV2Help']
     }
 
-    def 'generateSwaggerUI task should generate sources'() {
+    def 'generateSwaggerUI task should generate Swagger UI'() {
         given:
         runner.withArguments('--stacktrace', 'generateSwaggerUI')
 
@@ -103,7 +103,7 @@ class MultipleSourcesSpec extends Specification {
         rerunResult.task(':generateSwaggerUIPetstoreV2').outcome == TaskOutcome.UP_TO_DATE
     }
 
-    def 'validateSwagger task should validate sources'() {
+    def 'validateSwagger task should validate YAML'() {
         given:
         runner.withArguments('--stacktrace', 'validateSwagger')
 
