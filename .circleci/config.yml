@@ -11,6 +11,16 @@ jobs:
           - v1-dependencies-{{ checksum "build.gradle" }}
           - v1-dependencies-
       - run: ./gradlew build
+      - run:
+          name: Gather test results and reports
+          when: always
+          command: |
+            cp -av acceptance-test/build/test-results build/test-results/acceptance-test
+            cp -av acceptance-test/build/reports build/reports/acceptance-test
+      - store_test_results:
+          path: build/test-results
+      - store_artifacts:
+          path: build/reports
       - save_cache:
           paths:
             - ~/.gradle

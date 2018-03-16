@@ -1,46 +1,32 @@
 package org.hidetake.gradle.swagger.generator
 
-import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 import spock.lang.Unroll
 
 class GenerateSwaggerUISpec extends Specification {
 
-    def "plugin should provide task class"() {
-        given:
-        def project = ProjectBuilder.builder().build()
-
+    def "GenerateSwaggerUI class should be available in a build script"() {
         when:
-        project.with {
-            apply plugin: 'org.hidetake.swagger.generator'
-        }
+        def project = Fixture.projectWithPlugin()
 
         then:
         project.GenerateSwaggerUI == GenerateSwaggerUI
     }
 
     def "plugin should add default task"() {
-        given:
-        def project = ProjectBuilder.builder().build()
-
         when:
-        project.with {
-            apply plugin: 'org.hidetake.swagger.generator'
-        }
+        def project = Fixture.projectWithPlugin()
 
         then:
         project.tasks.findByName('generateSwaggerUI')
     }
 
-    def "exception should be thrown if no dependency given"() {
+    def "task should fail if swaggerUI dependency is not set"() {
         given:
-        def project = ProjectBuilder.builder().build()
+        def project = Fixture.projectWithPlugin()
 
         when:
-        project.with {
-            apply plugin: 'org.hidetake.swagger.generator'
-            tasks.generateSwaggerUI.exec()
-        }
+        project.tasks.generateSwaggerUI.exec()
 
         then:
         thrown(IllegalStateException)
@@ -49,10 +35,7 @@ class GenerateSwaggerUISpec extends Specification {
     @Unroll
     def 'task should #verb the output directory if wipeOutputDir == #wipe'() {
         given:
-        def path = GenerateSwaggerUISpec.getResource('/petstore-invalid.yaml').path
-        def project = ProjectBuilder.builder().build()
-        project.with {
-            apply plugin: 'org.hidetake.swagger.generator'
+        def project = Fixture.projectWithPlugin {
             repositories {
                 jcenter()
             }
@@ -60,12 +43,13 @@ class GenerateSwaggerUISpec extends Specification {
                 swaggerUI 'org.webjars:swagger-ui:2.2.10'
             }
             generateSwaggerUI {
-                inputFile = file(path)
+                inputFile = Fixture.file(Fixture.YAML.petstore)
                 outputDir = buildDir
                 wipeOutputDir = wipe
             }
         }
 
+        and: 'create a file in the outputDir'
         project.buildDir.mkdirs()
         def keep = new File(project.buildDir, 'keep') << 'something'
 
@@ -81,21 +65,23 @@ class GenerateSwaggerUISpec extends Specification {
         false   | 'keep'    | true
     }
 
-    def "exception should be thrown if projectDir is given"() {
+    def "task should fail if outputDir == projectDir"() {
         given:
-        def path = GenerateSwaggerUISpec.getResource('/petstore-invalid.yaml').path
-        def project = ProjectBuilder.builder().build()
-
-        when:
-        project.with {
-            apply plugin: 'org.hidetake.swagger.generator'
+        def project = Fixture.projectWithPlugin {
+            repositories {
+                jcenter()
+            }
             dependencies {
                 swaggerUI 'org.webjars:swagger-ui:2.2.10'
             }
-            tasks.generateSwaggerUI.inputFile = file(path)
-            tasks.generateSwaggerUI.outputDir = projectDir
-            tasks.generateSwaggerUI.exec()
+            generateSwaggerUI {
+                inputFile = Fixture.file(Fixture.YAML.petstore)
+                outputDir = projectDir
+            }
         }
+
+        when:
+        project.tasks.generateSwaggerUI.exec()
 
         then:
         AssertionError e = thrown()

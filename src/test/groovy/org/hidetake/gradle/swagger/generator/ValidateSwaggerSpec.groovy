@@ -1,47 +1,35 @@
 package org.hidetake.gradle.swagger.generator
 
-import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 
 class ValidateSwaggerSpec extends Specification {
 
-    def "plugin should provide task class"() {
-        given:
-        def project = ProjectBuilder.builder().build()
-
+    def "ValidateSwagger class should be available in a build script"() {
         when:
-        project.with {
-            apply plugin: 'org.hidetake.swagger.generator'
-        }
+        def project = Fixture.projectWithPlugin()
 
         then:
         project.ValidateSwagger == ValidateSwagger
     }
 
     def "plugin should add default task"() {
-        given:
-        def project = ProjectBuilder.builder().build()
-
         when:
-        project.with {
-            apply plugin: 'org.hidetake.swagger.generator'
-        }
+        def project = Fixture.projectWithPlugin()
 
         then:
         project.tasks.findByName('validateSwagger')
     }
 
-    def "ValidationException should be thrown if invalid YAML is given"() {
+    def "task should fail if YAML is wrong"() {
         given:
-        def path = ValidateSwaggerSpec.getResource('/petstore-invalid.yaml').path
-        def project = ProjectBuilder.builder().build()
+        def project = Fixture.projectWithPlugin {
+            validateSwagger {
+                inputFile = Fixture.file(Fixture.YAML.petstore_invalid)
+            }
+        }
 
         when:
-        project.with {
-            apply plugin: 'org.hidetake.swagger.generator'
-            tasks.validateSwagger.inputFile = file(path)
-            tasks.validateSwagger.exec()
-        }
+        project.tasks.validateSwagger.exec()
 
         then:
         thrown(ValidationException)

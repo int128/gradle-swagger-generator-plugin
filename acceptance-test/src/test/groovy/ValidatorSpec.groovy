@@ -4,7 +4,7 @@ import org.gradle.testkit.runner.UnexpectedBuildFailure
 import spock.lang.Specification
 
 import static Fixture.cleanBuildDir
-import static Fixture.placePetstoreYaml
+import static Fixture.setupFixture
 
 class ValidatorSpec extends Specification {
 
@@ -18,9 +18,9 @@ class ValidatorSpec extends Specification {
         cleanBuildDir(runner)
     }
 
-    def 'validateSwagger task should success'() {
+    def 'validateSwagger task should validate YAML'() {
         given:
-        placePetstoreYaml(runner, Fixture.PetstoreYaml.valid)
+        setupFixture(runner, Fixture.YAML.petstore)
         runner.withArguments('validateSwagger')
 
         when:
@@ -39,9 +39,9 @@ class ValidatorSpec extends Specification {
         rerunResult.task(':validateSwaggerPetstore').outcome == TaskOutcome.UP_TO_DATE
     }
 
-    def 'validateSwagger task should fail due to YAML error'() {
+    def 'validateSwagger task should fail if YAML is wrong'() {
         given:
-        placePetstoreYaml(runner, Fixture.PetstoreYaml.invalid)
+        setupFixture(runner, Fixture.YAML.petstore_invalid)
         runner.withArguments('validateSwagger')
 
         when:

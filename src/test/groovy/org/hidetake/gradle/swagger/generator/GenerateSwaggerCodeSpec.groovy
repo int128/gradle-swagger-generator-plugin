@@ -1,32 +1,21 @@
 package org.hidetake.gradle.swagger.generator
 
-import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 import spock.lang.Unroll
 
 class GenerateSwaggerCodeSpec extends Specification {
 
-    def "plugin should provide task class"() {
-        given:
-        def project = ProjectBuilder.builder().build()
-
+    def "GenerateSwaggerCode class should be available in a build script"() {
         when:
-        project.with {
-            apply plugin: 'org.hidetake.swagger.generator'
-        }
+        def project = Fixture.projectWithPlugin()
 
         then:
         project.GenerateSwaggerCode == GenerateSwaggerCode
     }
 
     def "plugin should add default task"() {
-        given:
-        def project = ProjectBuilder.builder().build()
-
         when:
-        project.with {
-            apply plugin: 'org.hidetake.swagger.generator'
-        }
+        def project = Fixture.projectWithPlugin()
 
         then:
         project.tasks.findByName('generateSwaggerCode')
@@ -35,10 +24,7 @@ class GenerateSwaggerCodeSpec extends Specification {
     @Unroll
     def 'task should #verb the output directory if wipeOutputDir == #wipe'() {
         given:
-        def path = GenerateSwaggerCodeSpec.getResource('/petstore-invalid.yaml').path
-        def project = ProjectBuilder.builder().build()
-        project.with {
-            apply plugin: 'org.hidetake.swagger.generator'
+        def project = Fixture.projectWithPlugin {
             repositories {
                 jcenter()
             }
@@ -47,12 +33,13 @@ class GenerateSwaggerCodeSpec extends Specification {
             }
             generateSwaggerCode {
                 language = 'java'
-                inputFile = file(path)
+                inputFile = Fixture.file(Fixture.YAML.petstore)
                 outputDir = buildDir
                 wipeOutputDir = wipe
             }
         }
 
+        and: 'create a file in the outputDir'
         project.buildDir.mkdirs()
         def keep = new File(project.buildDir, 'keep') << 'something'
 
@@ -68,56 +55,54 @@ class GenerateSwaggerCodeSpec extends Specification {
         false   | 'keep'    | true
     }
 
-    def "plugin should throw exception if projectDir is given"() {
+    def "task should fail if outputDir == projectDir"() {
         given:
-        def path = GenerateSwaggerCodeSpec.getResource('/petstore-invalid.yaml').path
-        def project = ProjectBuilder.builder().build()
+        def project = Fixture.projectWithPlugin {
+            generateSwaggerCode {
+                language = 'java'
+                inputFile = Fixture.file(Fixture.YAML.petstore)
+                outputDir = projectDir
+            }
+        }
 
         when:
-        project.with {
-            apply plugin: 'org.hidetake.swagger.generator'
-            tasks.generateSwaggerCode.language = 'java'
-            tasks.generateSwaggerCode.inputFile = file(path)
-            tasks.generateSwaggerCode.outputDir = projectDir
-            tasks.generateSwaggerCode.exec()
-        }
+        project.tasks.generateSwaggerCode.exec()
 
         then:
         AssertionError e = thrown()
         e.message.contains('project directory')
     }
 
-    def "plugin should throw exception if no dependency of Swagger Codegen is given"() {
+    def "task should fail if swaggerCodegen dependency is not set"() {
         given:
-        def path = GenerateSwaggerCodeSpec.getResource('/petstore-invalid.yaml').path
-        def project = ProjectBuilder.builder().build()
+        def project = Fixture.projectWithPlugin {
+            generateSwaggerCode {
+                language = 'java'
+                inputFile = Fixture.file(Fixture.YAML.petstore)
+            }
+        }
 
         when:
-        project.with {
-            apply plugin: 'org.hidetake.swagger.generator'
-            tasks.generateSwaggerCode.language = 'java'
-            tasks.generateSwaggerCode.inputFile = file(path)
-            tasks.generateSwaggerCode.exec()
-        }
+        project.tasks.generateSwaggerCode.exec()
 
         then:
         IllegalStateException e = thrown()
         e.message.contains('swaggerCodegen')
     }
 
-    def "plugin should build options for Swagger Codegen"() {
+    def "task should build options"() {
         given:
-        def project = ProjectBuilder.builder().build()
+        def project = Fixture.projectWithPlugin {
+            generateSwaggerCode {
+                language = 'java'
+                inputFile = new File('input')
+                outputDir = new File('output')
+                additionalProperties = [foo: 'bar', baz: 'zzz']
+            }
+        }
 
         when:
-        def options = project.with {
-            apply plugin: 'org.hidetake.swagger.generator'
-            tasks.generateSwaggerCode.language = 'java'
-            tasks.generateSwaggerCode.inputFile = new File('input')
-            tasks.generateSwaggerCode.outputDir = new File('output')
-            tasks.generateSwaggerCode.additionalProperties = [foo: 'bar', baz: 'zzz']
-            tasks.generateSwaggerCode.buildOptions()
-        }
+        def options = project.tasks.generateSwaggerCode.buildOptions()
 
         then:
         options == [
@@ -129,19 +114,19 @@ class GenerateSwaggerCodeSpec extends Specification {
         ]
     }
 
-    def "plugin should build raw options"() {
+    def "task should build raw options"() {
         given:
-        def project = ProjectBuilder.builder().build()
+        def project = Fixture.projectWithPlugin {
+            generateSwaggerCode {
+                language = 'java'
+                rawOptions = ['--verbose']
+                inputFile = new File('input')
+                outputDir = new File('output')
+            }
+        }
 
         when:
-        def options = project.with {
-            apply plugin: 'org.hidetake.swagger.generator'
-            tasks.generateSwaggerCode.language = 'java'
-            tasks.generateSwaggerCode.inputFile = new File('input')
-            tasks.generateSwaggerCode.outputDir = new File('output')
-            tasks.generateSwaggerCode.rawOptions = ['--verbose']
-            tasks.generateSwaggerCode.buildOptions()
-        }
+        def options = project.tasks.generateSwaggerCode.buildOptions()
 
         then:
         options == [
@@ -154,16 +139,16 @@ class GenerateSwaggerCodeSpec extends Specification {
     }
 
     @Unroll
-    def "plugin should system properties on components=#givenComponents"() {
+    def "task should set system properties on components=#givenComponents"() {
         given:
-        def project = ProjectBuilder.builder().build()
+        def project = Fixture.projectWithPlugin {
+            generateSwaggerCode {
+                components = givenComponents
+            }
+        }
 
         when:
-        def systemProperties = project.with {
-            apply plugin: 'org.hidetake.swagger.generator'
-            tasks.generateSwaggerCode.components = givenComponents
-            tasks.generateSwaggerCode.buildSystemProperties()
-        }
+        def systemProperties = project.tasks.generateSwaggerCode.buildSystemProperties()
 
         then:
         systemProperties == expectedSystemProperties

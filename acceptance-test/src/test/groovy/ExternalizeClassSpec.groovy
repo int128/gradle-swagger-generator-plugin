@@ -3,7 +3,7 @@ import org.gradle.testkit.runner.TaskOutcome
 import spock.lang.Specification
 
 import static Fixture.cleanBuildDir
-import static Fixture.placePetstoreYaml
+import static Fixture.setupFixture
 
 class ExternalizeClassSpec extends Specification {
 
@@ -23,7 +23,7 @@ class ExternalizeClassSpec extends Specification {
         runner.build()
 
         and:
-        placePetstoreYaml(runner, Fixture.PetstoreYaml.valid)
+        setupFixture(runner, Fixture.YAML.petstore)
         runner.withArguments('--stacktrace', 'generateSwaggerCode')
 
         when:

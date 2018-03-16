@@ -5,13 +5,14 @@ class Fixture {
         new File(runner.projectDir, 'build').deleteDir()
     }
 
-    static void placePetstoreYaml(GradleRunner runner, PetstoreYaml petstoreYaml) {
+    static void setupFixture(GradleRunner runner, YAML yaml) {
         def buildDir = new File(runner.projectDir, 'build')
         buildDir.mkdirs()
-        new File(buildDir, 'petstore.yaml') << Fixture.getResourceAsStream("/petstore-${petstoreYaml}.yaml")
+        new File(buildDir, 'petstore.yaml') << Fixture.getResourceAsStream("/${yaml}.yaml")
     }
 
-    static enum PetstoreYaml {
-        valid, invalid
+    static enum YAML {
+        petstore,
+        petstore_invalid
     }
 }
