@@ -408,7 +408,8 @@ Key           | Type              | Value                                   | De
 --------------|-------------------|-----------------------------------------|--------------
 `language`    | String            | Language to generate.                   | Mandatory
 `inputFile`   | File              | Swagger spec file.                      | Mandatory
-`outputDir`   | File              | Directory to write generated files, wiped before generation. Do not specify the project directory. | `$buildDir/swagger-code`
+`outputDir`   | File              | Directory to write generated files.     | `$buildDir/swagger-code`
+`wipeOutputDir` | Boolean         | Wipe the `outputDir` before generation. | `true`
 `library`     | String            | Library type.                           | None
 `configFile`  | File              | [JSON configuration file](https://github.com/swagger-api/swagger-codegen#customizing-the-generator). | None
 `templateDir` | File              | Directory containing the template.      | None
@@ -424,7 +425,8 @@ The task accepts below properties.
 Key           | Type              | Value                                   | Default value
 --------------|-------------------|-----------------------------------------|--------------
 `inputFile`   | File              | Swagger spec file.                      | Mandatory
-`outputDir`   | File              | Directory to write Swagger UI files, wiped before generation. Do not specify the project directory. | `$buildDir/swagger-ui`
+`outputDir`   | File              | Directory to write Swagger UI files.    | `$buildDir/swagger-ui`
+`wipeOutputDir` | Boolean         | Wipe the `outputDir` before generation. | `true`
 
 Note that `options` and `header` are no longer supported since 2.10.0.
 See the [Migration Guide](https://github.com/int128/gradle-swagger-generator-plugin/issues/81) for details.
@@ -437,7 +439,8 @@ The task accepts below properties.
 Key           | Type              | Value                                   | Default value
 --------------|-------------------|-----------------------------------------|--------------
 `inputFile`   | File              | Swagger spec file.                      | Mandatory
-`outputDir`   | File              | Directory to write ReDoc files, wiped before generation. Do not specify the project directory. | `$buildDir/swagger-redoc`
+`outputDir`   | File              | Directory to write ReDoc files.         | `$buildDir/swagger-redoc`
+`wipeOutputDir` | Boolean         | Wipe the `outputDir` before generation. | `true`
 `scriptSrc`   | String            | URL to ReDoc JavaScript.                | `//rebilly.github.io/ReDoc/releases/latest/redoc.min.js`
 `options`     | Map of Strings    | [ReDoc tag attributes](https://github.com/Rebilly/ReDoc#redoc-tag-attributes). | Empty map
 

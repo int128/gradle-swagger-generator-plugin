@@ -2,6 +2,7 @@ package org.hidetake.gradle.swagger.generator
 
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class GenerateSwaggerUISpec extends Specification {
 
@@ -43,6 +44,41 @@ class GenerateSwaggerUISpec extends Specification {
 
         then:
         thrown(IllegalStateException)
+    }
+
+    @Unroll
+    def 'task should #verb the output directory if wipeOutputDir == #wipe'() {
+        given:
+        def path = GenerateSwaggerUISpec.getResource('/petstore-invalid.yaml').path
+        def project = ProjectBuilder.builder().build()
+        project.with {
+            apply plugin: 'org.hidetake.swagger.generator'
+            repositories {
+                jcenter()
+            }
+            dependencies {
+                swaggerUI 'org.webjars:swagger-ui:2.2.10'
+            }
+            generateSwaggerUI {
+                inputFile = file(path)
+                outputDir = buildDir
+                wipeOutputDir = wipe
+            }
+        }
+
+        project.buildDir.mkdirs()
+        def keep = new File(project.buildDir, 'keep') << 'something'
+
+        when:
+        project.tasks.generateSwaggerUI.exec()
+
+        then:
+        keep.exists() == existence
+
+        where:
+        wipe    | verb      | existence
+        true    | 'wipe'    | false
+        false   | 'keep'    | true
     }
 
     def "exception should be thrown if projectDir is given"() {

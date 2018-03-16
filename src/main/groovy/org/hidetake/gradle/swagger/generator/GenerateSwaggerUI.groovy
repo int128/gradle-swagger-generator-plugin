@@ -20,6 +20,9 @@ class GenerateSwaggerUI extends DefaultTask {
     @OutputDirectory
     File outputDir
 
+    @Optional @Input
+    boolean wipeOutputDir = true
+
     @Optional @Input @Deprecated
     Map<String, Object> options = [:]
 
@@ -40,8 +43,6 @@ class GenerateSwaggerUI extends DefaultTask {
                   }'''.stripIndent())
         }
 
-        assert outputDir != project.projectDir, 'Prevent wiping the project directory'
-
         // TODO: remove in the future release
         if (options) {
             log.warn('WARNING: GenerateSwaggerUI.options is no longer supported. See https://github.com/int128/gradle-swagger-generator-plugin/issues/81')
@@ -50,7 +51,10 @@ class GenerateSwaggerUI extends DefaultTask {
             log.warn('WARNING: GenerateSwaggerUI.header is no longer supported. See https://github.com/int128/gradle-swagger-generator-plugin/issues/81')
         }
 
-        project.delete(outputDir)
+        if (wipeOutputDir) {
+            assert outputDir != project.projectDir, 'Prevent wiping the project directory'
+            project.delete(outputDir)
+        }
         outputDir.mkdirs()
 
         extractWebJar()

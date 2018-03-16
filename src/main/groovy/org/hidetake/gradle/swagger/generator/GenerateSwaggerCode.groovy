@@ -20,6 +20,9 @@ class GenerateSwaggerCode extends DefaultTask {
     File outputDir
 
     @Optional @Input
+    boolean wipeOutputDir = true
+
+    @Optional @Input
     String library
 
     @Optional @InputFile
@@ -46,9 +49,11 @@ class GenerateSwaggerCode extends DefaultTask {
         assert language, "language should be set in the task $name"
         assert inputFile, "inputFile should be set in the task $name"
         assert outputDir, "outputDir should be set in the task $name"
-        assert outputDir != project.projectDir, 'Prevent wiping the project directory'
 
-        project.delete(outputDir)
+        if (wipeOutputDir) {
+            assert outputDir != project.projectDir, 'Prevent wiping the project directory'
+            project.delete(outputDir)
+        }
         outputDir.mkdirs()
 
         def args = buildOptions()

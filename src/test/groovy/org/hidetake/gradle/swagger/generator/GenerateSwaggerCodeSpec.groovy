@@ -32,6 +32,42 @@ class GenerateSwaggerCodeSpec extends Specification {
         project.tasks.findByName('generateSwaggerCode')
     }
 
+    @Unroll
+    def 'task should #verb the output directory if wipeOutputDir == #wipe'() {
+        given:
+        def path = GenerateSwaggerCodeSpec.getResource('/petstore-invalid.yaml').path
+        def project = ProjectBuilder.builder().build()
+        project.with {
+            apply plugin: 'org.hidetake.swagger.generator'
+            repositories {
+                jcenter()
+            }
+            dependencies {
+                swaggerCodegen 'io.swagger:swagger-codegen-cli:2.3.1'
+            }
+            generateSwaggerCode {
+                language = 'java'
+                inputFile = file(path)
+                outputDir = buildDir
+                wipeOutputDir = wipe
+            }
+        }
+
+        project.buildDir.mkdirs()
+        def keep = new File(project.buildDir, 'keep') << 'something'
+
+        when:
+        project.tasks.generateSwaggerCode.exec()
+
+        then:
+        keep.exists() == existence
+
+        where:
+        wipe    | verb      | existence
+        true    | 'wipe'    | false
+        false   | 'keep'    | true
+    }
+
     def "plugin should throw exception if projectDir is given"() {
         given:
         def path = GenerateSwaggerCodeSpec.getResource('/petstore-invalid.yaml').path
