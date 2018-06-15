@@ -10,6 +10,9 @@ import java.util.concurrent.ConcurrentHashMap
  * @author Hidetake Iwata
  */
 class SwaggerCodegenExecutor {
+
+    static final Object lock = new Object()
+
     private static final CLASS_NAME = 'io.swagger.codegen.SwaggerCodegen'
 
     private static final CLASS_CACHE = new ConcurrentHashMap<URL[], Class>()
@@ -69,14 +72,16 @@ class SwaggerCodegenExecutor {
      * @param args
      */
     void execute(Map<String, String> systemProperties = null, List<String> args) {
-        systemProperties?.each { k, v -> System.setProperty(k, v) }
-        def originalContextClassLoader = Thread.currentThread().contextClassLoader
-        Thread.currentThread().contextClassLoader = swaggerCodegenClass.classLoader
-        try {
-            swaggerCodegenClass.invokeMethod('main', args as String[])
-        } finally {
-            Thread.currentThread().contextClassLoader = originalContextClassLoader
-            systemProperties?.each { k, v -> System.clearProperty(k) }
+        synchronized (lock) {
+            systemProperties?.each { k, v -> System.setProperty(k, v) }
+            def originalContextClassLoader = Thread.currentThread().contextClassLoader
+            Thread.currentThread().contextClassLoader = swaggerCodegenClass.classLoader
+            try {
+                swaggerCodegenClass.invokeMethod('main', args as String[])
+            } finally {
+                Thread.currentThread().contextClassLoader = originalContextClassLoader
+                systemProperties?.each { k, v -> System.clearProperty(k) }
+            }
         }
     }
 }
