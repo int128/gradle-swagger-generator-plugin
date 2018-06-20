@@ -1,0 +1,27 @@
+plugins {
+    id 'base'
+    id 'org.hidetake.swagger.generator'
+}
+
+repositories {
+    jcenter()
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+}
+
+dependencies {
+    swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.0-SNAPSHOT'
+}
+
+swaggerSources {
+    petstore {
+        inputFile = file("$buildDir/petstore.yaml")
+        code {
+            language = 'spring'
+            configFile = file('config.json')
+            components = ['models', 'apis']
+            dependsOn validation
+        }
+    }
+}
+
+build.dependsOn generateSwaggerCode
