@@ -36,7 +36,7 @@ jobs:
           keys:
           - v1-dependencies-{{ checksum "build.gradle" }}
           - v1-dependencies-
-      - run: ./gradlew acceptance-test:buildDoc
+      - run: ./gradlew acceptance-test:build-doc-generator acceptance-test:build-doc-generator-swagger-ui-v2
       - run: ./.circleci/publish-gh-pages.sh
 
   release:

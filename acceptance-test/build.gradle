@@ -24,15 +24,12 @@ test {
     systemProperty 'current.gradle.version', gradle.gradleVersion
 }
 
-task buildDoc(type: JavaExec) {
-    classpath = sourceSets.test.runtimeClasspath
-    main = 'Main'
-    args = ['doc-generator', 'build']
+projectDir.eachDir { dir ->
+    if (file("$dir/build.gradle").exists()) {
+        project.task("build-${dir.name}", type: JavaExec, group: 'acceptance-test') {
+            classpath = sourceSets.test.runtimeClasspath
+            main = 'Main'
+            args = [dir.name, 'build']
+        }
+    }
 }
-
-task buildDocSwaggerUIv2(type: JavaExec) {
-    classpath = sourceSets.test.runtimeClasspath
-    main = 'Main'
-    args = ['doc-generator-swagger-ui-v2', 'build']
-}
-buildDoc.dependsOn buildDocSwaggerUIv2
