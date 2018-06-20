@@ -1,5 +1,6 @@
 package org.hidetake.gradle.swagger.generator
 
+import groovy.util.logging.Slf4j
 import org.gradle.api.Project
 
 import java.util.concurrent.ConcurrentHashMap
@@ -9,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap
  *
  * @author Hidetake Iwata
  */
+@Slf4j
 class SwaggerCodegenExecutor {
 
     static final Object lock = new Object()
@@ -28,18 +30,23 @@ class SwaggerCodegenExecutor {
     }
 
     /**
-     * Find Swagger Codegen class from build script dependencies or configuration.
+     * Find Swagger Codegen class from the build script classpath or the swaggerCodegen configuration.
+     * If the build script classpath has the class, this just returns it.
+     * If the swaggerCodegen configuration has the class, this will load it by a new classloader.
+     * Otherwise {@link ClassNotFoundException} will be thrown.
      *
      * @param project the project
      * @return Swagger Codegen class
      */
-    private static findClass(Project project) {
+    private static Class findClass(Project project) {
         try {
+            log.debug("Finding class $CLASS_NAME from project class loader: $project.buildscript.classLoader")
             Class.forName(CLASS_NAME, true, project.buildscript.classLoader)
         } catch (ClassNotFoundException ignore) {
-            def urls = project.configurations.swaggerCodegen.collect { jar -> jar.toURI().toURL() } as URL[]
+            def urls = project.configurations.swaggerCodegen.resolve()*.toURI()*.toURL() as URL[]
+            log.debug("Finding class $CLASS_NAME from URLs: $urls")
             CLASS_CACHE.computeIfAbsent(urls) {
-                def classLoader = new URLClassLoader(urls, project.buildscript.classLoader)
+                def classLoader = new URLClassLoader(urls)
                 try {
                     Class.forName(CLASS_NAME, true, classLoader)
                 } catch (ClassNotFoundException e) {
@@ -73,7 +80,12 @@ class SwaggerCodegenExecutor {
      */
     void execute(Map<String, String> systemProperties = null, List<String> args) {
         synchronized (lock) {
+            // set log level for slf4j-simple
+            // https://www.slf4j.org/api/org/slf4j/impl/SimpleLogger.html
+            System.setProperty('org.slf4j.simpleLogger.defaultLogLevel', determineLogLevel())
+            // for selective generation
             systemProperties?.each { k, v -> System.setProperty(k, v) }
+            // swagger-codegen depends on the context class loader
             def originalContextClassLoader = Thread.currentThread().contextClassLoader
             Thread.currentThread().contextClassLoader = swaggerCodegenClass.classLoader
             try {
@@ -81,7 +93,20 @@ class SwaggerCodegenExecutor {
             } finally {
                 Thread.currentThread().contextClassLoader = originalContextClassLoader
                 systemProperties?.each { k, v -> System.clearProperty(k) }
+                System.clearProperty('org.slf4j.simpleLogger.defaultLogLevel')
             }
+        }
+    }
+
+    private static String determineLogLevel() {
+        if (log.debugEnabled) {
+            return 'DEBUG'
+        } else if (log.infoEnabled) {
+            return 'INFO'
+        } else if (log.warnEnabled) {
+            return 'WARN'
+        } else {
+            return 'ERROR'
         }
     }
 }
