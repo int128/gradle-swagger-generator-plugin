@@ -12,6 +12,7 @@ import org.gradle.api.tasks.*
  * @author Hidetake Iwata
  */
 @Slf4j
+@CacheableTask
 class GenerateSwaggerUI extends DefaultTask {
 
     @SkipWhenEmpty @InputFiles

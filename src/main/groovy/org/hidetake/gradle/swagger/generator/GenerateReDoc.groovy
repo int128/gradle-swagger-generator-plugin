@@ -9,6 +9,7 @@ import org.gradle.api.tasks.*
  *
  * @author Hidetake Iwata
  */
+@CacheableTask
 class GenerateReDoc extends DefaultTask {
 
     @SkipWhenEmpty @InputFiles

@@ -3,12 +3,14 @@ package org.hidetake.gradle.swagger.generator
 import com.github.fge.jsonschema.main.JsonSchemaFactory
 import groovy.util.logging.Slf4j
 import org.gradle.api.DefaultTask
+import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.SkipWhenEmpty
 import org.gradle.api.tasks.TaskAction
 
 @Slf4j
+@CacheableTask
 class ValidateSwagger extends DefaultTask {
 
     @SkipWhenEmpty @InputFiles

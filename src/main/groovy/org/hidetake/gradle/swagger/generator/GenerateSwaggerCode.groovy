@@ -8,6 +8,7 @@ import org.gradle.api.tasks.*
  *
  * @author Hidetake Iwata
  */
+@CacheableTask
 class GenerateSwaggerCode extends DefaultTask {
 
     @SkipWhenEmpty @InputFiles
