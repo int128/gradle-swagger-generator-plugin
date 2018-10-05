@@ -2,6 +2,8 @@ package org.hidetake.gradle.swagger.generator
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.*
+import org.hidetake.gradle.swagger.generator.codegen.ExecutorFactory
+import org.hidetake.gradle.swagger.generator.codegen.GenerateOptions
 
 /**
  * A task to generate a source code from the Swagger specification.
@@ -57,35 +59,23 @@ class GenerateSwaggerCode extends DefaultTask {
         }
         outputDir.mkdirs()
 
-        def args = buildOptions()
-        def systemProperties = buildSystemProperties()
-        SwaggerCodegenExecutor.getInstance(project).execute(systemProperties, args)
+        final urls = project.configurations.swaggerCodegen.resolve()*.toURI()*.toURL() as URL[]
+        final executor = ExecutorFactory.instance.getExecutor(project.buildscript.classLoader, urls)
+        executor.generate(buildOptions())
     }
 
-    List<String> buildOptions() {
-        def options = []
-        options << 'generate'
-        options << '-l' << language
-        options << '-i' << inputFile.path
-        options << '-o' << outputDir.path
-        if (library) {
-            options << '--library' << library
-        }
-        if (configFile) {
-            options << '-c' << configFile.path
-        }
-        if (templateDir) {
-            options << '-t' << templateDir.path
-        }
-        if (additionalProperties) {
-            options << '--additional-properties' << additionalProperties.collect { key, value ->
-                "$key=$value"
-            }.join(',')
-        }
-        if (rawOptions) {
-            options.addAll(rawOptions)
-        }
-        options
+    GenerateOptions buildOptions() {
+        new GenerateOptions(
+            inputFile: inputFile.path,
+            language: language,
+            outputDir: outputDir.path,
+            library: library,
+            configFile: configFile?.path,
+            templateDir: templateDir?.path,
+            additionalProperties: additionalProperties,
+            rawOptions: rawOptions,
+            systemProperties: buildSystemProperties(),
+        )
     }
 
     Map<String, String> buildSystemProperties() {
@@ -104,7 +94,7 @@ class GenerateSwaggerCode extends DefaultTask {
                 }
             } as Map<String, String>
         } else if (components == null) {
-            null
+            [:]
         } else {
             throw new IllegalArgumentException("components must be Collection or Map")
         }

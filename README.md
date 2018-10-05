@@ -3,7 +3,7 @@
 This is a Gradle plugin to do following tasks:
 
 - Validate an OpenAPI YAML.
-- Generate source from an OpenAPI YAML using [Swagger Codegen](https://github.com/swagger-api/swagger-codegen).
+- Generate source from an OpenAPI YAML using [Swagger Codegen](https://github.com/swagger-api/swagger-codegen) V2 and V3.
 - Generate Swagger UI with an OpenAPI YAML.
 - Generate ReDoc with an OpenAPI YAML.
 
@@ -28,8 +28,8 @@ repositories {
 }
 
 dependencies {
-  // Add dependency for Swagger Codegen CLI
-  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.3.1'
+  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.3.1'             // Swagger Codegen V2
+  swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.0'  // or Swagger Codegen V3
 }
 
 swaggerSources {
@@ -86,7 +86,6 @@ plugins {
 }
 
 dependencies {
-  // Add dependency for Swagger UI
   swaggerUI 'org.webjars:swagger-ui:3.10.0'
 }
 
@@ -104,9 +103,6 @@ The task generates an API document as `build/swagger-ui-petstore`.
 :generateSwaggerUIPetstore
 :generateSwaggerUI NO-SOURCE
 ```
-
-If you need Swagger UI 2.x,
-see [doc-generator-swagger-ui-v2 project](acceptance-test/doc-generator-swagger-ui-v2) in examples.
 
 
 ### ReDoc
@@ -136,7 +132,7 @@ The task generates an API document as `build/redoc-petstore`.
 
 ## Recipes
 
-There are some examples in [acceptance-test project](acceptance-test).
+There are some examples in [acceptance-test](acceptance-test).
 
 ### Build generated code
 
@@ -160,7 +156,7 @@ sourceSets.main.java.srcDir "${swaggerSources.petstore.code.outputDir}/src/main/
 sourceSets.main.resources.srcDir "${swaggerSources.petstore.code.outputDir}/src/main/resources"
 ```
 
-For more, see [code-generator project](acceptance-test/code-generator) in examples.
+For more, see [codegen-v2/java-spring](acceptance-test/codegen-v2/java-spring) and [codegen-v3/java-spring](acceptance-test/codegen-v3/java-spring).
 
 
 ### Validate YAML before code genetation
@@ -181,8 +177,6 @@ swaggerSources {
   }
 }
 ```
-
-For more, see [code-generator project](acceptance-test/code-generator) in examples.
 
 
 ### Selective generation
@@ -220,7 +214,7 @@ components = [apis: true, apiTests: false]
 components = [apis: true, apiTests: null]
 ```
 
-For details, see [selective generation](https://github.com/swagger-api/swagger-codegen#selective-generation).
+For details, see [selective generation section](https://github.com/swagger-api/swagger-codegen#selective-generation).
 
 
 ### Using custom template
@@ -239,7 +233,7 @@ swaggerSources {
 }
 ```
 
-For more, see [custom-template project](acceptance-test/custom-template) in examples.
+For more, see [codegen-v2/custom-template](acceptance-test/codegen-v2/custom-template).
 
 
 ### Using custom generator class
@@ -279,7 +273,7 @@ class CustomGenerator extends SpringCodegen {
 }
 ```
 
-For more, see [custom-class project](acceptance-test/custom-class) in examples.
+For more, see [codegen-v2/custom-class](acceptance-test/codegen-v2/custom-class) and [codegen-v3/custom-class](acceptance-test/codegen-v3/custom-class).
 
 
 ### Externalize template or generator class
@@ -316,8 +310,9 @@ swaggerSources {
 }
 ```
 
-For more, see [externalize-template project](acceptance-test/externalize-template) and
-[externalize-class project](acceptance-test/externalize-class) in examples.
+For more, see
+[codegen-v2/externalize-template](acceptance-test/codegen-v2/externalize-template) and
+[codegen-v2/externalize-class](acceptance-test/codegen-v2/externalize-class).
 
 
 ### Multiple sources
@@ -348,7 +343,7 @@ sourceSets.main.java.srcDirs "${swaggerSources.petstoreV1.code.outputDir}/src/ma
 sourceSets.main.resources.srcDirs "${swaggerSources.petstoreV1.code.outputDir}/src/main/resources", "${swaggerSources.petstoreV2.code.outputDir}/src/main/resources"
 ```
 
-For more, see [multiple-sources project](acceptance-test/multiple-sources) in examples.
+For more, see [codegen-v2/multiple-sources](acceptance-test/codegen-v2/multiple-sources) and [codegen-v3/multiple-sources](acceptance-test/codegen-v3/multiple-sources).
 
 
 ### Configure Swagger UI
@@ -380,8 +375,8 @@ It must satisfy the followings:
 - Set `spec: window.swaggerSpec` in `SwaggerUIBundle()` parameters.
 - Set `validatorUrl: null` in `SwaggerUIBundle()` parameters in order to turn off the validator badge.
 
-If you need Swagger UI 2.x,
-see [doc-generator-swagger-ui-v2 project](acceptance-test/doc-generator-swagger-ui-v2) in examples.
+For more, see [ui-v3/basic-example](acceptance-test/ui-v3/basic-example).
+If you need Swagger UI 2.x, see [ui-v2/basic-example](acceptance-test/ui-v2/basic-example).
 
 
 ## Settings
