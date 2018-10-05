@@ -1,3 +1,5 @@
+package org.hidetake.gradle.swagger.generator.test
+
 import org.gradle.testkit.runner.GradleRunner
 
 class Main {

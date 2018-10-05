@@ -1,9 +1,12 @@
+package org.hidetake.gradle.swagger.generator.test.codegen2
+
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
+import org.hidetake.gradle.swagger.generator.test.Fixture
 import spock.lang.Specification
 
-import static Fixture.cleanBuildDir
-import static Fixture.setupFixture
+import static org.hidetake.gradle.swagger.generator.test.Fixture.cleanBuildDir
+import static org.hidetake.gradle.swagger.generator.test.Fixture.setupFixture
 
 class ExternalizeTemplateSpec extends Specification {
 
@@ -11,7 +14,7 @@ class ExternalizeTemplateSpec extends Specification {
 
     def setup() {
         runner = GradleRunner.create()
-            .withProjectDir(new File('externalize-template'))
+            .withProjectDir(new File('./codegen-v2/externalize-template'))
             .withPluginClasspath()
             .forwardOutput()
         cleanBuildDir(runner)

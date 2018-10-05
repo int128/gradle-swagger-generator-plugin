@@ -1,17 +1,20 @@
+package org.hidetake.gradle.swagger.generator.test.codegen2
+
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
+import org.hidetake.gradle.swagger.generator.test.Fixture
 import spock.lang.Specification
 
-import static Fixture.cleanBuildDir
-import static Fixture.setupFixture
+import static org.hidetake.gradle.swagger.generator.test.Fixture.cleanBuildDir
+import static org.hidetake.gradle.swagger.generator.test.Fixture.setupFixture
 
-class CodeGeneratorNextSpec extends Specification {
+class JavaSpringSpec extends Specification {
 
     GradleRunner runner
 
     def setup() {
         runner = GradleRunner.create()
-            .withProjectDir(new File('code-generator-next'))
+            .withProjectDir(new File('./codegen-v2/java-spring'))
             .withPluginClasspath()
             .forwardOutput()
         cleanBuildDir(runner)
@@ -48,6 +51,18 @@ class CodeGeneratorNextSpec extends Specification {
         then:
         rerunResult.task(':generateSwaggerCode').outcome == TaskOutcome.NO_SOURCE
         rerunResult.task(':generateSwaggerCodePetstore').outcome == TaskOutcome.UP_TO_DATE
+    }
+
+    def 'build task should generate and build code'() {
+        given:
+        setupFixture(runner, Fixture.YAML.petstore)
+        runner.withArguments('--stacktrace', 'build')
+
+        when:
+        runner.build()
+
+        then:
+        new File(runner.projectDir, 'build/libs/java-spring.jar').exists()
     }
 
     def 'generateSwaggerCodePetstoreHelp task should show help'() {

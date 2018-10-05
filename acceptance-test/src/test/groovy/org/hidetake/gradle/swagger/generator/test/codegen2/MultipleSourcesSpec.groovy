@@ -1,10 +1,13 @@
+package org.hidetake.gradle.swagger.generator.test.codegen2
+
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
+import org.hidetake.gradle.swagger.generator.test.Fixture
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import static Fixture.cleanBuildDir
-import static Fixture.setupFixture
+import static org.hidetake.gradle.swagger.generator.test.Fixture.cleanBuildDir
+import static org.hidetake.gradle.swagger.generator.test.Fixture.setupFixture
 
 class MultipleSourcesSpec extends Specification {
 
@@ -12,7 +15,7 @@ class MultipleSourcesSpec extends Specification {
 
     def setup() {
         runner = GradleRunner.create()
-            .withProjectDir(new File('multiple-sources'))
+            .withProjectDir(new File('./codegen-v2/multiple-sources'))
             .withPluginClasspath()
             .forwardOutput()
         cleanBuildDir(runner)
@@ -80,48 +83,6 @@ class MultipleSourcesSpec extends Specification {
 
         where:
         taskName << ['generateSwaggerCodePetstoreV1Help', 'generateSwaggerCodePetstoreV2Help']
-    }
-
-    def 'generateSwaggerUI task should generate Swagger UI'() {
-        given:
-        runner.withArguments('--stacktrace', 'generateSwaggerUI')
-
-        when:
-        def result = runner.build()
-
-        then:
-        result.task(':generateSwaggerUIPetstoreV1').outcome == TaskOutcome.SUCCESS
-        new File(runner.projectDir, 'build/docs/v1/index.html').exists()
-        result.task(':generateSwaggerUIPetstoreV2').outcome == TaskOutcome.SUCCESS
-        new File(runner.projectDir, 'build/docs/v2/index.html').exists()
-
-        when:
-        def rerunResult = runner.build()
-
-        then:
-        rerunResult.task(':generateSwaggerUIPetstoreV1').outcome == TaskOutcome.UP_TO_DATE
-        rerunResult.task(':generateSwaggerUIPetstoreV2').outcome == TaskOutcome.UP_TO_DATE
-    }
-
-    def 'validateSwagger task should validate YAML'() {
-        given:
-        runner.withArguments('--stacktrace', 'validateSwagger')
-
-        when:
-        def result = runner.build()
-
-        then:
-        result.task(':validateSwaggerPetstoreV1').outcome == TaskOutcome.SUCCESS
-        new File(runner.projectDir, 'build/swagger-validation-petstoreV1.yaml').exists()
-        result.task(':validateSwaggerPetstoreV2').outcome == TaskOutcome.SUCCESS
-        new File(runner.projectDir, 'build/swagger-validation-petstoreV2.yaml').exists()
-
-        when:
-        def rerunResult = runner.build()
-
-        then:
-        rerunResult.task(':validateSwaggerPetstoreV1').outcome == TaskOutcome.UP_TO_DATE
-        rerunResult.task(':validateSwaggerPetstoreV2').outcome == TaskOutcome.UP_TO_DATE
     }
 
 }
