@@ -24,12 +24,15 @@ test {
     systemProperty 'current.gradle.version', gradle.gradleVersion
 }
 
-projectDir.eachDir { dir ->
-    if (file("$dir/build.gradle").exists()) {
-        project.task("build-${dir.name}", type: JavaExec, group: 'acceptance-test') {
-            classpath = sourceSets.test.runtimeClasspath
-            main = 'Main'
-            args = [dir.name, 'build']
-        }
+// Tasks for example document generation
+task('exampledoc',group: 'acceptance-test').dependsOn([
+    'ui-v3/basic-example',
+    'redoc',
+    'codegen-v2/html',
+].collect { path ->
+    task("build/${path}", type: JavaExec, group: 'acceptance-test') {
+        classpath = sourceSets.test.runtimeClasspath
+        main = 'org.hidetake.gradle.swagger.generator.test.Main'
+        args = ["$projectDir/$path", 'build']
     }
-}
+})

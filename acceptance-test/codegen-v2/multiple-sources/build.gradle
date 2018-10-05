@@ -11,7 +11,6 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web:2.0.0.RELEASE'
     compile 'io.swagger:swagger-annotations:1.5.10'
     swaggerCodegen 'io.swagger:swagger-codegen-cli:2.3.1'
-    swaggerUI 'org.webjars:swagger-ui:2.2.10'
 }
 
 swaggerSources {
@@ -22,9 +21,6 @@ swaggerSources {
             components = ['models', 'apis']
             configFile = file('v1-config.json')
         }
-        ui {
-            outputDir = file("$buildDir/docs/v1")
-        }
     }
     petstoreV2 {
         inputFile = file('v2-petstore.yaml')
@@ -32,9 +28,6 @@ swaggerSources {
             language = 'spring'
             components = ['models', 'apis']
             configFile = file('v2-config.json')
-        }
-        ui {
-            outputDir = file("$buildDir/docs/v2")
         }
     }
 }

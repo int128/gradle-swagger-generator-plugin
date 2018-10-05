@@ -1,3 +1,5 @@
+package org.hidetake.gradle.swagger.generator.test.misc
+
 import org.gradle.testkit.runner.GradleRunner
 import spock.lang.Specification
 import spock.lang.Unroll

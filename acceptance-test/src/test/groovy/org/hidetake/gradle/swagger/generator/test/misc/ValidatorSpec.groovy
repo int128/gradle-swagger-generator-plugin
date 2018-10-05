@@ -1,10 +1,13 @@
+package org.hidetake.gradle.swagger.generator.test.misc
+
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
 import org.gradle.testkit.runner.UnexpectedBuildFailure
+import org.hidetake.gradle.swagger.generator.test.Fixture
 import spock.lang.Specification
 
-import static Fixture.cleanBuildDir
-import static Fixture.setupFixture
+import static org.hidetake.gradle.swagger.generator.test.Fixture.cleanBuildDir
+import static org.hidetake.gradle.swagger.generator.test.Fixture.setupFixture
 
 class ValidatorSpec extends Specification {
 
