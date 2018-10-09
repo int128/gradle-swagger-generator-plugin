@@ -24,15 +24,20 @@ test {
     systemProperty 'current.gradle.version', gradle.gradleVersion
 }
 
-// Tasks for example document generation
-task('exampledoc',group: 'acceptance-test').dependsOn([
-    'ui-v3/basic-example',
-    'redoc',
-    'codegen-v2/html',
-].collect { path ->
-    task("build/${path}", type: JavaExec, group: 'acceptance-test') {
+fileTree(projectDir) {
+    include '*/build.gradle'
+    include '*/*/build.gradle'
+}.each { file ->
+    final projectPath = relativePath(file.path) - '/build.gradle'
+    final escapedProjectPath = projectPath.replace('/', '-')
+    task("build-$escapedProjectPath", type: JavaExec, group: 'acceptance-test') {
         classpath = sourceSets.test.runtimeClasspath
         main = 'org.hidetake.gradle.swagger.generator.test.Main'
-        args = ["$projectDir/$path", 'build']
+        args = ["$projectDir/$projectPath", 'build']
     }
-})
+}
+
+task 'exampledoc',
+    description: 'Generate example documents',
+    group: 'acceptance-test',
+    dependsOn: ['build-ui-v3-basic-example', 'build-redoc', 'build-codegen-v2-html']
