@@ -17,7 +17,10 @@ This contains example projects to verify behavior of the plugin by the automated
 
 ## Working with Swagger Code Generator 3
 
-TODO
+- [Basic example for Java and Spring code generation](codegen-v3/java-spring/build.gradle)
+- [Basic example for HTML document generation](codegen-v3/html/build.gradle)
+- [Using a custom generator class](codegen-v3/custom-class/build.gradle)
+- [Handling multiple sources](codegen-v3/multiple-sources/build.gradle)
 
 
 ## Working with ReDoc

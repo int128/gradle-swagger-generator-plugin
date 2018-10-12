@@ -5,6 +5,7 @@ import org.gradle.api.Task
 import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
+import org.hidetake.gradle.swagger.generator.codegen.ExecutorFactory
 
 /**
  * A task to show help of swagger-codegen.
@@ -23,11 +24,14 @@ class GenerateSwaggerCodeHelp extends DefaultTask {
 
     @TaskAction
     void exec() {
-        println("=== Available rawOptions ===")
-        SwaggerCodegenExecutor.getInstance(project).execute(['help', 'generate'])
+        final urls = project.configurations.swaggerCodegen.resolve()*.toURI()*.toURL() as URL[]
+        final executor = ExecutorFactory.instance.getExecutor(project.buildscript.classLoader, urls)
 
-        println("=== Available JSON configuration for language $language ===")
-        SwaggerCodegenExecutor.getInstance(project).execute(['config-help', '-l', language])
+        System.err.println("=== Available rawOptions ===")
+        executor.generateHelp()
+
+        System.err.println("=== Available JSON configuration for language $language ===")
+        executor.configHelp(language)
     }
 
     static Task injectHelpTaskFor(GenerateSwaggerCode task) {

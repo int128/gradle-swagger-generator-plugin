@@ -1,0 +1,23 @@
+plugins {
+    id 'org.hidetake.swagger.generator'
+    id 'base'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.0'
+}
+
+swaggerSources {
+    petstore {
+        inputFile = file("$buildDir/petstore.yaml")
+        code {
+            language = 'html2'
+        }
+    }
+}
+
+build.dependsOn generateSwaggerCode

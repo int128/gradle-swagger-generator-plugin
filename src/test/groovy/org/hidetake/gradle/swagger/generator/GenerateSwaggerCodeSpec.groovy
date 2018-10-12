@@ -1,5 +1,6 @@
 package org.hidetake.gradle.swagger.generator
 
+import org.hidetake.gradle.swagger.generator.codegen.GenerateOptions
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -102,40 +103,15 @@ class GenerateSwaggerCodeSpec extends Specification {
         }
 
         when:
-        def options = project.tasks.generateSwaggerCode.buildOptions()
+        GenerateOptions options = project.tasks.generateSwaggerCode.buildOptions()
 
         then:
-        options == [
-            'generate',
-            '-l', 'java',
-            '-i', 'input',
-            '-o', 'output',
-            '--additional-properties', 'foo=bar,baz=zzz'
-        ]
-    }
-
-    def "task should build raw options"() {
-        given:
-        def project = Fixture.projectWithPlugin {
-            generateSwaggerCode {
-                language = 'java'
-                rawOptions = ['--verbose']
-                inputFile = new File('input')
-                outputDir = new File('output')
-            }
+        options.with {
+            inputFile == 'input'
+            outputDir == 'output'
+            language == 'java'
+            additionalProperties == [foo: 'bar', baz: 'zzz']
         }
-
-        when:
-        def options = project.tasks.generateSwaggerCode.buildOptions()
-
-        then:
-        options == [
-            'generate',
-            '-l', 'java',
-            '-i', 'input',
-            '-o', 'output',
-            '--verbose'
-        ]
     }
 
     @Unroll
@@ -155,7 +131,7 @@ class GenerateSwaggerCodeSpec extends Specification {
 
         where:
         givenComponents                                         | expectedSystemProperties
-        null                                                    | null
+        null                                                    | [:]
         []                                                      | [:]
         ['models']                                              | [models: '']
         ['models', 'apis']                                      | [models: '', apis: '']
