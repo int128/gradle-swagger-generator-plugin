@@ -394,6 +394,10 @@ Key           | Type              | Value                                   | De
 `inputFile`   | File              | Swagger spec file.                      | Mandatory
 `reportFile`  | File              | File to write validation report.        | `$buildDir/tmp/validateSwagger/report.yaml`
 
+It depends on the following JSON schema:
+
+- [OpenAPI Specification version 2.0](https://github.com/OAI/OpenAPI-Specification/blob/master/schemas/v2.0/schema.json)
+
 
 ### Task type `GenerateSwaggerCode`
 
