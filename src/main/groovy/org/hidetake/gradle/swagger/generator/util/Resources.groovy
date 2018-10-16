@@ -1,4 +1,4 @@
-package org.hidetake.gradle.swagger.generator
+package org.hidetake.gradle.swagger.generator.util
 
 class Resources {
     static <V> V withInputStream(String path, Closure<V> closure) {

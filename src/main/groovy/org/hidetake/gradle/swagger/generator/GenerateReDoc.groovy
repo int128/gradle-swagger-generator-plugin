@@ -3,6 +3,7 @@ package org.hidetake.gradle.swagger.generator
 import groovy.xml.XmlUtil
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.*
+import org.hidetake.gradle.swagger.generator.util.Resources
 
 /**
  * A task to generate ReDoc.
