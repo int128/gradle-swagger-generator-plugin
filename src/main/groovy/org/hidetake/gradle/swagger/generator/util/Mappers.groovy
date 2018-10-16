@@ -1,4 +1,4 @@
-package org.hidetake.gradle.swagger.generator
+package org.hidetake.gradle.swagger.generator.util
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature

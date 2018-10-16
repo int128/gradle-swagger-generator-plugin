@@ -5,6 +5,8 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.file.FileCopyDetails
 import org.gradle.api.file.RelativePath
 import org.gradle.api.tasks.*
+import org.hidetake.gradle.swagger.generator.util.Mappers
+import org.hidetake.gradle.swagger.generator.util.Resources
 
 /**
  * A task to generate Swagger UI.
