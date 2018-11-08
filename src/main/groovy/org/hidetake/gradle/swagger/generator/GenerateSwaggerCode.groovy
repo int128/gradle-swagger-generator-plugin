@@ -1,6 +1,7 @@
 package org.hidetake.gradle.swagger.generator
 
 import org.gradle.api.DefaultTask
+import org.gradle.api.artifacts.Configuration
 import org.gradle.api.tasks.*
 import org.hidetake.gradle.swagger.generator.codegen.ExecutorFactory
 import org.hidetake.gradle.swagger.generator.codegen.GenerateOptions
@@ -43,6 +44,9 @@ class GenerateSwaggerCode extends DefaultTask {
     @Optional @Input
     List<String> rawOptions
 
+    @Optional @Input
+    def configuration
+
     def GenerateSwaggerCode() {
         outputDir = new File(project.buildDir, 'swagger-code')
     }
@@ -59,9 +63,21 @@ class GenerateSwaggerCode extends DefaultTask {
         }
         outputDir.mkdirs()
 
-        final urls = project.configurations.swaggerCodegen.resolve()*.toURI()*.toURL() as URL[]
+        final urls = findConfiguration().resolve()*.toURI()*.toURL() as URL[]
         final executor = ExecutorFactory.instance.getExecutor(project.buildscript.classLoader, urls)
         executor.generate(buildOptions())
+    }
+
+    Configuration findConfiguration() {
+        switch (configuration) {
+            case null:
+                return project.configurations.swaggerCodegen
+            case String:
+                return project.configurations.getByName(configuration)
+            case Configuration:
+                return configuration
+        }
+        throw new IllegalArgumentException("configuration must be String or org.gradle.api.artifacts.Configuration but unknown type: ${configuration}")
     }
 
     GenerateOptions buildOptions() {
