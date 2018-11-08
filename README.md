@@ -388,6 +388,43 @@ sourceSets.main.resources.srcDirs "${swaggerSources.petstoreV1.code.outputDir}/s
 For more, see [codegen-v2/multiple-sources](acceptance-test/codegen-v2/multiple-sources) and [codegen-v3/multiple-sources](acceptance-test/codegen-v3/multiple-sources).
 
 
+### Switch version of Swagger Codegen
+
+We can use multiple versions of Swagger Codegen as follows:
+
+```groovy
+// build.gradle
+configurations {
+    swaggerCodegenV2
+    swaggerCodegenV3
+}
+
+dependencies {
+    swaggerCodegenV2 'io.swagger:swagger-codegen-cli:2.3.1'
+    swaggerCodegenV3 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.0'
+}
+
+swaggerSources {
+    petstoreV2 {
+        inputFile = file('v2-petstore.yaml')
+        code {
+            language = 'spring'
+            configuration = configurations.swaggerCodegenV2
+        }
+    }
+    petstoreV3 {
+        inputFile = file('v3-petstore.yaml')
+        code {
+            language = 'spring'
+            configuration = configurations.swaggerCodegenV3
+        }
+    }
+}
+```
+
+For more, see [codegen-v3/multiple-codegen-versions](acceptance-test/codegen-v3/multiple-codegen-versions).
+
+
 ### Configure Swagger UI
 
 We can [configure Swagger UI](https://github.com/swagger-api/swagger-ui/blob/master/docs/usage/configuration.md)
@@ -457,6 +494,7 @@ Key           | Type              | Value                                   | De
 `components`  | List or Map       | [Components to generate](https://github.com/swagger-api/swagger-codegen#selective-generation) that is a list of `models`, `apis` and `supportingFiles`. | All components
 `additionalProperties` | Map of String, String | [Additional properties](https://github.com/swagger-api/swagger-codegen#to-generate-a-sample-client-library). | None
 `rawOptions`  | List of Strings   | Raw command line options for Swagger Codegen | None
+`configuration` | String or Configuration | Configuration for Swagger Codegen | `configurations.swaggerCodegen`
 
 
 ### Task type `GenerateSwaggerUI`
