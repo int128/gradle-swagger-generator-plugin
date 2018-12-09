@@ -48,7 +48,7 @@ class GenerateReDoc extends DefaultTask {
         }
         outputDir.mkdirs()
 
-        new File(outputDir, 'index.html').withWriter { writer ->
+        new File(outputDir, 'index.html').withWriter('UTF-8') { writer ->
             XmlUtil.serialize(html, writer)
         }
         project.copy {

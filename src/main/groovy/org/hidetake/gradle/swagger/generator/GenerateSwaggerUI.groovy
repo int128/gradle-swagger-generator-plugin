@@ -83,7 +83,7 @@ class GenerateSwaggerUI extends DefaultTask {
 
     private void buildSwaggerSpec() {
         def inputJson = Mappers.YAML.readTree(inputFile)
-        new File(outputDir, 'swagger-spec.js').withWriter { writer ->
+        new File(outputDir, 'swagger-spec.js').withWriter('UTF-8') { writer ->
             writer.append('window.swaggerSpec=')
             Mappers.JSON.writeValue(writer, inputJson)
         }
