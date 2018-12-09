@@ -35,6 +35,9 @@ fileTree(projectDir) {
         main = 'org.hidetake.gradle.swagger.generator.test.Main'
         args = ["$projectDir/$projectPath", 'build']
     }
+    clean.dependsOn task("clean-$escapedProjectPath", type: Delete, group: 'clean') {
+        delete "$projectDir/$projectPath/build"
+    }
 }
 
 task 'exampledoc',
