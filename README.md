@@ -37,7 +37,6 @@ swaggerSources {
     inputFile = file('petstore.yaml')
     code {
       language = 'spring'
-      configFile = file('config.json')
     }
   }
 }
@@ -50,27 +49,6 @@ The task generates source code into `build/swagger-code-petstore`.
 :resolveSwaggerTemplate NO-SOURCE
 :generateSwaggerCodePetstore
 :generateSwaggerCode NO-SOURCE
-```
-
-Run the task with `Help` postfix to show available `rawOptions` and JSON configuration.
-
-```
-% ./gradlew generateSwaggerCodePetstoreHelp
-:generateSwaggerCodePetstoreHelp
-=== Available raw options
-NAME
-        swagger-codegen-cli generate - Generate code with chosen lang
-
-SYNOPSIS
-        swagger-codegen-cli generate
-                [(-a <authorization> | --auth <authorization>)]
-...
-
-=== Available JSON configuration for language spring:
-
-CONFIG OPTIONS
-	sortParamsByRequiredFlag
-...
 ```
 
 
@@ -176,6 +154,55 @@ The task generates a static HTML into `build/swagger-code-petstore`.
 
 See the examples in [acceptance-test](acceptance-test).
 
+### Use configuration file
+
+We can use a [JSON configuration file](https://github.com/swagger-api/swagger-codegen#customizing-the-generator) as follows:
+
+```groovy
+swaggerSources {
+  petstore {
+    inputFile = file('petstore.yaml')
+    code {
+      language = 'spring'
+      configFile = file('config.json')
+    }
+  }
+}
+```
+
+`config.json` depends on the language and framework. For example,
+
+```json
+{
+  "library": "spring-mvc",
+  "modelPackage": "example.model",
+  "apiPackage": "example.api",
+  "invokerPackage": "example"
+}
+```
+
+Run the task with `Help` postfix to show available JSON configuration.
+
+```
+% ./gradlew generateSwaggerCodePetstoreHelp
+:generateSwaggerCodePetstoreHelp
+=== Available raw options
+NAME
+        swagger-codegen-cli generate - Generate code with chosen lang
+
+SYNOPSIS
+        swagger-codegen-cli generate
+                [(-a <authorization> | --auth <authorization>)]
+...
+
+=== Available JSON configuration for language spring:
+
+CONFIG OPTIONS
+	sortParamsByRequiredFlag
+...
+```
+
+
 ### Build generated code
 
 It is recommended to generate code into an ephemeral directory (e.g. `build`) and exclude it from a Git repository.
@@ -259,7 +286,7 @@ components = [apis: true, apiTests: null]
 For details, see [selective generation section](https://github.com/swagger-api/swagger-codegen#selective-generation).
 
 
-### Using custom template
+### Use custom template
 
 We can use a custom template for the code generation as follows:
 
@@ -278,7 +305,7 @@ swaggerSources {
 For more, see [codegen-v2/custom-template](acceptance-test/codegen-v2/custom-template).
 
 
-### Using custom generator class
+### Use custom generator class
 
 We can use a custom generator class for the code generation as follows:
 
@@ -357,7 +384,7 @@ For more, see
 [codegen-v2/externalize-class](acceptance-test/codegen-v2/externalize-class).
 
 
-### Multiple sources
+### Use multiple sources
 
 We can handle multiple sources in a project as follows:
 
