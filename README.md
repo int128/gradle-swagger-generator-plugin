@@ -170,6 +170,17 @@ swaggerSources {
 }
 ```
 
+`config.json` depends on the language and framework. For example,
+
+```json
+{
+  "library": "spring-mvc",
+  "modelPackage": "example.model",
+  "apiPackage": "example.api",
+  "invokerPackage": "example"
+}
+```
+
 Run the task with `Help` postfix to show available JSON configuration.
 
 ```
