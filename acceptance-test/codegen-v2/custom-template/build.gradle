@@ -1,4 +1,5 @@
 plugins {
+    id 'base'
     id 'org.hidetake.swagger.generator'
 }
 
@@ -21,3 +22,5 @@ swaggerSources {
         }
     }
 }
+
+build.dependsOn generateSwaggerCode

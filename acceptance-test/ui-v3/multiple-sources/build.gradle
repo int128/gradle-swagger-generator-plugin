@@ -1,5 +1,5 @@
 plugins {
-    id 'java'
+    id 'base'
     id 'org.hidetake.swagger.generator'
 }
 
@@ -25,3 +25,5 @@ swaggerSources {
         }
     }
 }
+
+build.dependsOn generateSwaggerUI
