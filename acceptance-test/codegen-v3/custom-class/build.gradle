@@ -1,5 +1,5 @@
 plugins {
-    id 'groovy'
+    id 'base'
     id 'org.hidetake.swagger.generator'
 }
 
@@ -13,3 +13,5 @@ swaggerSources {
         }
     }
 }
+
+build.dependsOn generateSwaggerCode

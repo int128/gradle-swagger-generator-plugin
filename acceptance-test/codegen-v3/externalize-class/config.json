@@ -1,0 +1,7 @@
+{
+  "dateLibrary": "java8",
+  "hideGenerationTimestamp": true,
+  "modelPackage": "example.model",
+  "apiPackage": "example.api",
+  "invokerPackage": "example"
+}

@@ -12,17 +12,17 @@ repositories {
 }
 
 dependencies {
-    swaggerTemplate 'org.hidetake:swagger-templates:1.0.0'
-    swaggerCodegen 'io.swagger:swagger-codegen-cli:2.3.1'
+    swaggerCodegen localGroovy()
+    swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.0'
+    swaggerCodegen 'org.hidetake:swagger-generators:1.0.0'
 }
 
 swaggerSources {
     petstore {
         inputFile = file("$buildDir/petstore.yaml")
         code {
-            language = 'java'
+            language = 'generators.MySpring'
             configFile = file('config.json')
-            templateDir = file("${resolveSwaggerTemplate.destinationDir}/resttemplate")
             components = ['models', 'apis']
         }
     }
