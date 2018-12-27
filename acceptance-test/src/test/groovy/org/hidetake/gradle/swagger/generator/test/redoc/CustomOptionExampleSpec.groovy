@@ -34,6 +34,7 @@ class CustomOptionExampleSpec extends Specification {
         def htmlFile = new File("${runner.projectDir}/build/redoc-petstore/index.html")
         htmlFile.exists()
         def html = new XmlParser(false, false, true).parse(htmlFile)
+        html.head.first().title.first().value().first() == 'Custom title'
         html.body.first().redoc.first().attributes().size() == 2
 
         when:

@@ -20,6 +20,9 @@ class GenerateReDoc extends DefaultTask {
     File outputDir
 
     @Optional @Input
+    String title
+
+    @Optional @Input
     boolean wipeOutputDir = true
 
     @Optional @Input
@@ -37,7 +40,12 @@ class GenerateReDoc extends DefaultTask {
         def html = Resources.withInputStream('/redoc.html') { inputStream ->
             new XmlParser(false, false, true).parse(inputStream)
         }
-        html.head.first().title.first().value = "ReDoc - ${inputFile.name}"
+        if(!html.head.first().title.first().value) {
+            if(title == null) {
+                title = "ReDoc - ${inputFile.name}"
+            }
+            html.head.first().title.first().value = title
+        }
         html.body.first().redoc.first().attributes().'spec-url' = inputFile.name
         html.body.first().redoc.first().attributes().putAll(options)
         html.body.first().script.first().attributes().src = scriptSrc
