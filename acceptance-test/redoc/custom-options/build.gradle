@@ -1,0 +1,18 @@
+plugins {
+    id 'org.hidetake.swagger.generator'
+    id 'base'
+}
+
+swaggerSources {
+    petstore {
+        inputFile = file("$buildDir/petstore.yaml")
+        reDoc {
+            scriptSrc = '//cdn.jsdelivr.net/npm/redoc@next/bundles/redoc.standalone.js'
+            options = [
+                'disable-search': true
+            ]
+        }
+    }
+}
+
+build.dependsOn generateReDoc

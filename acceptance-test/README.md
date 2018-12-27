@@ -25,7 +25,8 @@ This contains example projects to verify behavior of the plugin by the automated
 
 ## Working with ReDoc
 
-- [Basic example](redoc/build.gradle)
+- [Basic example](redoc/basic/build.gradle)
+- [Using custom options](redoc/custom-options/build.gradle)
 
 
 ## Working with Swagger UI 3

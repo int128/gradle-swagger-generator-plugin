@@ -8,19 +8,19 @@ import spock.lang.Specification
 import static org.hidetake.gradle.swagger.generator.test.Fixture.cleanBuildDir
 import static org.hidetake.gradle.swagger.generator.test.Fixture.setupFixture
 
-class BasicExampleSpec extends Specification {
+class CustomOptionExampleSpec extends Specification {
 
     GradleRunner runner
 
     def setup() {
         runner = GradleRunner.create()
-            .withProjectDir(new File('./redoc/basic'))
+            .withProjectDir(new File('./redoc/custom-options'))
             .withPluginClasspath()
             .forwardOutput()
         cleanBuildDir(runner)
     }
 
-    def 'generateReDoc task should generate index.html'() {
+    def 'generateReDoc task should generate index.html with custom options'() {
         given:
         setupFixture(runner, Fixture.YAML.petstore)
         runner.withArguments('--stacktrace', 'generateReDoc')
@@ -31,7 +31,10 @@ class BasicExampleSpec extends Specification {
         then:
         result.task(':generateReDoc').outcome == TaskOutcome.NO_SOURCE
         result.task(':generateReDocPetstore').outcome == TaskOutcome.SUCCESS
-        new File("${runner.projectDir}/build/redoc-petstore/index.html").exists()
+        def htmlFile = new File("${runner.projectDir}/build/redoc-petstore/index.html")
+        htmlFile.exists()
+        def html = new XmlParser(false, false, true).parse(htmlFile)
+        html.body.first().redoc.first().attributes().size() == 2
 
         when:
         def rerunResult = runner.build()
