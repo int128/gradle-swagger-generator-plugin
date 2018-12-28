@@ -20,7 +20,7 @@ Create a project with the following build script.
 
 ```groovy
 plugins {
-  id 'org.hidetake.swagger.generator' version '2.15.1'
+  id 'org.hidetake.swagger.generator' version '2.16.0'
 }
 
 repositories {
@@ -60,7 +60,7 @@ Create a project with the following build script.
 
 ```groovy
 plugins {
-  id 'org.hidetake.swagger.generator' version '2.15.1'
+  id 'org.hidetake.swagger.generator' version '2.16.0'
 }
 
 repositories {
@@ -93,7 +93,7 @@ Create a project with the following build script.
 
 ```groovy
 plugins {
-  id 'org.hidetake.swagger.generator' version '2.15.1'
+  id 'org.hidetake.swagger.generator' version '2.16.0'
 }
 
 swaggerSources {
@@ -118,7 +118,7 @@ Create a project with the following build script.
 
 ```groovy
 plugins {
-  id 'org.hidetake.swagger.generator' version '2.15.1'
+  id 'org.hidetake.swagger.generator' version '2.16.0'
 }
 
 repositories {
