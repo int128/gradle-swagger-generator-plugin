@@ -548,6 +548,7 @@ Key           | Type              | Value                                   | De
 `outputDir`   | File              | Directory to write ReDoc files.         | `$buildDir/swagger-redoc`
 `wipeOutputDir` | Boolean         | Wipe the `outputDir` before generation. | `true`
 `scriptSrc`   | String            | URL to ReDoc JavaScript.                | `//rebilly.github.io/ReDoc/releases/latest/redoc.min.js`
+`title`       | String            | HTML title.                             | `ReDoc - $filename`
 `options`     | Map of Strings    | [ReDoc tag attributes](https://github.com/Rebilly/ReDoc#redoc-tag-attributes). | Empty map
 
 
