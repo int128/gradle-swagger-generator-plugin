@@ -9,7 +9,7 @@ test "$CIRCLE_USERNAME"
 ./gradlew acceptance-test:examples
 
 mkdir -pv /tmp/gh-pages
-cp -av ./acceptance-test/examples /tmp/gh-pages
+cp -av ./acceptance-test/build/examples /tmp/gh-pages
 cp -av ./.circleci /tmp/gh-pages
 
 cd /tmp/gh-pages
