@@ -40,7 +40,26 @@ fileTree(projectDir) {
     }
 }
 
-task 'exampledoc',
-    description: 'Generate example documents',
-    group: 'acceptance-test',
-    dependsOn: ['build-ui-v3-basic-example', 'build-redoc', 'build-codegen-v2-html']
+task('examples', description: 'Generate example documents', group: 'acceptance-test') {
+    dependsOn 'build-ui-v3-basic'
+    doLast {
+        copy {
+            from "$projectDir/ui-v3/basic/build/swagger-ui-petstore"
+            into "$buildDir/examples/ui-v3"
+        }
+    }
+    dependsOn 'build-redoc-basic'
+    doLast {
+        copy {
+            from "$projectDir/redoc/basic/build/redoc-petstore"
+            into "$buildDir/examples/redoc"
+        }
+    }
+    dependsOn 'build-codegen-v3-html'
+    doLast {
+        copy {
+            from "$projectDir/codegen-v3/html/build/swagger-code-petstore"
+            into "$buildDir/examples/html"
+        }
+    }
+}
