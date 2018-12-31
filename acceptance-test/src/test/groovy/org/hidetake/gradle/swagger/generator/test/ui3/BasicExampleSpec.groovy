@@ -14,7 +14,7 @@ class BasicExampleSpec extends Specification {
 
     def setup() {
         runner = GradleRunner.create()
-            .withProjectDir(new File('./ui-v3/basic-example'))
+            .withProjectDir(new File('./ui-v3/basic'))
             .withPluginClasspath()
             .forwardOutput()
         cleanBuildDir(runner)

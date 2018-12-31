@@ -6,12 +6,10 @@ test "$CIRCLE_BUILD_URL"
 test "$CIRCLE_REPOSITORY_URL"
 test "$CIRCLE_USERNAME"
 
-./gradlew acceptance-test:exampledoc
+./gradlew acceptance-test:examples
 
 mkdir -pv /tmp/gh-pages
-cp -av ./acceptance-test/ui-v3/basic-example/build/swagger-ui-petstore /tmp/gh-pages/ui-v3
-cp -av ./acceptance-test/redoc/build/redoc-petstore /tmp/gh-pages/redoc
-cp -av ./acceptance-test/codegen-v2/html/build/swagger-code-petstore /tmp/gh-pages/html
+cp -av ./acceptance-test/examples /tmp/gh-pages
 cp -av ./.circleci /tmp/gh-pages
 
 cd /tmp/gh-pages
