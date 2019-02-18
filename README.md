@@ -3,7 +3,9 @@
 This is a Gradle plugin for the following tasks:
 
 - Validate an OpenAPI YAML.
-- Generate source from an OpenAPI YAML using [Swagger Codegen](https://github.com/swagger-api/swagger-codegen) V2 and V3.
+- Generate source from an OpenAPI YAML. following code generators are supported.
+  - [Swagger Codegen](https://github.com/swagger-api/swagger-codegen) V2 and V3.
+  - [OpenAPI Generator](https://github.com/OpenAPITools/openapi-generator)
 - Generate Swagger UI with an OpenAPI YAML.
 - Generate ReDoc with an OpenAPI YAML.
 
@@ -30,6 +32,7 @@ repositories {
 dependencies {
   swaggerCodegen 'io.swagger:swagger-codegen-cli:2.3.1'             // Swagger Codegen V2
   swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.0'  // or Swagger Codegen V3
+  swaggerCodegen 'org.openapitools:openapi-generator-cli:3.3.4'     // or OpenAPI Generator
 }
 
 swaggerSources {
@@ -225,12 +228,18 @@ sourceSets.main.java.srcDir "${swaggerSources.petstore.code.outputDir}/src/main/
 sourceSets.main.resources.srcDir "${swaggerSources.petstore.code.outputDir}/src/main/resources"
 ```
 
-For more, see [codegen-v2/java-spring](acceptance-test/codegen-v2/java-spring) and [codegen-v3/java-spring](acceptance-test/codegen-v3/java-spring).
+For more, see below.
 
+- [codegen-v2/java-spring](acceptance-test/codegen-v2/java-spring) 
+- [codegen-v3/java-spring](acceptance-test/codegen-v3/java-spring)
+- [openapi-v3/java-spring](acceptance-test/openapi-v3/java-spring)
 
 ### Validate YAML before code genetation
 
 It is recommended to validate an OpenAPI YAML before code generation in order to avoid invalid code generated.
+
+If you use OpenAPI Generator as generator, YAML validation is embeding.
+
 We can validate a YAML as follows:
 
 ```groovy
@@ -240,12 +249,14 @@ swaggerSources {
     code {
       language = 'spring'
       configFile = file('config.json')
-      // Validate YAML before code generation
+      // Validate YAML before code generation. for Swagger Codegen V2 / V3
       dependsOn validation
     }
   }
 }
 ```
+
+
 
 
 ### Selective generation
@@ -302,7 +313,11 @@ swaggerSources {
 }
 ```
 
-For more, see [codegen-v2/custom-template](acceptance-test/codegen-v2/custom-template).
+For more, see below.
+
+- [codegen-v2/custom-template](acceptance-test/codegen-v2/custom-template)
+- [codegen-v3/custom-template](acceptance-test/codegen-v3/custom-template)
+- [openapi-v3/custom-template](acceptance-test/openapi-v3/custom-template)
 
 
 ### Use custom generator class
@@ -342,7 +357,11 @@ class CustomGenerator extends SpringCodegen {
 }
 ```
 
-For more, see [codegen-v2/custom-class](acceptance-test/codegen-v2/custom-class) and [codegen-v3/custom-class](acceptance-test/codegen-v3/custom-class).
+For more, see below.
+
+- [codegen-v2/custom-class](acceptance-test/codegen-v2/custom-class)
+- [codegen-v3/custom-class](acceptance-test/codegen-v3/custom-class)
+- [openapi-v3/custom-class](acceptance-test/codegen-v3/custom-class)
 
 
 ### Externalize template or generator class
@@ -379,9 +398,12 @@ swaggerSources {
 }
 ```
 
-For more, see
-[codegen-v2/externalize-template](acceptance-test/codegen-v2/externalize-template) and
-[codegen-v2/externalize-class](acceptance-test/codegen-v2/externalize-class).
+For more, see below.
+
+- [codegen-v2/externalize-template](acceptance-test/codegen-v2/externalize-template) and [codegen-v2/externalize-class](acceptance-test/codegen-v2/externalize-class)
+- [codegen-v3/externalize-template](acceptance-test/codegen-v3/externalize-template) and [codegen-v3/externalize-class](acceptance-test/codegen-v3/externalize-class)
+- [openapi-v3/externalize-template](acceptance-test/openapi-v3/externalize-template) and [openapi-v3/externalize-class](acceptance-test/openapi-v3/externalize-class)
+
 
 
 ### Use multiple sources
@@ -412,7 +434,11 @@ sourceSets.main.java.srcDirs "${swaggerSources.petstoreV1.code.outputDir}/src/ma
 sourceSets.main.resources.srcDirs "${swaggerSources.petstoreV1.code.outputDir}/src/main/resources", "${swaggerSources.petstoreV2.code.outputDir}/src/main/resources"
 ```
 
-For more, see [codegen-v2/multiple-sources](acceptance-test/codegen-v2/multiple-sources) and [codegen-v3/multiple-sources](acceptance-test/codegen-v3/multiple-sources).
+For more, see below.
+
+- [codegen-v2/multiple-sources](acceptance-test/codegen-v2/multiple-sources) 
+- [codegen-v3/multiple-sources](acceptance-test/codegen-v3/multiple-sources)
+- [openapi-v3/multiple-sources](acceptance-test/openapi-v3/multiple-sources)
 
 
 ### Switch version of Swagger Codegen
@@ -449,8 +475,10 @@ swaggerSources {
 }
 ```
 
-For more, see [codegen-v3/multiple-codegen-versions](acceptance-test/codegen-v3/multiple-codegen-versions).
+For more, see below.
 
+- [codegen-v3/multiple-codegen-versions](acceptance-test/codegen-v3/multiple-codegen-versions)
+- [openapi-v3/multiple-codegen-versions](acceptance-test/openapi-v3/multiple-codegen-versions)
 
 ### Configure Swagger UI
 
