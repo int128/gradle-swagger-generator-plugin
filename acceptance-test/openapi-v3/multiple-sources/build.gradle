@@ -1,0 +1,47 @@
+plugins {
+    id 'java'
+    id 'org.hidetake.swagger.generator'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version:'1.7.21'
+    compile group: 'org.springframework', name: 'spring-core', version:'4.3.20.RELEASE'
+    compile group: 'org.springframework', name: 'spring-webmvc', version:'4.3.20.RELEASE'
+    compile group: 'org.springframework', name: 'spring-web', version:'4.3.20.RELEASE'
+    compile(group: 'io.springfox', name: 'springfox-swagger2', version:'2.8.0') {
+        exclude(module: 'jackson-annotations')
+    }
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version:'2.8.0'
+    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version:'2.9.5'
+    compile group: 'javax.servlet', name: 'servlet-api', version:'2.5'
+    testCompile group: 'junit', name: 'junit', version:'4.12'
+    compileOnly group: 'javax.validation', name: 'validation-api', version:'1.1.0.Final'
+    swaggerCodegen 'org.openapitools:openapi-generator-cli:3.3.4'
+}
+
+swaggerSources {
+    petstoreV1 {
+        inputFile = file('v1-petstore.yaml')
+        code {
+            language = 'spring'
+            components = ['models', 'apis','supportingFiles']
+            configFile = file('v1-config.json')
+        }
+    }
+    petstoreV2 {
+        inputFile = file('v2-petstore.yaml')
+        code {
+            language = 'spring'
+            components = ['models', 'apis','supportingFiles']
+            configFile = file('v2-config.json')
+        }
+    }
+}
+
+compileJava.dependsOn swaggerSources.petstoreV1.code, swaggerSources.petstoreV2.code
+sourceSets.main.java.srcDirs "${swaggerSources.petstoreV1.code.outputDir}/src/main/java", "${swaggerSources.petstoreV2.code.outputDir}/src/main/java"
+sourceSets.main.resources.srcDirs "${swaggerSources.petstoreV1.code.outputDir}/src/main/resources", "${swaggerSources.petstoreV2.code.outputDir}/src/main/resources"

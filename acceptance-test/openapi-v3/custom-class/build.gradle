@@ -1,0 +1,17 @@
+plugins {
+    id 'base'
+    id 'org.hidetake.swagger.generator'
+}
+
+swaggerSources {
+    petstore {
+        inputFile = file("$buildDir/petstore.yaml")
+        code {
+            language = 'generators.MySpring'
+            configFile = file('config.json')
+            components = ['models', 'apis']
+        }
+    }
+}
+
+build.dependsOn generateSwaggerCode
