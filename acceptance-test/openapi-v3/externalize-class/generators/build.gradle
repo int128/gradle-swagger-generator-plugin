@@ -1,0 +1,24 @@
+plugins {
+    id 'groovy'
+    id 'maven-publish'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile localGroovy()
+    compile 'org.openapitools:openapi-generator-cli:3.3.4'
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId 'org.hidetake'
+            artifactId 'openapi-generators'
+            version '1.0.0'
+            from components.java
+        }
+    }
+}
