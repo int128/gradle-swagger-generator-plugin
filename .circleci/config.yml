@@ -31,12 +31,22 @@ jobs:
       - image: circleci/openjdk:8-jdk
     working_directory: ~/gradle-swagger-generator-plugin
     steps:
+      - run: |
+          mkdir -p $HOME/bin
+          curl -L -o $HOME/bin/ghcp https://github.com/int128/ghcp/releases/download/v1.2.0/ghcp_linux_amd64
+          chmod +x $HOME/bin/ghcp
+          echo 'export PATH="$HOME/bin:$PATH"' >> $BASH_ENV
       - checkout
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "build.gradle" }}
           - v1-dependencies-
-      - run: ./.circleci/publish-gh-pages.sh
+      - run: ./gradlew acceptance-test:examples
+      - run: |
+          ghcp -u "$CIRCLE_PROJECT_USERNAME" -r "$CIRCLE_PROJECT_REPONAME" -b gh-pages \
+            -m "Published by $CIRCLE_BUILD_URL" \
+            -C acceptance-test/build \
+            examples
 
   release:
     docker:
@@ -70,7 +80,9 @@ workflows:
             - build
           filters:
             branches:
-              only: master
+              only:
+                - master
+                - fix-gh-pages
       - release:
           requires:
             - build
