@@ -18,10 +18,17 @@ class ExecutorFactory {
         if (c3) {
             return new V3Executor(c3)
         }
+		final o3 = findClass(OpenApiExecutor.CLASS_NAME, classLoader, urls)
+		if (o3) {
+			return new OpenApiExecutor(o3)
+		}
+		
         throw new IllegalStateException('''\
             Add swagger-codegen-cli to dependencies of the project as follows:
               dependencies {
-                swaggerCodegen 'io.swagger:swagger-codegen-cli:x.x.x'
+				  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.x.x'             // Swagger Codegen V2
+				  swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.x.x'  // or Swagger Codegen V3
+				  swaggerCodegen 'org.openapitools:openapi-generator-cli:3.x.x'  // or OpenAPI Generator.
               }'''.stripIndent())
     }
 

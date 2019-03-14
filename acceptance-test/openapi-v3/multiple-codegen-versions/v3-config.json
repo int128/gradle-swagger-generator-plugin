@@ -1,0 +1,8 @@
+{
+  "library": "spring-mvc",
+  "dateLibrary": "java8",
+  "hideGenerationTimestamp": true,
+  "modelPackage": "example.v3.model",
+  "apiPackage": "example.v3.api",
+  "invokerPackage": "example.v3"
+}
