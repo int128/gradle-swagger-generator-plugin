@@ -1,31 +1,17 @@
 package org.hidetake.gradle.swagger.generator.test.openapi3
 
-import org.gradle.testkit.runner.GradleRunner
-import org.gradle.testkit.runner.TaskOutcome
-import org.hidetake.gradle.swagger.generator.test.Fixture
-import spock.lang.Specification
 
-import static org.hidetake.gradle.swagger.generator.test.Fixture.cleanBuildDir
-import static org.hidetake.gradle.swagger.generator.test.Fixture.setupFixture
+import org.gradle.testkit.runner.TaskOutcome
+import org.hidetake.gradle.swagger.generator.test.GradleProject
+import spock.lang.Specification
 
 class JavaSpringSpec extends Specification {
 
-    GradleRunner runner
-
-    def setup() {
-        runner = GradleRunner.create()
-            .withProjectDir(new File('./openapi-v3/java-spring'))
-            .withPluginClasspath()
-            .forwardOutput()
-        cleanBuildDir(runner)
-    }
+    final project = new GradleProject(':openapi-v3:java-spring')
 
     def 'plugin should add default tasks into the project'() {
-        given:
-        runner.withArguments('--stacktrace', 'tasks')
-
         when:
-        def result = runner.build()
+        def result = project.execute('tasks')
 
         then:
         result.output.contains('generateSwaggerCode -')
@@ -33,44 +19,33 @@ class JavaSpringSpec extends Specification {
     }
 
     def 'generateSwaggerCode task should generate code'() {
-        given:
-        setupFixture(runner, Fixture.YAML.petstore)
-        runner.withArguments('--stacktrace', 'generateSwaggerCode')
-
         when:
-        def result = runner.build()
+        def result = project.execute('generateSwaggerCode')
 
         then:
-        result.task(':generateSwaggerCode').outcome == TaskOutcome.NO_SOURCE
-        result.task(':generateSwaggerCodePetstore').outcome == TaskOutcome.SUCCESS
-        new File(runner.projectDir, 'build/swagger-code-petstore/src/main/java/example/api/PetsApi.java').exists()
+        result.task(project.absolutePath('generateSwaggerCode')).outcome == TaskOutcome.NO_SOURCE
+        result.task(project.absolutePath('generateSwaggerCodePetstore')).outcome == TaskOutcome.SUCCESS
+        project.file('build/swagger-code-petstore/src/main/java/example/api/PetsApi.java').exists()
 
         when:
-        def rerunResult = runner.build()
+        def rerunResult = project.executeWithoutClean('generateSwaggerCode')
 
         then:
-        rerunResult.task(':generateSwaggerCode').outcome == TaskOutcome.NO_SOURCE
-        rerunResult.task(':generateSwaggerCodePetstore').outcome == TaskOutcome.UP_TO_DATE
+        rerunResult.task(project.absolutePath('generateSwaggerCode')).outcome == TaskOutcome.NO_SOURCE
+        rerunResult.task(project.absolutePath('generateSwaggerCodePetstore')).outcome == TaskOutcome.UP_TO_DATE
     }
 
     def 'build task should generate and build code'() {
-        given:
-        setupFixture(runner, Fixture.YAML.petstore)
-        runner.withArguments('--stacktrace', 'build')
-
         when:
-        runner.build()
+        project.execute('build')
 
         then:
-        new File(runner.projectDir, 'build/libs/java-spring.jar').exists()
+        project.file('build/libs/java-spring.jar').exists()
     }
 
     def 'generateSwaggerCodePetstoreHelp task should show help'() {
-        given:
-        runner.withArguments('--stacktrace', 'generateSwaggerCodePetstoreHelp')
-
         when:
-        def result = runner.build()
+        def result = project.execute('generateSwaggerCodePetstoreHelp')
 
         then:
         result.output.contains('CONFIG OPTIONS')

@@ -1,45 +1,26 @@
 package org.hidetake.gradle.swagger.generator.test.codegen3
 
-import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
-import org.hidetake.gradle.swagger.generator.test.Fixture
+import org.hidetake.gradle.swagger.generator.test.GradleProject
 import spock.lang.Specification
-
-import static org.hidetake.gradle.swagger.generator.test.Fixture.cleanBuildDir
-import static org.hidetake.gradle.swagger.generator.test.Fixture.setupFixture
 
 class CustomTemplateSpec extends Specification {
 
-    GradleRunner runner
-
-    def setup() {
-        runner = GradleRunner.create()
-            .withProjectDir(new File('./codegen-v3/custom-template'))
-            .withPluginClasspath()
-            .forwardOutput()
-        cleanBuildDir(runner)
-    }
+    final project = new GradleProject(':codegen-v3:custom-template')
 
     def 'generateSwaggerCode task should generate customized server code'() {
-        given:
-        setupFixture(runner, Fixture.YAML.petstore)
-        runner.withArguments('--stacktrace', 'generateSwaggerCode')
-
         when:
-        def result = runner.build()
+        def result = project.execute('generateSwaggerCode')
 
         then:
-        result.task(':generateSwaggerCode').outcome == TaskOutcome.NO_SOURCE
-        result.task(':generateSwaggerCodePetstore').outcome == TaskOutcome.SUCCESS
-        new File(runner.projectDir, 'build/swagger-code-petstore/src/main/java/example/api/PetsApi.java').exists()
+        result.task(project.absolutePath('generateSwaggerCode')).outcome == TaskOutcome.NO_SOURCE
+        result.task(project.absolutePath('generateSwaggerCodePetstore')).outcome == TaskOutcome.SUCCESS
+        project.file('build/swagger-code-petstore/src/main/java/example/api/PetsApi.java').exists()
     }
 
     def 'generateSwaggerCodePetstoreHelp task should show help'() {
-        given:
-        runner.withArguments('--stacktrace', 'generateSwaggerCodePetstoreHelp')
-
         when:
-        def result = runner.build()
+        def result = project.execute('generateSwaggerCodePetstoreHelp')
 
         then:
         result.output.contains('CONFIG OPTIONS')

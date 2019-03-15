@@ -1,29 +1,17 @@
 package org.hidetake.gradle.swagger.generator.test.codegen3
 
-import org.gradle.testkit.runner.GradleRunner
-import org.gradle.testkit.runner.TaskOutcome
-import spock.lang.Specification
 
-import static org.hidetake.gradle.swagger.generator.test.Fixture.cleanBuildDir
+import org.gradle.testkit.runner.TaskOutcome
+import org.hidetake.gradle.swagger.generator.test.GradleProject
+import spock.lang.Specification
 
 class MultipleCodegenVersionsSpec extends Specification {
 
-    GradleRunner runner
-
-    def setup() {
-        runner = GradleRunner.create()
-            .withProjectDir(new File('./codegen-v3/multiple-codegen-versions'))
-            .withPluginClasspath()
-            .forwardOutput()
-        cleanBuildDir(runner)
-    }
+    final project = new GradleProject(':codegen-v3:multiple-codegen-versions')
 
     def 'tasks should exist in the project'() {
-        given:
-        runner.withArguments('--stacktrace', 'tasks')
-
         when:
-        def result = runner.build()
+        def result = project.execute('tasks')
 
         then:
         result.output.contains('generateSwaggerCodePetstoreV2 -')
@@ -35,24 +23,21 @@ class MultipleCodegenVersionsSpec extends Specification {
     }
 
     def 'generateSwaggerCode task should generate code'() {
-        given:
-        runner.withArguments('--stacktrace', 'generateSwaggerCode')
-
         when:
-        def result = runner.build()
+        def result = project.execute('generateSwaggerCode')
 
         then:
-        result.task(':generateSwaggerCodePetstoreV2').outcome == TaskOutcome.SUCCESS
-        new File(runner.projectDir, 'build/swagger-code-petstoreV2/src/main/java/example/v2/api/PetsApi.java').exists()
-        result.task(':generateSwaggerCodePetstoreV3').outcome == TaskOutcome.SUCCESS
-        new File(runner.projectDir, 'build/swagger-code-petstoreV3/src/main/java/example/v3/api/PetsApi.java').exists()
+        result.task(project.absolutePath('generateSwaggerCodePetstoreV2')).outcome == TaskOutcome.SUCCESS
+        result.task(project.absolutePath('generateSwaggerCodePetstoreV3')).outcome == TaskOutcome.SUCCESS
+        project.file('build/swagger-code-petstoreV2/src/main/java/example/v2/api/PetsApi.java').exists()
+        project.file('build/swagger-code-petstoreV3/src/main/java/example/v3/api/PetsApi.java').exists()
 
         when:
-        def rerunResult = runner.build()
+        def rerunResult = project.executeWithoutClean('generateSwaggerCode')
 
         then:
-        rerunResult.task(':generateSwaggerCodePetstoreV2').outcome == TaskOutcome.UP_TO_DATE
-        rerunResult.task(':generateSwaggerCodePetstoreV3').outcome == TaskOutcome.UP_TO_DATE
+        rerunResult.task(project.absolutePath('generateSwaggerCodePetstoreV2')).outcome == TaskOutcome.UP_TO_DATE
+        rerunResult.task(project.absolutePath('generateSwaggerCodePetstoreV3')).outcome == TaskOutcome.UP_TO_DATE
     }
 
 }

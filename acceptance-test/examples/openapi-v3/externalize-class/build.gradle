@@ -1,0 +1,31 @@
+plugins {
+    id 'base'
+    id 'org.hidetake.swagger.generator'
+}
+
+repositories {
+    // This example assumes the swagger template is published on the Maven local repository.
+    // Actually it can be external such as Nexus or Artifactory.
+    mavenLocal()
+
+    jcenter()
+}
+
+dependencies {
+    swaggerCodegen localGroovy()
+    swaggerCodegen 'org.openapitools:openapi-generator-cli:3.3.4'
+    swaggerCodegen 'org.hidetake:openapi-generators:1.0.0'
+}
+
+swaggerSources {
+    petstore {
+        inputFile = file("$rootDir/vendor/openapi-v2-petstore.yaml")
+        code {
+            language = 'generators.MySpring'
+            configFile = file("$rootDir/java-spring-config.json")
+            components = ['models', 'apis']
+        }
+    }
+}
+
+build.dependsOn generateSwaggerCode

@@ -1,0 +1,29 @@
+plugins {
+    id 'base'
+    id 'org.hidetake.swagger.generator'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    swaggerUI 'org.webjars:swagger-ui:3.10.0'
+}
+
+swaggerSources {
+    petstoreV2 {
+        inputFile = file("$rootDir/vendor/openapi-v2-petstore.yaml")
+        ui {
+            outputDir = file("$buildDir/docs/v2")
+        }
+    }
+    petstoreV3 {
+        inputFile = file("$rootDir/vendor/openapi-v3-petstore.yaml")
+        ui {
+            outputDir = file("$buildDir/docs/v3")
+        }
+    }
+}
+
+build.dependsOn generateSwaggerUI

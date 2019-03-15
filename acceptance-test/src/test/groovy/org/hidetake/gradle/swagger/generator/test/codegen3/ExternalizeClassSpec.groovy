@@ -1,41 +1,24 @@
 package org.hidetake.gradle.swagger.generator.test.codegen3
 
-import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
-import org.hidetake.gradle.swagger.generator.test.Fixture
+import org.hidetake.gradle.swagger.generator.test.GradleProject
 import spock.lang.Specification
-
-import static org.hidetake.gradle.swagger.generator.test.Fixture.cleanBuildDir
-import static org.hidetake.gradle.swagger.generator.test.Fixture.setupFixture
 
 class ExternalizeClassSpec extends Specification {
 
-    GradleRunner runner
-
-    def setup() {
-        runner = GradleRunner.create()
-            .withProjectDir(new File('./codegen-v3/externalize-class'))
-            .withPluginClasspath()
-            .forwardOutput()
-        cleanBuildDir(runner)
-    }
+    final project = new GradleProject(':codegen-v3:externalize-class')
 
     def 'generateSwaggerCode task should generate code using external template'() {
         given:
-        runner.withArguments('--stacktrace', 'generators:publishToMavenLocal')
-        runner.build()
-
-        and:
-        setupFixture(runner, Fixture.YAML.petstore)
-        runner.withArguments('--stacktrace', 'generateSwaggerCode')
+        project.execute('generators:publishToMavenLocal')
 
         when:
-        def result = runner.build()
+        def result = project.execute('generateSwaggerCode')
 
         then:
-        result.task(':resolveSwaggerTemplate').outcome == TaskOutcome.NO_SOURCE
-        result.task(':generateSwaggerCode').outcome == TaskOutcome.NO_SOURCE
-        result.task(':generateSwaggerCodePetstore').outcome == TaskOutcome.SUCCESS
+        result.task(project.absolutePath('resolveSwaggerTemplate')).outcome == TaskOutcome.NO_SOURCE
+        result.task(project.absolutePath('generateSwaggerCode')).outcome == TaskOutcome.NO_SOURCE
+        result.task(project.absolutePath('generateSwaggerCodePetstore')).outcome == TaskOutcome.SUCCESS
     }
 
 }

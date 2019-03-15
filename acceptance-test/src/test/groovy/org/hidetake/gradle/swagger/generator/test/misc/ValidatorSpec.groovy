@@ -1,63 +1,35 @@
 package org.hidetake.gradle.swagger.generator.test.misc
 
-import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
 import org.gradle.testkit.runner.UnexpectedBuildFailure
-import org.hidetake.gradle.swagger.generator.test.Fixture
+import org.hidetake.gradle.swagger.generator.test.GradleProject
 import spock.lang.Specification
-
-import static org.hidetake.gradle.swagger.generator.test.Fixture.cleanBuildDir
-import static org.hidetake.gradle.swagger.generator.test.Fixture.setupFixture
 
 class ValidatorSpec extends Specification {
 
-    GradleRunner runner
-
-    def setup() {
-        runner = GradleRunner.create()
-            .withProjectDir(new File('validator'))
-            .withPluginClasspath()
-            .forwardOutput()
-        cleanBuildDir(runner)
-    }
+    final project = new GradleProject(':validator')
 
     def 'validateSwagger task should validate YAML'() {
-        given:
-        setupFixture(runner, Fixture.YAML.petstore)
-        runner.withArguments('validateSwagger')
-
         when:
-        def result = runner.build()
+        def result = project.execute('validateSwaggerPetstore')
 
         then:
-        result.task(':validateSwagger').outcome == TaskOutcome.NO_SOURCE
-        result.task(':validateSwaggerPetstore').outcome == TaskOutcome.SUCCESS
-        new File("${runner.projectDir}/build/swagger-validation-petstore.yaml").exists()
+        result.task(project.absolutePath('validateSwaggerPetstore')).outcome == TaskOutcome.SUCCESS
+        project.file('build/swagger-validation-petstore.yaml').exists()
 
         when:
-        def rerunResult = runner.build()
+        def rerunResult = project.executeWithoutClean('validateSwaggerPetstore')
 
         then:
-        rerunResult.task(':validateSwagger').outcome == TaskOutcome.NO_SOURCE
-        rerunResult.task(':validateSwaggerPetstore').outcome == TaskOutcome.UP_TO_DATE
+        rerunResult.task(project.absolutePath('validateSwaggerPetstore')).outcome == TaskOutcome.UP_TO_DATE
     }
 
     def 'validateSwagger task should fail if YAML is wrong'() {
-        given:
-        setupFixture(runner, Fixture.YAML.petstore_invalid)
-        runner.withArguments('validateSwagger')
-
         when:
-        runner.build()
+        project.execute('validateSwaggerInvalidPetstore')
 
         then:
-        new File("${runner.projectDir}/build/swagger-validation-petstore.yaml").exists()
-        thrown(UnexpectedBuildFailure)
-
-        when:
-        runner.build()
-
-        then:
+        project.file('build/swagger-validation-invalidPetstore.yaml').exists()
         thrown(UnexpectedBuildFailure)
     }
 

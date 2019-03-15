@@ -1,48 +1,33 @@
 package org.hidetake.gradle.swagger.generator.test.redoc
 
-import org.gradle.testkit.runner.GradleRunner
-import org.gradle.testkit.runner.TaskOutcome
-import org.hidetake.gradle.swagger.generator.test.Fixture
-import spock.lang.Specification
 
-import static org.hidetake.gradle.swagger.generator.test.Fixture.cleanBuildDir
-import static org.hidetake.gradle.swagger.generator.test.Fixture.setupFixture
+import org.gradle.testkit.runner.TaskOutcome
+import org.hidetake.gradle.swagger.generator.test.GradleProject
+import spock.lang.Specification
 
 class CustomOptionExampleSpec extends Specification {
 
-    GradleRunner runner
-
-    def setup() {
-        runner = GradleRunner.create()
-            .withProjectDir(new File('./redoc/custom-options'))
-            .withPluginClasspath()
-            .forwardOutput()
-        cleanBuildDir(runner)
-    }
+    final project = new GradleProject(':redoc:custom-options')
 
     def 'generateReDoc task should generate index.html with custom options'() {
-        given:
-        setupFixture(runner, Fixture.YAML.petstore)
-        runner.withArguments('--stacktrace', 'generateReDoc')
-
         when:
-        def result = runner.build()
+        def result = project.execute('generateReDoc')
 
         then:
-        result.task(':generateReDoc').outcome == TaskOutcome.NO_SOURCE
-        result.task(':generateReDocPetstore').outcome == TaskOutcome.SUCCESS
-        def htmlFile = new File("${runner.projectDir}/build/redoc-petstore/index.html")
+        result.task(project.absolutePath('generateReDoc')).outcome == TaskOutcome.NO_SOURCE
+        result.task(project.absolutePath('generateReDocPetstore')).outcome == TaskOutcome.SUCCESS
+        def htmlFile = project.file('build/redoc-petstore/index.html')
         htmlFile.exists()
         def html = new XmlParser(false, false, true).parse(htmlFile)
         html.head.first().title.first().value().first() == 'Custom title'
         html.body.first().redoc.first().attributes().size() == 2
 
         when:
-        def rerunResult = runner.build()
+        def rerunResult = project.executeWithoutClean('generateReDoc')
 
         then:
-        rerunResult.task(':generateReDoc').outcome == TaskOutcome.NO_SOURCE
-        rerunResult.task(':generateReDocPetstore').outcome == TaskOutcome.UP_TO_DATE
+        rerunResult.task(project.absolutePath('generateReDoc')).outcome == TaskOutcome.NO_SOURCE
+        rerunResult.task(project.absolutePath('generateReDocPetstore')).outcome == TaskOutcome.UP_TO_DATE
     }
 
 }

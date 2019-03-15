@@ -1,44 +1,29 @@
 package org.hidetake.gradle.swagger.generator.test.ui3
 
-import org.gradle.testkit.runner.GradleRunner
-import org.gradle.testkit.runner.TaskOutcome
-import org.hidetake.gradle.swagger.generator.test.Fixture
-import spock.lang.Specification
 
-import static org.hidetake.gradle.swagger.generator.test.Fixture.cleanBuildDir
-import static org.hidetake.gradle.swagger.generator.test.Fixture.setupFixture
+import org.gradle.testkit.runner.TaskOutcome
+import org.hidetake.gradle.swagger.generator.test.GradleProject
+import spock.lang.Specification
 
 class BasicExampleSpec extends Specification {
 
-    GradleRunner runner
-
-    def setup() {
-        runner = GradleRunner.create()
-            .withProjectDir(new File('./ui-v3/basic'))
-            .withPluginClasspath()
-            .forwardOutput()
-        cleanBuildDir(runner)
-    }
+    final project = new GradleProject(':ui-v3:basic')
 
     def 'generateSwaggerUI task should generate index.html'() {
-        given:
-        setupFixture(runner, Fixture.YAML.petstore)
-        runner.withArguments('--stacktrace', 'generateSwaggerUI')
-
         when:
-        def result = runner.build()
+        def result = project.execute('generateSwaggerUI')
 
         then:
-        result.task(':generateSwaggerUI').outcome == TaskOutcome.NO_SOURCE
-        result.task(':generateSwaggerUIPetstore').outcome == TaskOutcome.SUCCESS
-        new File("${runner.projectDir}/build/swagger-ui-petstore/index.html").exists()
+        result.task(project.absolutePath('generateSwaggerUI')).outcome == TaskOutcome.NO_SOURCE
+        result.task(project.absolutePath('generateSwaggerUIPetstore')).outcome == TaskOutcome.SUCCESS
+        project.file('build/swagger-ui-petstore/index.html').exists()
 
         when:
-        def rerunResult = runner.build()
+        def rerunResult = project.executeWithoutClean('generateSwaggerUI')
 
         then:
-        rerunResult.task(':generateSwaggerUI').outcome == TaskOutcome.NO_SOURCE
-        rerunResult.task(':generateSwaggerUIPetstore').outcome == TaskOutcome.UP_TO_DATE
+        rerunResult.task(project.absolutePath('generateSwaggerUI')).outcome == TaskOutcome.NO_SOURCE
+        rerunResult.task(project.absolutePath('generateSwaggerUIPetstore')).outcome == TaskOutcome.UP_TO_DATE
     }
 
 }

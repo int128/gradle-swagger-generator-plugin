@@ -5,42 +5,54 @@ These are example projects to verify behavior of the plugin by the automated tes
 
 ## Working with Swagger Code Generator v2
 
-- [Basic example of Java and Spring code generation](codegen-v2/java-spring/build.gradle)
-- [Basic example of HTML document generation](codegen-v2/html/build.gradle)
-- [Using a custom template](codegen-v2/custom-template/build.gradle)
-- [Publishing a custom template to the external repository](codegen-v2/externalize-template/build.gradle)
-- [Publishing a generator class to the external repository](codegen-v2/externalize-template/build.gradle)
-- [Handling multiple sources](codegen-v2/multiple-sources/build.gradle)
+- [Basic example of Java and Spring code generation](examples/codegen-v2/java-spring/build.gradle)
+- [Basic example of HTML document generation](examples/codegen-v2/html/build.gradle)
+- [Using a custom template](examples/codegen-v2/custom-template/build.gradle)
+- [Publishing a custom template to the external repository](examples/codegen-v2/externalize-template/build.gradle)
+- [Publishing a generator class to the external repository](examples/codegen-v2/externalize-template/build.gradle)
+- [Handling multiple sources](examples/codegen-v2/multiple-sources/build.gradle)
 
 
 ## Working with Swagger Code Generator v3
 
-- [Basic example of Java and Spring code generation](codegen-v3/java-spring/build.gradle)
-- [Basic example of HTML document generation](codegen-v3/html/build.gradle)
-- [Using a custom template](codegen-v3/custom-template/build.gradle)
-- [Publishing a custom template to the external repository](codegen-v3/externalize-template/build.gradle)
-- [Publishing a generator class to the external repository](codegen-v3/externalize-template/build.gradle)
-- [Handling multiple sources](codegen-v3/multiple-sources/build.gradle)
+- [Basic example of Java and Spring code generation](examples/codegen-v3/java-spring/build.gradle)
+- [Basic example of HTML document generation](examples/codegen-v3/html/build.gradle)
+- [Using a custom template](examples/codegen-v3/custom-template/build.gradle)
+- [Publishing a custom template to the external repository](examples/codegen-v3/externalize-template/build.gradle)
+- [Publishing a generator class to the external repository](examples/codegen-v3/externalize-template/build.gradle)
+- [Handling multiple generator versions](examples/codegen-v3/multiple-codegen-versions/build.gradle)
+- [Handling multiple sources](examples/codegen-v3/multiple-sources/build.gradle)
+
+
+## Working with OpenAPI Generator v3
+
+- [Basic example of Java and Spring code generation](examples/openapi-v3/java-spring/build.gradle)
+- [Basic example of HTML document generation](examples/openapi-v3/html/build.gradle)
+- [Using a custom template](examples/openapi-v3/custom-template/build.gradle)
+- [Publishing a custom template to the external repository](examples/openapi-v3/externalize-template/build.gradle)
+- [Publishing a generator class to the external repository](examples/openapi-v3/externalize-template/build.gradle)
+- [Handling multiple generator versions](examples/openapi-v3/multiple-codegen-versions/build.gradle)
+- [Handling multiple sources](examples/openapi-v3/multiple-sources/build.gradle)
 
 
 ## Working with ReDoc
 
-- [Basic example](redoc/basic/build.gradle)
-- [Using custom options](redoc/custom-options/build.gradle)
+- [Basic example](examples/redoc/basic/build.gradle)
+- [Using custom options](examples/redoc/custom-options/build.gradle)
 
 
 ## Working with Swagger UI v3
 
-- [Basic example](ui-v3/basic/build.gradle)
-- [Handling multiple sources](ui-v3/multiple-sources/build.gradle)
+- [Basic example](examples/ui-v3/basic/build.gradle)
+- [Handling multiple sources](examples/ui-v3/multiple-sources/build.gradle)
 
 
 ## Working with Swagger UI v2 (deprecated)
 
-- [Basic example](ui-v2/basic/build.gradle)
+- [Basic example](examples/ui-v2/basic/build.gradle)
 
 
 ## Plugin behavior
 
-- [Blank project](blank-project/build.gradle)
-- [OpenAPI YAML validation](validator/build.gradle)
+- [Blank project](examples/blank-project/build.gradle)
+- [OpenAPI YAML validation](examples/validator/build.gradle)

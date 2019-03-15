@@ -20,23 +20,20 @@ gradlePlugin {
     pluginSourceSet parent.sourceSets.main
 }
 
-test {
-    systemProperty 'current.gradle.version', gradle.gradleVersion
-}
-
-fileTree(projectDir) {
-    include '*/build.gradle'
-    include '*/*/build.gradle'
+fileTree("$projectDir/examples") {
+    include '**/build.gradle'
 }.each { file ->
-    final projectPath = relativePath(file.path) - '/build.gradle'
-    final escapedProjectPath = projectPath.replace('/', '-')
-    task("build-$escapedProjectPath", type: JavaExec, group: 'acceptance-test') {
+    final exampleProjectDir = file.path - '/build.gradle'
+    final exampleProjectRelativeDir = relativePath(exampleProjectDir - 'examples/')
+    final exampleProjectPath = exampleProjectRelativeDir.replace('/', ':')
+    final escaped = exampleProjectRelativeDir.replace('/', '-')
+    task("build-$escaped", type: JavaExec, group: 'acceptance-test') {
         classpath = sourceSets.test.runtimeClasspath
         main = 'org.hidetake.gradle.swagger.generator.test.Main'
-        args = ["$projectDir/$projectPath", 'build']
+        args = ["$exampleProjectPath:build"]
     }
-    clean.dependsOn task("clean-$escapedProjectPath", type: Delete, group: 'clean') {
-        delete "$projectDir/$projectPath/build"
+    clean.dependsOn task("clean-$escaped", type: Delete, group: 'clean') {
+        delete "$exampleProjectDir/build"
     }
 }
 
@@ -44,21 +41,21 @@ task('examples', description: 'Generate example documents', group: 'acceptance-t
     dependsOn 'build-ui-v3-basic'
     doLast {
         copy {
-            from "$projectDir/ui-v3/basic/build/swagger-ui-petstore"
+            from "$projectDir/examples/ui-v3/basic/build/swagger-ui-petstore"
             into "$buildDir/examples/ui-v3"
         }
     }
     dependsOn 'build-redoc-basic'
     doLast {
         copy {
-            from "$projectDir/redoc/basic/build/redoc-petstore"
+            from "$projectDir/examples/redoc/basic/build/redoc-petstore"
             into "$buildDir/examples/redoc"
         }
     }
     dependsOn 'build-codegen-v3-html'
     doLast {
         copy {
-            from "$projectDir/codegen-v3/html/build/swagger-code-petstore"
+            from "$projectDir/examples/codegen-v3/html/build/swagger-code-petstore"
             into "$buildDir/examples/html"
         }
     }
