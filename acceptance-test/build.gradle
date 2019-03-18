@@ -33,7 +33,7 @@ fileTree(projectDir) {
     task("build-$escapedProjectPath", type: JavaExec, group: 'acceptance-test') {
         classpath = sourceSets.test.runtimeClasspath
         main = 'org.hidetake.gradle.swagger.generator.test.Main'
-        args = ["$projectDir/$projectPath", 'build']
+        args = ["$projectDir/$projectPath", '-s', 'build']
     }
     clean.dependsOn task("clean-$escapedProjectPath", type: Delete, group: 'clean') {
         delete "$projectDir/$projectPath/build"

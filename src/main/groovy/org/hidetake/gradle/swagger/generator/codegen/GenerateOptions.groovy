@@ -1,12 +1,13 @@
 package org.hidetake.gradle.swagger.generator.codegen
 
-import groovy.transform.Immutable
+import groovy.transform.Canonical
 
 /**
  * Options for the generate command of swagger-codegen.
  */
-@Immutable
+@Canonical
 class GenerateOptions {
+    Set<File> generatorFiles
     String inputFile
     String language
     String outputDir

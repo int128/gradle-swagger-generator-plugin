@@ -1,54 +1,37 @@
 package org.hidetake.gradle.swagger.generator
 
+import org.hidetake.gradle.swagger.generator.codegen.Adaptor
+import org.hidetake.gradle.swagger.generator.codegen.AdaptorFactory
 import org.hidetake.gradle.swagger.generator.codegen.GenerateOptions
 import spock.lang.Specification
 import spock.lang.Unroll
 
 class GenerateSwaggerCodeSpec extends Specification {
 
-    def "GenerateSwaggerCode class should be available in a build script"() {
-        when:
-        def project = Fixture.projectWithPlugin()
-
-        then:
-        project.GenerateSwaggerCode == GenerateSwaggerCode
-    }
-
-    def "plugin should add default task"() {
-        when:
-        def project = Fixture.projectWithPlugin()
-
-        then:
-        project.tasks.findByName('generateSwaggerCode')
-    }
-
     @Unroll
     def 'task should #verb the output directory if wipeOutputDir == #wipe'() {
         given:
+        def mockAdaptorFactory = Mock(AdaptorFactory)
+        mockAdaptorFactory.findAdaptor(_) >> Mock(Adaptor)
+
         def project = Fixture.projectWithPlugin {
-            repositories {
-                jcenter()
-            }
-            dependencies {
-                swaggerCodegen 'io.swagger:swagger-codegen-cli:2.3.1'
-            }
             generateSwaggerCode {
                 language = 'java'
-                inputFile = Fixture.file(Fixture.YAML.petstore)
+                inputFile = new File('something')
                 outputDir = buildDir
                 wipeOutputDir = wipe
+                adaptorFactory = mockAdaptorFactory
             }
+
+            buildDir.mkdirs()
+            new File(buildDir, 'keep') << 'something'
         }
 
-        and: 'create a file in the outputDir'
-        project.buildDir.mkdirs()
-        def keep = new File(project.buildDir, 'keep') << 'something'
-
         when:
-        project.tasks.generateSwaggerCode.exec()
+        project.tasks.generateSwaggerCode.execInternal()
 
         then:
-        keep.exists() == existence
+        new File(project.buildDir, 'keep').exists() == existence
 
         where:
         wipe    | verb      | existence
@@ -58,73 +41,63 @@ class GenerateSwaggerCodeSpec extends Specification {
 
     def "task should fail if outputDir == projectDir"() {
         given:
+        def mockAdaptorFactory = Mock(AdaptorFactory)
+        mockAdaptorFactory.findAdaptor(_) >> Mock(Adaptor)
+
         def project = Fixture.projectWithPlugin {
             generateSwaggerCode {
                 language = 'java'
-                inputFile = Fixture.file(Fixture.YAML.petstore)
+                inputFile = new File('something')
                 outputDir = projectDir
+                adaptorFactory = mockAdaptorFactory
             }
         }
 
         when:
-        project.tasks.generateSwaggerCode.exec()
+        project.tasks.generateSwaggerCode.execInternal()
 
         then:
         AssertionError e = thrown()
         e.message.contains('project directory')
     }
 
-    def "task should fail if swaggerCodegen dependency is not set"() {
+    def "task should call the adaptor"() {
         given:
-        def project = Fixture.projectWithPlugin {
-            generateSwaggerCode {
-                language = 'java'
-                inputFile = Fixture.file(Fixture.YAML.petstore)
-            }
-        }
+        def mockAdaptor = Mock(Adaptor)
+        0 * mockAdaptor.generate(_)
+        1 * mockAdaptor.generate(new GenerateOptions(
+            generatorFiles: [],
+            inputFile: 'input',
+            language: 'java',
+            outputDir: 'output',
+            additionalProperties: [foo: 'bar', baz: 'zzz'],
+            systemProperties: [:],
+        ))
 
-        when:
-        project.tasks.generateSwaggerCode.exec()
+        def mockAdaptorFactory = Mock(AdaptorFactory)
+        mockAdaptorFactory.findAdaptor(_) >> mockAdaptor
 
-        then:
-        IllegalStateException e = thrown()
-        e.message.contains('swaggerCodegen')
-    }
-
-    def "task should build options"() {
-        given:
         def project = Fixture.projectWithPlugin {
             generateSwaggerCode {
                 language = 'java'
                 inputFile = new File('input')
                 outputDir = new File('output')
                 additionalProperties = [foo: 'bar', baz: 'zzz']
+                adaptorFactory = mockAdaptorFactory
             }
         }
 
         when:
-        GenerateOptions options = project.tasks.generateSwaggerCode.buildOptions()
+        project.tasks.generateSwaggerCode.execInternal()
 
         then:
-        options.with {
-            inputFile == 'input'
-            outputDir == 'output'
-            language == 'java'
-            additionalProperties == [foo: 'bar', baz: 'zzz']
-        }
+        noExceptionThrown()
     }
 
     @Unroll
     def "task should set system properties on components=#givenComponents"() {
-        given:
-        def project = Fixture.projectWithPlugin {
-            generateSwaggerCode {
-                components = givenComponents
-            }
-        }
-
         when:
-        def systemProperties = project.tasks.generateSwaggerCode.buildSystemProperties()
+        def systemProperties = GenerateSwaggerCode.Helper.systemProperties(givenComponents)
 
         then:
         systemProperties == expectedSystemProperties
