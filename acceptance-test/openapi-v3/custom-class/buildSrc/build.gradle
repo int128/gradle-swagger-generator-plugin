@@ -1,7 +1,0 @@
-repositories {
-    jcenter()
-}
-
-dependencies {
-	compile 'org.openapitools:openapi-generator-cli:3.3.4'
-}
