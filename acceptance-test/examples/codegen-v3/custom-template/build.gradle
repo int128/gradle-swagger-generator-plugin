@@ -1,0 +1,26 @@
+plugins {
+    id 'base'
+    id 'org.hidetake.swagger.generator'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.0'
+}
+
+swaggerSources {
+    petstore {
+        inputFile = file("$rootDir/vendor/openapi-v2-petstore.yaml")
+        code {
+            language = 'spring'
+            configFile = file("$rootDir/java-spring-config.json")
+            templateDir = file("$rootDir/vendor/templates/java-spring")
+            components = ['models', 'apis']
+        }
+    }
+}
+
+build.dependsOn generateSwaggerCode

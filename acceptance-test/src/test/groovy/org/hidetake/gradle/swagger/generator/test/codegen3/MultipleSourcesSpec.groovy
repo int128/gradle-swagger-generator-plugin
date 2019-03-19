@@ -1,32 +1,18 @@
 package org.hidetake.gradle.swagger.generator.test.codegen3
 
-import org.gradle.testkit.runner.GradleRunner
+
 import org.gradle.testkit.runner.TaskOutcome
-import org.hidetake.gradle.swagger.generator.test.Fixture
+import org.hidetake.gradle.swagger.generator.test.GradleProject
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import static org.hidetake.gradle.swagger.generator.test.Fixture.cleanBuildDir
-import static org.hidetake.gradle.swagger.generator.test.Fixture.setupFixture
-
 class MultipleSourcesSpec extends Specification {
 
-    GradleRunner runner
-
-    def setup() {
-        runner = GradleRunner.create()
-            .withProjectDir(new File('./codegen-v3/multiple-sources'))
-            .withPluginClasspath()
-            .forwardOutput()
-        cleanBuildDir(runner)
-    }
+    final project = new GradleProject(':codegen-v3:multiple-sources')
 
     def 'tasks should exist in the project'() {
-        given:
-        runner.withArguments('--stacktrace', 'tasks')
-
         when:
-        def result = runner.build()
+        def result = project.execute('tasks')
 
         then:
         result.output.contains('generateSwaggerCodePetstoreV1 -')
@@ -38,45 +24,35 @@ class MultipleSourcesSpec extends Specification {
     }
 
     def 'generateSwaggerCode task should generate code'() {
-        given:
-        runner.withArguments('--stacktrace', 'generateSwaggerCode')
-
         when:
-        def result = runner.build()
+        def result = project.execute('generateSwaggerCode')
 
         then:
-        result.task(':generateSwaggerCodePetstoreV1').outcome == TaskOutcome.SUCCESS
-        new File(runner.projectDir, 'build/swagger-code-petstoreV1/src/main/java/example/v1/api/PetsApi.java').exists()
-        result.task(':generateSwaggerCodePetstoreV2').outcome == TaskOutcome.SUCCESS
-        new File(runner.projectDir, 'build/swagger-code-petstoreV2/src/main/java/example/v2/api/PetsApi.java').exists()
+        result.task(project.absolutePath('generateSwaggerCodePetstoreV1')).outcome == TaskOutcome.SUCCESS
+        result.task(project.absolutePath('generateSwaggerCodePetstoreV2')).outcome == TaskOutcome.SUCCESS
+        project.file('build/swagger-code-petstoreV1/src/main/java/example/v1/api/PetsApi.java').exists()
+        project.file('build/swagger-code-petstoreV2/src/main/java/example/v2/api/PetsApi.java').exists()
 
         when:
-        def rerunResult = runner.build()
+        def rerunResult = project.executeWithoutClean('generateSwaggerCode')
 
         then:
-        rerunResult.task(':generateSwaggerCodePetstoreV1').outcome == TaskOutcome.UP_TO_DATE
-        rerunResult.task(':generateSwaggerCodePetstoreV2').outcome == TaskOutcome.UP_TO_DATE
+        rerunResult.task(project.absolutePath('generateSwaggerCodePetstoreV1')).outcome == TaskOutcome.UP_TO_DATE
+        rerunResult.task(project.absolutePath('generateSwaggerCodePetstoreV2')).outcome == TaskOutcome.UP_TO_DATE
     }
 
     def 'build task should build the generated code'() {
-        given:
-        setupFixture(runner, Fixture.YAML.petstore)
-        runner.withArguments('--stacktrace', 'build')
-
         when:
-        runner.build()
+        project.execute('build')
 
         then:
-        new File(runner.projectDir, 'build/libs/multiple-sources.jar').exists()
+        project.file('build/libs/multiple-sources.jar').exists()
     }
 
     @Unroll
     def '#taskName task should show help'() {
-        given:
-        runner.withArguments('--stacktrace', taskName)
-
         when:
-        def result = runner.build()
+        def result = project.execute(taskName)
 
         then:
         result.output.contains('CONFIG OPTIONS')

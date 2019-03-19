@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDir("$rootDir/vendor/templates")
+        }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId 'org.hidetake'
+            artifactId 'swagger-templates'
+            version '1.0.0'
+            from components.java
+        }
+    }
+}

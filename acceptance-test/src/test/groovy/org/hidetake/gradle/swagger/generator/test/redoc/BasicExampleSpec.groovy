@@ -1,44 +1,29 @@
 package org.hidetake.gradle.swagger.generator.test.redoc
 
-import org.gradle.testkit.runner.GradleRunner
-import org.gradle.testkit.runner.TaskOutcome
-import org.hidetake.gradle.swagger.generator.test.Fixture
-import spock.lang.Specification
 
-import static org.hidetake.gradle.swagger.generator.test.Fixture.cleanBuildDir
-import static org.hidetake.gradle.swagger.generator.test.Fixture.setupFixture
+import org.gradle.testkit.runner.TaskOutcome
+import org.hidetake.gradle.swagger.generator.test.GradleProject
+import spock.lang.Specification
 
 class BasicExampleSpec extends Specification {
 
-    GradleRunner runner
-
-    def setup() {
-        runner = GradleRunner.create()
-            .withProjectDir(new File('./redoc/basic'))
-            .withPluginClasspath()
-            .forwardOutput()
-        cleanBuildDir(runner)
-    }
+    final project = new GradleProject(':redoc:basic')
 
     def 'generateReDoc task should generate index.html'() {
-        given:
-        setupFixture(runner, Fixture.YAML.petstore)
-        runner.withArguments('--stacktrace', 'generateReDoc')
-
         when:
-        def result = runner.build()
+        def result = project.execute('generateReDoc')
 
         then:
-        result.task(':generateReDoc').outcome == TaskOutcome.NO_SOURCE
-        result.task(':generateReDocPetstore').outcome == TaskOutcome.SUCCESS
-        new File("${runner.projectDir}/build/redoc-petstore/index.html").exists()
+        result.task(project.absolutePath('generateReDoc')).outcome == TaskOutcome.NO_SOURCE
+        result.task(project.absolutePath('generateReDocPetstore')).outcome == TaskOutcome.SUCCESS
+        project.file('build/redoc-petstore/index.html').exists()
 
         when:
-        def rerunResult = runner.build()
+        def rerunResult = project.executeWithoutClean('generateReDoc')
 
         then:
-        rerunResult.task(':generateReDoc').outcome == TaskOutcome.NO_SOURCE
-        rerunResult.task(':generateReDocPetstore').outcome == TaskOutcome.UP_TO_DATE
+        rerunResult.task(project.absolutePath('generateReDoc')).outcome == TaskOutcome.NO_SOURCE
+        rerunResult.task(project.absolutePath('generateReDocPetstore')).outcome == TaskOutcome.UP_TO_DATE
     }
 
 }

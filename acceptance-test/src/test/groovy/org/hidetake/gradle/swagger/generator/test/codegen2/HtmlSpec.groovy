@@ -1,31 +1,16 @@
 package org.hidetake.gradle.swagger.generator.test.codegen2
 
-import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
-import org.hidetake.gradle.swagger.generator.test.Fixture
+import org.hidetake.gradle.swagger.generator.test.GradleProject
 import spock.lang.Specification
-
-import static org.hidetake.gradle.swagger.generator.test.Fixture.cleanBuildDir
-import static org.hidetake.gradle.swagger.generator.test.Fixture.setupFixture
 
 class HtmlSpec extends Specification {
 
-    GradleRunner runner
-
-    def setup() {
-        runner = GradleRunner.create()
-            .withProjectDir(new File('./codegen-v2/html'))
-            .withPluginClasspath()
-            .forwardOutput()
-        cleanBuildDir(runner)
-    }
+    final project = new GradleProject(':codegen-v2:html')
 
     def 'plugin should add default tasks into the project'() {
-        given:
-        runner.withArguments('--stacktrace', 'tasks')
-
         when:
-        def result = runner.build()
+        def result = project.execute('tasks')
 
         then:
         result.output.contains('generateSwaggerCode -')
@@ -33,32 +18,25 @@ class HtmlSpec extends Specification {
     }
 
     def 'generateSwaggerCode task should generate HTML'() {
-        given:
-        setupFixture(runner, Fixture.YAML.petstore)
-        runner.withArguments('--stacktrace', 'generateSwaggerCode')
-
         when:
-        def result = runner.build()
+        def result = project.execute('generateSwaggerCode')
 
         then:
-        result.task(':generateSwaggerCode').outcome == TaskOutcome.NO_SOURCE
-        result.task(':generateSwaggerCodePetstore').outcome == TaskOutcome.SUCCESS
-        new File(runner.projectDir, 'build/swagger-code-petstore/index.html').exists()
+        result.task(project.absolutePath('generateSwaggerCode')).outcome == TaskOutcome.NO_SOURCE
+        result.task(project.absolutePath('generateSwaggerCodePetstore')).outcome == TaskOutcome.SUCCESS
+        project.file('build/swagger-code-petstore/index.html').exists()
 
         when:
-        def rerunResult = runner.build()
+        def rerunResult = project.executeWithoutClean('generateSwaggerCode')
 
         then:
-        rerunResult.task(':generateSwaggerCode').outcome == TaskOutcome.NO_SOURCE
-        rerunResult.task(':generateSwaggerCodePetstore').outcome == TaskOutcome.UP_TO_DATE
+        rerunResult.task(project.absolutePath('generateSwaggerCode')).outcome == TaskOutcome.NO_SOURCE
+        rerunResult.task(project.absolutePath('generateSwaggerCodePetstore')).outcome == TaskOutcome.UP_TO_DATE
     }
 
     def 'generateSwaggerCodePetstoreHelp task should show help'() {
-        given:
-        runner.withArguments('--stacktrace', 'generateSwaggerCodePetstoreHelp')
-
         when:
-        def result = runner.build()
+        def result = project.execute('generateSwaggerCodePetstoreHelp')
 
         then:
         result.output.contains('CONFIG OPTIONS')
