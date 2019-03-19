@@ -320,6 +320,51 @@ For more, see below.
 - [openapi-v3/custom-template](acceptance-test/openapi-v3/custom-template)
 
 
+### Use custom generator class
+
+We can use a custom generator class for the code generation as follows:
+
+```groovy
+// build.gradle
+swaggerSources {
+  petstore {
+    inputFile = file('petstore.yaml')
+    code {
+      // FQCN of the custom generator class
+      language = 'CustomGenerator'
+    }
+  }
+}
+
+dependencies {
+  swaggerCodegen project('generators')
+}
+
+swaggerSources*.code*.dependsOn 'generators:jar'
+```
+
+```groovy
+// generators/build.gradle (child project)
+dependencies {
+  compile 'io.swagger:swagger-codegen-cli:2.3.1'
+}
+```
+
+```groovy
+// generators/src/main/groovy/CustomGenerator.groovy
+import io.swagger.codegen.languages.SpringCodegen
+
+class CustomGenerator extends SpringCodegen {
+}
+```
+
+See also the following examples:
+
+- [codegen-v2/custom-class](acceptance-test/examples/codegen-v2/custom-class)
+- [codegen-v3/custom-class](acceptance-test/examples/codegen-v3/custom-class)
+- [openapi-v3/custom-class](acceptance-test/examples/openapi-v3/custom-class)
+
+
 ### Externalize template or generator class
 
 In some large use case, we can release a template or generator to an external repository and use them from projects.
