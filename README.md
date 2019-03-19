@@ -228,11 +228,12 @@ sourceSets.main.java.srcDir "${swaggerSources.petstore.code.outputDir}/src/main/
 sourceSets.main.resources.srcDir "${swaggerSources.petstore.code.outputDir}/src/main/resources"
 ```
 
-For more, see below.
+See also the following examples:
 
-- [codegen-v2/java-spring](acceptance-test/codegen-v2/java-spring) 
-- [codegen-v3/java-spring](acceptance-test/codegen-v3/java-spring)
-- [openapi-v3/java-spring](acceptance-test/openapi-v3/java-spring)
+- [codegen-v2/java-spring](acceptance-test/examples/codegen-v2/java-spring) 
+- [codegen-v3/java-spring](acceptance-test/examples/codegen-v3/java-spring)
+- [openapi-v3/java-spring](acceptance-test/examples/openapi-v3/java-spring)
+
 
 ### Validate YAML before code genetation
 
@@ -255,8 +256,6 @@ swaggerSources {
   }
 }
 ```
-
-
 
 
 ### Selective generation
@@ -294,7 +293,7 @@ components = [apis: true, apiTests: false]
 components = [apis: true, apiTests: null]
 ```
 
-For details, see [selective generation section](https://github.com/swagger-api/swagger-codegen#selective-generation).
+See [selective generation section](https://github.com/swagger-api/swagger-codegen#selective-generation) for details.
 
 
 ### Use custom template
@@ -313,11 +312,11 @@ swaggerSources {
 }
 ```
 
-For more, see below.
+See also the following examples:
 
-- [codegen-v2/custom-template](acceptance-test/codegen-v2/custom-template)
-- [codegen-v3/custom-template](acceptance-test/codegen-v3/custom-template)
-- [openapi-v3/custom-template](acceptance-test/openapi-v3/custom-template)
+- [codegen-v2/custom-template](acceptance-test/examples/codegen-v2/custom-template)
+- [codegen-v3/custom-template](acceptance-test/examples/codegen-v3/custom-template)
+- [openapi-v3/custom-template](acceptance-test/examples/openapi-v3/custom-template)
 
 
 ### Use custom generator class
@@ -399,11 +398,11 @@ swaggerSources {
 }
 ```
 
-For more, see below.
+See also the following examples:
 
-- [codegen-v2/externalize-template](acceptance-test/codegen-v2/externalize-template) and [codegen-v2/externalize-class](acceptance-test/codegen-v2/externalize-class)
-- [codegen-v3/externalize-template](acceptance-test/codegen-v3/externalize-template) and [codegen-v3/externalize-class](acceptance-test/codegen-v3/externalize-class)
-- [openapi-v3/externalize-template](acceptance-test/openapi-v3/externalize-template) and [openapi-v3/externalize-class](acceptance-test/openapi-v3/externalize-class)
+- [codegen-v2/externalize-template](acceptance-test/examples/codegen-v2/externalize-template) and [codegen-v2/externalize-class](acceptance-test/examples/codegen-v2/externalize-class)
+- [codegen-v3/externalize-template](acceptance-test/examples/codegen-v3/externalize-template) and [codegen-v3/externalize-class](acceptance-test/examples/codegen-v3/externalize-class)
+- [openapi-v3/externalize-template](acceptance-test/examples/openapi-v3/externalize-template) and [openapi-v3/externalize-class](acceptance-test/examples/openapi-v3/externalize-class)
 
 
 
@@ -435,11 +434,11 @@ sourceSets.main.java.srcDirs "${swaggerSources.petstoreV1.code.outputDir}/src/ma
 sourceSets.main.resources.srcDirs "${swaggerSources.petstoreV1.code.outputDir}/src/main/resources", "${swaggerSources.petstoreV2.code.outputDir}/src/main/resources"
 ```
 
-For more, see below.
+See also the following examples:
 
-- [codegen-v2/multiple-sources](acceptance-test/codegen-v2/multiple-sources) 
-- [codegen-v3/multiple-sources](acceptance-test/codegen-v3/multiple-sources)
-- [openapi-v3/multiple-sources](acceptance-test/openapi-v3/multiple-sources)
+- [codegen-v2/multiple-sources](acceptance-test/examples/codegen-v2/multiple-sources) 
+- [codegen-v3/multiple-sources](acceptance-test/examples/codegen-v3/multiple-sources)
+- [openapi-v3/multiple-sources](acceptance-test/examples/openapi-v3/multiple-sources)
 
 
 ### Switch version of Swagger Codegen
@@ -476,10 +475,11 @@ swaggerSources {
 }
 ```
 
-For more, see below.
+See also the following examples:
 
-- [codegen-v3/multiple-codegen-versions](acceptance-test/codegen-v3/multiple-codegen-versions)
-- [openapi-v3/multiple-codegen-versions](acceptance-test/openapi-v3/multiple-codegen-versions)
+- [codegen-v3/multiple-codegen-versions](acceptance-test/examples/codegen-v3/multiple-codegen-versions)
+- [openapi-v3/multiple-codegen-versions](acceptance-test/examples/openapi-v3/multiple-codegen-versions)
+
 
 ### Configure Swagger UI
 
@@ -510,8 +510,10 @@ It must satisfy the followings:
 - Set `spec: window.swaggerSpec` in `SwaggerUIBundle()` parameters.
 - Set `validatorUrl: null` in `SwaggerUIBundle()` parameters in order to turn off the validator badge.
 
-For more, see [ui-v3/basic](acceptance-test/ui-v3/basic).
-If you need Swagger UI 2.x, see [ui-v2/basic](acceptance-test/ui-v2/basic).
+See also the following examples:
+
+- [ui-v3/basic](acceptance-test/examples/ui-v3/basic)
+- [ui-v2/basic](acceptance-test/examples/ui-v2/basic) (if you need Swagger UI 2.x)
 
 
 ## Settings
