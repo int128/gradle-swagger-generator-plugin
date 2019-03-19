@@ -37,7 +37,7 @@ file('examples/settings.gradle').eachLine { line ->
     }
 }
 
-task('examples', description: 'Generate example documents', group: 'acceptance-test') {
+task('example-docs', description: 'Generate example documents', group: 'documentation') {
     dependsOn 'build-ui-v3-basic'
     doLast {
         copy {
@@ -52,11 +52,25 @@ task('examples', description: 'Generate example documents', group: 'acceptance-t
             into "$buildDir/examples/redoc"
         }
     }
+    dependsOn 'build-codegen-v2-html'
+    doLast {
+        copy {
+            from "$projectDir/examples/codegen-v2/html/build/swagger-code-petstore"
+            into "$buildDir/examples/html-codegen-v2"
+        }
+    }
     dependsOn 'build-codegen-v3-html'
     doLast {
         copy {
             from "$projectDir/examples/codegen-v3/html/build/swagger-code-petstore"
-            into "$buildDir/examples/html"
+            into "$buildDir/examples/html-codegen-v3"
+        }
+    }
+    dependsOn 'build-openapi-v3-html'
+    doLast {
+        copy {
+            from "$projectDir/examples/openapi-v3/html/build/swagger-code-petstore"
+            into "$buildDir/examples/html-openapi-v3"
         }
     }
 }
