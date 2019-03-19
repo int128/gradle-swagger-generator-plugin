@@ -2,7 +2,7 @@ window.swaggerSpec={
   "swagger" : "2.0",
   "info" : {
     "version" : "1.0.0",
-    "title" : "Swagger Petstore",
+    "title" : "Swagger Petstore v2 (OpenAPI 2)",
     "license" : {
       "name" : "MIT"
     }
@@ -28,57 +28,13 @@ window.swaggerSpec={
         } ],
         "responses" : {
           "200" : {
-            "description" : "A paged array of pets",
+            "description" : "An paged array of pets",
             "headers" : {
               "x-next" : {
                 "type" : "string",
                 "description" : "A link to the next page of responses"
               }
             },
-            "schema" : {
-              "$ref" : "#/definitions/Pets"
-            }
-          },
-          "default" : {
-            "description" : "unexpected error",
-            "schema" : {
-              "$ref" : "#/definitions/Error"
-            }
-          }
-        }
-      },
-      "post" : {
-        "summary" : "Create a pet",
-        "operationId" : "createPets",
-        "tags" : [ "pets" ],
-        "responses" : {
-          "201" : {
-            "description" : "Null response"
-          },
-          "default" : {
-            "description" : "unexpected error",
-            "schema" : {
-              "$ref" : "#/definitions/Error"
-            }
-          }
-        }
-      }
-    },
-    "/pets/{petId}" : {
-      "get" : {
-        "summary" : "Info for a specific pet",
-        "operationId" : "showPetById",
-        "tags" : [ "pets" ],
-        "parameters" : [ {
-          "name" : "petId",
-          "in" : "path",
-          "required" : true,
-          "description" : "The id of the pet to retrieve",
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Expected response to a valid request",
             "schema" : {
               "$ref" : "#/definitions/Pets"
             }
