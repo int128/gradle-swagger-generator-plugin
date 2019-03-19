@@ -1,0 +1,13 @@
+plugins {
+    id 'groovy'
+    id 'maven-publish'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile localGroovy()
+    compile 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.0'
+}

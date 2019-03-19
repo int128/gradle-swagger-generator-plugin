@@ -1,0 +1,13 @@
+plugins {
+    id 'groovy'
+    id 'maven-publish'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile localGroovy()
+    compile 'org.openapitools:openapi-generator-cli:3.3.4'
+}
