@@ -20,20 +20,20 @@ gradlePlugin {
     pluginSourceSet parent.sourceSets.main
 }
 
-fileTree("$projectDir/examples") {
-    include '**/build.gradle'
-}.each { file ->
-    final exampleProjectDir = file.path - '/build.gradle'
-    final exampleProjectRelativeDir = relativePath(exampleProjectDir - 'examples/')
-    final exampleProjectPath = exampleProjectRelativeDir.replace('/', ':')
-    final escaped = exampleProjectRelativeDir.replace('/', '-')
-    task("build-$escaped", type: JavaExec, group: 'acceptance-test') {
-        classpath = sourceSets.test.runtimeClasspath
-        main = 'org.hidetake.gradle.swagger.generator.test.Main'
-        args = ["$exampleProjectPath:build"]
-    }
-    clean.dependsOn task("clean-$escaped", type: Delete, group: 'clean') {
-        delete "$exampleProjectDir/build"
+file('examples/settings.gradle').eachLine { line ->
+    def m = (line =~ /include '(.+?)'/)
+    if (m) {
+        def path = m.group(1)
+        def escaped = path.replace(':', '-')
+        def realPath = "$projectDir/examples/${path.replace(':', '/')}"
+
+        task("build-$escaped", type: JavaExec, group: 'acceptance-test') {
+            classpath = sourceSets.test.runtimeClasspath
+            main = 'org.hidetake.gradle.swagger.generator.test.Main'
+            args = ["$path:build"]
+        }
+
+        project.tasks.clean.delete "$realPath/build"
     }
 }
 
