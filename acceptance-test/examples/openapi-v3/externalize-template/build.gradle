@@ -18,7 +18,7 @@ dependencies {
 
 swaggerSources {
     petstore {
-        inputFile = file("$rootDir/vendor/openapi-v2-petstore.yaml")
+        inputFile = file("$rootDir/vendor/openapi-v3-petstore.yaml")
         code {
             language = 'java'
             configFile = file("$rootDir/java-config.json")
