@@ -4,17 +4,13 @@ import org.gradle.api.tasks.Sync
 
 /**
  * A task to extract template files from a dependency.
- *
- * @author Hidetake Iwata
  */
 class ResolveSwaggerTemplate extends Sync {
 
-    def ResolveSwaggerTemplate() {
+    ResolveSwaggerTemplate() {
         from {
-            if (!project.configurations.swaggerTemplate.empty) {
-                project.zipTree(project.configurations.swaggerTemplate.singleFile)
-            } else {
-                []
+            project.configurations.swaggerTemplate.resolve().collect {
+                project.zipTree(it)
             }
         }
         into("${project.buildDir}/swagger-template")
