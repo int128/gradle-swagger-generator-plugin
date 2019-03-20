@@ -5,22 +5,6 @@ import spock.lang.Unroll
 
 class GenerateSwaggerUISpec extends Specification {
 
-    def "GenerateSwaggerUI class should be available in a build script"() {
-        when:
-        def project = Fixture.projectWithPlugin()
-
-        then:
-        project.GenerateSwaggerUI == GenerateSwaggerUI
-    }
-
-    def "plugin should add default task"() {
-        when:
-        def project = Fixture.projectWithPlugin()
-
-        then:
-        project.tasks.findByName('generateSwaggerUI')
-    }
-
     def "task should fail if swaggerUI dependency is not set"() {
         given:
         def project = Fixture.projectWithPlugin()
@@ -39,6 +23,7 @@ class GenerateSwaggerUISpec extends Specification {
             repositories {
                 jcenter()
             }
+            //TODO: fix slow test
             dependencies {
                 swaggerUI 'org.webjars:swagger-ui:2.2.10'
             }

@@ -16,6 +16,7 @@ class DefaultAdaptorFactorySpec extends Specification {
             configurations {
                 swaggerCodegen
             }
+            //TODO: fix slow test
             dependencies {
                 swaggerCodegen givenGenerator
             }

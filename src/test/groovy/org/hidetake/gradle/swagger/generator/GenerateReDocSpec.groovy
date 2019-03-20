@@ -5,30 +5,6 @@ import spock.lang.Unroll
 
 class GenerateReDocSpec extends Specification {
 
-    def "GenerateReDoc class should be available in a build script"() {
-        when:
-        def project = Fixture.projectWithPlugin()
-
-        then:
-        project.GenerateReDoc == GenerateReDoc
-    }
-
-    def "plugin should add default task"() {
-        when:
-        def project = Fixture.projectWithPlugin()
-
-        then:
-        project.tasks.findByName('generateReDoc')
-    }
-
-    def "plugin should have default properties"() {
-        when:
-        def project = Fixture.projectWithPlugin()
-
-        then:
-        project.tasks.generateReDoc.scriptSrc =~ /\.js$/
-    }
-
     @Unroll
     def 'task should #verb the output directory if wipeOutputDir == #wipe'() {
         given:

@@ -8,8 +8,8 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "build.gradle" }}
-          - v1-dependencies-
+            - v1-dependencies-{{ checksum "build.gradle" }}
+            - v1-dependencies-
       - run: ./gradlew build
       - run:
           name: Gather test results and reports
@@ -39,9 +39,9 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "build.gradle" }}
-          - v1-dependencies-
-      - run: ./gradlew acceptance-test:examples
+            - v1-dependencies-{{ checksum "build.gradle" }}
+            - v1-dependencies-
+      - run: ./gradlew acceptance-test:example-docs
       - run: |
           ghcp -u "$CIRCLE_PROJECT_USERNAME" -r "$CIRCLE_PROJECT_REPONAME" -b gh-pages \
             -m "Published by $CIRCLE_BUILD_URL" \
@@ -61,8 +61,8 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "build.gradle" }}
-          - v1-dependencies-
+            - v1-dependencies-{{ checksum "build.gradle" }}
+            - v1-dependencies-
       - run: |
           mkdir -p $HOME/.gradle
           echo "gradle.publish.key=$GRADLE_PUBLISH_KEY" >> $HOME/.gradle/gradle.properties
