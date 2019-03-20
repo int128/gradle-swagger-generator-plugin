@@ -25,6 +25,7 @@ class SwaggerGeneratorPluginSpec extends Specification {
         project.tasks.generateSwaggerUI
         project.tasks.generateReDoc
         project.tasks.validateSwagger
+        project.tasks.resolveSwaggerTemplate
 
         and: 'should have default properties'
         project.tasks.generateReDoc.scriptSrc =~ /\.js$/
