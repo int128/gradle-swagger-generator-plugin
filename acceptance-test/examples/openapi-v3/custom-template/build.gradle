@@ -13,14 +13,14 @@ dependencies {
 
 swaggerSources {
     petstore {
-        inputFile = file("$rootDir/vendor/openapi-v3-petstore.yaml")
+        inputFile = file("$rootDir/openapi-v3-petstore.yaml")
         code {
-            language = 'spring'
-            configFile = file("$rootDir/java-spring-config.json")
-            templateDir = file("$rootDir/vendor/templates/java-spring")
-            components = ['models', 'apis']
+            language = 'html'
+            templateDir = file("$rootDir/build/templates/openapi3/htmlDocs")
         }
     }
 }
+
+swaggerSources*.code*.dependsOn ':prepareTemplates'
 
 build.dependsOn generateSwaggerCode

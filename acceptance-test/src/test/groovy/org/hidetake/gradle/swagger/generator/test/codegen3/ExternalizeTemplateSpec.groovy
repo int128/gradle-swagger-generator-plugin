@@ -19,6 +19,7 @@ class ExternalizeTemplateSpec extends Specification {
         result.task(project.absolutePath('resolveSwaggerTemplate')).outcome == TaskOutcome.SUCCESS
         result.task(project.absolutePath('generateSwaggerCode')).outcome == TaskOutcome.NO_SOURCE
         result.task(project.absolutePath('generateSwaggerCodePetstore')).outcome == TaskOutcome.SUCCESS
+        project.file('build/swagger-code-petstore/index.html').exists()
     }
 
 }

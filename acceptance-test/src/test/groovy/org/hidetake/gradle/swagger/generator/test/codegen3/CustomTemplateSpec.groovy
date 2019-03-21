@@ -15,7 +15,7 @@ class CustomTemplateSpec extends Specification {
         then:
         result.task(project.absolutePath('generateSwaggerCode')).outcome == TaskOutcome.NO_SOURCE
         result.task(project.absolutePath('generateSwaggerCodePetstore')).outcome == TaskOutcome.SUCCESS
-        project.file('build/swagger-code-petstore/src/main/java/example/api/PetsApi.java').exists()
+        project.file('build/swagger-code-petstore/index.html').exists()
     }
 
     def 'generateSwaggerCodePetstoreHelp task should show help'() {

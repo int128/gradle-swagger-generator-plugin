@@ -5,10 +5,10 @@ plugins {
 
 swaggerSources {
     petstore {
-        inputFile = file("$rootDir/vendor/openapi-v2-petstore.yaml")
+        inputFile = file("$rootDir/openapi-v2-petstore.yaml")
     }
     invalidPetstore {
-        inputFile = file("$rootDir/vendor/invalid.yaml")
+        inputFile = file("$rootDir/openapi-v2-invalid.yaml")
     }
 }
 

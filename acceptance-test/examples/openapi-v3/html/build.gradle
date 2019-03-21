@@ -13,7 +13,7 @@ dependencies {
 
 swaggerSources {
     petstore {
-        inputFile = file("$rootDir/vendor/openapi-v3-petstore.yaml")
+        inputFile = file("$rootDir/openapi-v3-petstore.yaml")
         code {
             language = 'html2'
         }

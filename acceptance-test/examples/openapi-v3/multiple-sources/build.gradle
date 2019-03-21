@@ -25,7 +25,7 @@ dependencies {
 
 swaggerSources {
     petstoreV1 {
-        inputFile = file("$rootDir/vendor/openapi-v3-petstore.yaml")
+        inputFile = file("$rootDir/openapi-v3-petstore.yaml")
         code {
             language = 'spring'
             components = ['models', 'apis','supportingFiles']
@@ -33,7 +33,7 @@ swaggerSources {
         }
     }
     petstoreV2 {
-        inputFile = file("$rootDir/vendor/openapi-v3-petstore.yaml")
+        inputFile = file("$rootDir/openapi-v3-petstore.yaml")
         code {
             language = 'spring'
             components = ['models', 'apis','supportingFiles']
