@@ -31,8 +31,8 @@ class DefaultAdaptorFactorySpec extends Specification {
 
         where:
         givenGenerator                                    | expectedAdaptor
-        'io.swagger:swagger-codegen-cli:2.3.1'            | Swagger2Adaptor
-        'io.swagger.codegen.v3:swagger-codegen-cli:3.0.0' | Swagger3Adaptor
+        'io.swagger:swagger-codegen-cli:2.4.2'            | Swagger2Adaptor
+        'io.swagger.codegen.v3:swagger-codegen-cli:3.0.5' | Swagger3Adaptor
         'org.openapitools:openapi-generator-cli:3.3.4'    | OpenAPI3Adaptor
     }
 
