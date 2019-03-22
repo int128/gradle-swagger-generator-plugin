@@ -801,7 +801,7 @@
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pets-createPets-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://petstore.swagger.io/v1/pets"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X  "http://petstore.swagger.io/v1/pets"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pets-createPets-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -914,7 +914,7 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api{{classname}}();
+$api_instance = new Swagger\Client\ApiPetsApi();
 
 try {
     $api_instance->createPets();
@@ -997,11 +997,12 @@ except ApiException as e:
     }
   }
 };
-                                        var schema = schemaWrapper.schema;
+                                        var schema = schemaWrapper.content[].schema;
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
                                         } else {
-                                          schemaWrapper.definitions = Object.assign({}, defs);
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
                                           $RefParser.dereference(schemaWrapper).catch(function(err) {
                                             console.log(err);
                                           });
@@ -1055,7 +1056,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pets-listPets-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://petstore.swagger.io/v1/pets?limit="</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X  "http://petstore.swagger.io/v1/pets?limit="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pets-listPets-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -1181,7 +1182,7 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api{{classname}}();
+$api_instance = new Swagger\Client\ApiPetsApi();
 $limit = 56; // Integer | How many items to return at one time (max 100)
 
 try {
@@ -1304,11 +1305,12 @@ except ApiException as e:
     }
   }
 };
-                                        var schema = schemaWrapper.schema;
+                                        var schema = schemaWrapper.content[].schema;
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
                                         } else {
-                                          schemaWrapper.definitions = Object.assign({}, defs);
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
                                           $RefParser.dereference(schemaWrapper).catch(function(err) {
                                             console.log(err);
                                           });
@@ -1367,11 +1369,12 @@ except ApiException as e:
     }
   }
 };
-                                        var schema = schemaWrapper.schema;
+                                        var schema = schemaWrapper.content[].schema;
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
                                         } else {
-                                          schemaWrapper.definitions = Object.assign({}, defs);
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
                                           $RefParser.dereference(schemaWrapper).catch(function(err) {
                                             console.log(err);
                                           });
@@ -1425,7 +1428,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pets-showPetById-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://petstore.swagger.io/v1/pets/{petId}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X  "http://petstore.swagger.io/v1/pets/{petId}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pets-showPetById-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -1497,7 +1500,6 @@ PetsApi *apiInstance = [[PetsApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var SwaggerPetstoreV3OpenApi3 = require('swagger_petstore_v3__open_api_3');
 
 var api = new SwaggerPetstoreV3OpenApi3.PetsApi()
-var petId = petId_example; // {{String}} The id of the pet to retrieve
 
 var callback = function(error, data, response) {
   if (error) {
@@ -1550,7 +1552,7 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\Api{{classname}}();
+$api_instance = new Swagger\Client\ApiPetsApi();
 $petId = petId_example; // String | The id of the pet to retrieve
 
 try {
@@ -1660,11 +1662,12 @@ except ApiException as e:
     }
   }
 };
-                                        var schema = schemaWrapper.schema;
+                                        var schema = schemaWrapper.content[].schema;
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
                                         } else {
-                                          schemaWrapper.definitions = Object.assign({}, defs);
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
                                           $RefParser.dereference(schemaWrapper).catch(function(err) {
                                             console.log(err);
                                           });
@@ -1707,11 +1710,12 @@ except ApiException as e:
     }
   }
 };
-                                        var schema = schemaWrapper.schema;
+                                        var schema = schemaWrapper.content[].schema;
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
                                         } else {
-                                          schemaWrapper.definitions = Object.assign({}, defs);
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
                                           $RefParser.dereference(schemaWrapper).catch(function(err) {
                                             console.log(err);
                                           });
@@ -3460,7 +3464,8 @@ except ApiException as e:
   </script>
   <script>
     var schemaWrapper = {};
-    schemaWrapper.definitions = Object.assign({}, defs);
+    schemaWrapper.components = {};
+    schemaWrapper.components.schemas = Object.assign({}, defs);
     defsParser = new $RefParser();
     defsParser.dereference(schemaWrapper).catch(function(err) {
       console.log(err);

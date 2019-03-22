@@ -696,7 +696,7 @@ margin-bottom: 20px;
   <script>
     // Script section to load models into a JS Var
     var defs = {}
-            defs.Error = {
+        defs["Error"] = {
   "required" : [ "code", "message" ],
   "properties" : {
     "code" : {
@@ -708,7 +708,7 @@ margin-bottom: 20px;
     }
   }
 };
-            defs.Pet = {
+        defs["Pet"] = {
   "required" : [ "id", "name" ],
   "properties" : {
     "id" : {
@@ -723,7 +723,7 @@ margin-bottom: 20px;
     }
   }
 };
-            defs.Pets = {
+        defs["Pets"] = {
   "type" : "array",
   "items" : {
     "$ref" : "#/definitions/Pet"
@@ -1036,21 +1036,21 @@ except ApiException as e:
                                       $(document).ready(function() {
                                         var schemaWrapper = {
   "description" : "An paged array of pets",
-  "schema" : {
-    "$ref" : "#/definitions/Pets"
-  },
   "headers" : {
     "x-next" : {
       "type" : "string",
       "description" : "A link to the next page of responses"
     }
+  },
+  "schema" : {
+    "$ref" : "#/definitions/Pets"
   }
 };
                                         var schema = schemaWrapper.schema;
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
                                         } else {
-                                          schemaWrapper.definitions = Object.assign({}, defs);
+                                          schemaWrapper.definitions = defs;
                                           $RefParser.dereference(schemaWrapper).catch(function(err) {
                                             console.log(err);
                                           });
@@ -1109,7 +1109,7 @@ except ApiException as e:
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
                                         } else {
-                                          schemaWrapper.definitions = Object.assign({}, defs);
+                                          schemaWrapper.definitions = defs;
                                           $RefParser.dereference(schemaWrapper).catch(function(err) {
                                             console.log(err);
                                           });
@@ -1141,11 +1141,6 @@ except ApiException as e:
               </p>
                 <div class="license-info">MIT</div>
                 <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
-            </div>
-          </div>
-          <div id="generator">
-            <div class="content">
-              Generated 2019-03-20T23:08:13.299Z
             </div>
           </div>
       </div>
@@ -2868,7 +2863,7 @@ g,0<c.length&&(c=Aa[c[0]])&&(a.c[e]=c))}a.c[e]||(c=Aa[e])&&(a.c[e]=c);for(c=0;c<
 
   <script>
     var schemaWrapper = {};
-    schemaWrapper.definitions = Object.assign({}, defs);
+    schemaWrapper.definitions = defs;
     defsParser = new $RefParser();
     defsParser.dereference(schemaWrapper).catch(function(err) {
       console.log(err);
