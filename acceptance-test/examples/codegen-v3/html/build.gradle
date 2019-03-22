@@ -8,12 +8,12 @@ repositories {
 }
 
 dependencies {
-    swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.0'
+    swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.5'
 }
 
 swaggerSources {
     petstore {
-        inputFile = file("$rootDir/vendor/openapi-v3-petstore.yaml")
+        inputFile = file("$rootDir/openapi-v3-petstore.yaml")
         code {
             language = 'html2'
         }

@@ -10,12 +10,12 @@ repositories {
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web:2.0.0.RELEASE'
     compile 'io.swagger:swagger-annotations:1.5.10'
-    swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.0'
+    swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.5'
 }
 
 swaggerSources {
     petstoreV1 {
-        inputFile = file("$rootDir/vendor/openapi-v3-petstore.yaml")
+        inputFile = file("$rootDir/openapi-v3-petstore.yaml")
         code {
             language = 'spring'
             components = ['models', 'apis']
@@ -23,7 +23,7 @@ swaggerSources {
         }
     }
     petstoreV2 {
-        inputFile = file("$rootDir/vendor/openapi-v3-petstore.yaml")
+        inputFile = file("$rootDir/openapi-v3-petstore.yaml")
         code {
             language = 'spring'
             components = ['models', 'apis']

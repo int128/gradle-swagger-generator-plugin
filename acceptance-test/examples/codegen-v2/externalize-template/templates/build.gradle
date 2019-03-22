@@ -6,16 +6,18 @@ plugins {
 sourceSets {
     main {
         resources {
-            srcDir("$rootDir/vendor/templates")
+            srcDir("$rootDir/build/templates/codegen2")
         }
     }
 }
+
+processResources.dependsOn ':prepareTemplates'
 
 publishing {
     publications {
         mavenJava(MavenPublication) {
             groupId 'org.hidetake'
-            artifactId 'swagger-templates'
+            artifactId 'codegen2-templates'
             version '1.0.0'
             from components.java
         }

@@ -12,18 +12,16 @@ repositories {
 }
 
 dependencies {
-    swaggerTemplate 'org.hidetake:swagger-templates:1.0.0'
-    swaggerCodegen 'io.swagger:swagger-codegen-cli:2.3.1'
+    swaggerTemplate 'org.hidetake:codegen2-templates:1.0.0'
+    swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.2'
 }
 
 swaggerSources {
     petstore {
-        inputFile = file("$rootDir/vendor/openapi-v2-petstore.yaml")
+        inputFile = file("$rootDir/openapi-v2-petstore.yaml")
         code {
-            language = 'java'
-            configFile = file("$rootDir/java-config.json")
-            templateDir = file("${resolveSwaggerTemplate.destinationDir}/resttemplate")
-            components = ['models', 'apis']
+            language = 'html'
+            templateDir = file("${resolveSwaggerTemplate.destinationDir}/htmlDocs")
         }
     }
 }

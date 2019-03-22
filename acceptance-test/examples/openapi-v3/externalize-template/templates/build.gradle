@@ -6,16 +6,18 @@ plugins {
 sourceSets {
     main {
         resources {
-            srcDir("$rootDir/vendor/templates")
+            srcDir("$rootDir/build/templates/openapi3")
         }
     }
 }
+
+processResources.dependsOn ':prepareTemplates'
 
 publishing {
     publications {
         mavenJava(MavenPublication) {
             groupId 'org.hidetake'
-            artifactId 'openapi-templates'
+            artifactId 'openapi3-templates'
             version '1.0.0'
             from components.java
         }

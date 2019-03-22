@@ -16,10 +16,10 @@ dependencies {
     compile 'com.github.fge:json-schema-validator:2.2.6'
     compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.2.3'
 
-    testCompile('org.spockframework:spock-core:1.0-groovy-2.4') {
+    testCompile('org.spockframework:spock-core:1.1-groovy-2.4') {
         exclude module: 'groovy-all'
     }
-    testCompile 'cglib:cglib-nodep:3.1'
+    testCompile 'cglib:cglib-nodep:3.2.10'
 }
 
 group = 'org.hidetake'

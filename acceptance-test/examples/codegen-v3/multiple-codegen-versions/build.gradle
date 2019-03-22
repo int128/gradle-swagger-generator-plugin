@@ -13,13 +13,13 @@ configurations {
 }
 
 dependencies {
-    swaggerCodegenV2 'io.swagger:swagger-codegen-cli:2.3.1'
-    swaggerCodegenV3 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.0'
+    swaggerCodegenV2 'io.swagger:swagger-codegen-cli:2.4.2'
+    swaggerCodegenV3 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.5'
 }
 
 swaggerSources {
     petstoreV2 {
-        inputFile = file("$rootDir/vendor/openapi-v2-petstore.yaml")
+        inputFile = file("$rootDir/openapi-v2-petstore.yaml")
         code {
             language = 'spring'
             components = ['models', 'apis']
@@ -28,7 +28,7 @@ swaggerSources {
         }
     }
     petstoreV3 {
-        inputFile = file("$rootDir/vendor/openapi-v3-petstore.yaml")
+        inputFile = file("$rootDir/openapi-v3-petstore.yaml")
         code {
             language = 'spring'
             components = ['models', 'apis']

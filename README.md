@@ -30,8 +30,8 @@ repositories {
 }
 
 dependencies {
-  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.3.1'             // Swagger Codegen V2
-  swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.0'  // or Swagger Codegen V3
+  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.2'             // Swagger Codegen V2
+  swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.5'  // or Swagger Codegen V3
   swaggerCodegen 'org.openapitools:openapi-generator-cli:3.3.4'     // or OpenAPI Generator
 }
 
@@ -129,8 +129,8 @@ repositories {
 }
 
 dependencies {
-  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.3.1'             // Swagger Codegen V2
-  swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.0'  // or Swagger Codegen V3
+  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.2'             // Swagger Codegen V2
+  swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.5'  // or Swagger Codegen V3
 }
 
 swaggerSources {
@@ -345,7 +345,7 @@ swaggerSources*.code*.dependsOn 'generators:jar'
 ```groovy
 // generators/build.gradle (child project)
 dependencies {
-  compile 'io.swagger:swagger-codegen-cli:2.3.1'
+  compile 'io.swagger:swagger-codegen-cli:2.4.2'
 }
 ```
 
@@ -379,7 +379,7 @@ repositories {
 }
 
 dependencies {
-  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.3.1'
+  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.2'
   // Add dependency for the template
   swaggerTemplate 'com.example:swagger-templates:1.0.0'
   // Add dependency for the generator class
@@ -453,8 +453,8 @@ configurations {
 }
 
 dependencies {
-    swaggerCodegenV2 'io.swagger:swagger-codegen-cli:2.3.1'
-    swaggerCodegenV3 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.0'
+    swaggerCodegenV2 'io.swagger:swagger-codegen-cli:2.4.2'
+    swaggerCodegenV3 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.5'
 }
 
 swaggerSources {

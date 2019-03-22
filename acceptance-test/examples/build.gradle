@@ -1,0 +1,35 @@
+plugins {
+    id 'base'
+}
+
+configurations {
+    codegen2
+    codegen3
+    openapi3
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    codegen2 'io.swagger:swagger-codegen-cli:2.4.2'
+    codegen3 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.5'
+    openapi3 'org.openapitools:openapi-generator-cli:3.3.4'
+}
+
+task prepareTemplates(type: Sync) {
+    into file('build/templates')
+    from({ configurations.codegen2.collect { zipTree(it) } }) {
+        include 'htmlDocs/'
+        into 'codegen2'
+    }
+    from({ configurations.codegen3.collect { zipTree(it) } }) {
+        include 'htmlDocs/'
+        into 'codegen3'
+    }
+    from({ configurations.openapi3.collect { zipTree(it) } }) {
+        include 'htmlDocs/'
+        into 'openapi3'
+    }
+}

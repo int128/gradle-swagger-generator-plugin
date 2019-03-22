@@ -8,19 +8,19 @@ repositories {
 }
 
 dependencies {
-    swaggerCodegen 'io.swagger:swagger-codegen-cli:2.3.1'
+    swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.2'
 }
 
 swaggerSources {
     petstore {
-        inputFile = file("$rootDir/vendor/openapi-v2-petstore.yaml")
+        inputFile = file("$rootDir/openapi-v2-petstore.yaml")
         code {
-            language = 'spring'
-            configFile = file("$rootDir/java-spring-config.json")
-            templateDir = file("$rootDir/vendor/templates/java-spring")
-            components = ['models', 'apis']
+            language = 'html'
+            templateDir = file("$rootDir/build/templates/codegen2/htmlDocs")
         }
     }
 }
+
+swaggerSources*.code*.dependsOn ':prepareTemplates'
 
 build.dependsOn generateSwaggerCode
