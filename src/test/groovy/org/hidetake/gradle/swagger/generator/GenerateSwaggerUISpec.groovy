@@ -1,9 +1,14 @@
 package org.hidetake.gradle.swagger.generator
 
+import org.junit.Rule
+import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
 import spock.lang.Unroll
 
 class GenerateSwaggerUISpec extends Specification {
+
+    @Rule
+    TemporaryFolder temporaryFolder = new TemporaryFolder()
 
     def "task should fail if swaggerUI dependency is not set"() {
         given:
@@ -19,30 +24,35 @@ class GenerateSwaggerUISpec extends Specification {
     @Unroll
     def 'task should #verb the output directory if wipeOutputDir == #wipe'() {
         given:
+        def repositoryFolder = temporaryFolder.newFolder()
+        Fixture.createJAR(new File(repositoryFolder, 'swagger-ui.jar'), [
+            'index.html': 'dummy-content',
+        ])
+
         def project = Fixture.projectWithPlugin {
             repositories {
-                jcenter()
+                flatDir {
+                    dirs repositoryFolder
+                }
             }
-            //TODO: fix slow test
             dependencies {
-                swaggerUI 'org.webjars:swagger-ui:2.2.10'
+                swaggerUI 'org.webjars:swagger-ui:'
             }
             generateSwaggerUI {
                 inputFile = Fixture.file(Fixture.YAML.petstore)
                 outputDir = buildDir
                 wipeOutputDir = wipe
             }
-        }
 
-        and: 'create a file in the outputDir'
-        project.buildDir.mkdirs()
-        def keep = new File(project.buildDir, 'keep') << 'something'
+            buildDir.mkdirs()
+            new File(buildDir, 'keep') << 'something'
+        }
 
         when:
         project.tasks.generateSwaggerUI.exec()
 
         then:
-        keep.exists() == existence
+        new File(project.buildDir, 'keep').exists() == existence
 
         where:
         wipe    | verb      | existence
@@ -52,12 +62,19 @@ class GenerateSwaggerUISpec extends Specification {
 
     def "task should fail if outputDir == projectDir"() {
         given:
+        def repositoryFolder = temporaryFolder.newFolder()
+        Fixture.createJAR(new File(repositoryFolder, 'swagger-ui.jar'), [
+            'index.html': 'dummy-content',
+        ])
+
         def project = Fixture.projectWithPlugin {
             repositories {
-                jcenter()
+                flatDir {
+                    dirs repositoryFolder
+                }
             }
             dependencies {
-                swaggerUI 'org.webjars:swagger-ui:2.2.10'
+                swaggerUI 'org.webjars:swagger-ui:'
             }
             generateSwaggerUI {
                 inputFile = Fixture.file(Fixture.YAML.petstore)
