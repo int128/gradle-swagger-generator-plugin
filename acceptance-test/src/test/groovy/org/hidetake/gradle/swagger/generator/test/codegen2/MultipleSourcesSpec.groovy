@@ -40,14 +40,6 @@ class MultipleSourcesSpec extends Specification {
         rerunResult.task(project.absolutePath('generateSwaggerCodePetstoreV2')).outcome == TaskOutcome.UP_TO_DATE
     }
 
-    def 'build task should build the generated code'() {
-        when:
-        project.execute('build')
-
-        then:
-        project.file('build/libs/multiple-sources.jar').exists()
-    }
-
     @Unroll
     def '#taskName task should show help'() {
         when:

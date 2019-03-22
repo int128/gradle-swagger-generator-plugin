@@ -1,5 +1,5 @@
 plugins {
-    id 'java'
+    id 'base'
     id 'org.hidetake.swagger.generator'
 }
 
@@ -8,8 +8,6 @@ repositories {
 }
 
 dependencies {
-    compile 'org.springframework.boot:spring-boot-starter-web:2.0.0.RELEASE'
-    compile 'io.swagger:swagger-annotations:1.5.10'
     swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.2'
 }
 
@@ -32,6 +30,4 @@ swaggerSources {
     }
 }
 
-compileJava.dependsOn swaggerSources.petstoreV1.code, swaggerSources.petstoreV2.code
-sourceSets.main.java.srcDirs "${swaggerSources.petstoreV1.code.outputDir}/src/main/java", "${swaggerSources.petstoreV2.code.outputDir}/src/main/java"
-sourceSets.main.resources.srcDirs "${swaggerSources.petstoreV1.code.outputDir}/src/main/resources", "${swaggerSources.petstoreV2.code.outputDir}/src/main/resources"
+build.dependsOn generateSwaggerCode
