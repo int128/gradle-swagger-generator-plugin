@@ -109,7 +109,7 @@ swaggerSources {
 The task generates an API document as `build/redoc-petstore`.
 
 ```
-% ./gradlew generateSwaggerReDoc
+% ./gradlew generateReDoc
 :generateReDocPetstore
 :generateReDoc NO-SOURCE
 ```
