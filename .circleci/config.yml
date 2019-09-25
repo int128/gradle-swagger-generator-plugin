@@ -82,6 +82,7 @@ workflows:
       - gh-pages:
           requires:
             - build
+          context: open-source
           filters:
             branches:
               only:
@@ -90,6 +91,7 @@ workflows:
       - release:
           requires:
             - build
+          context: open-source
           filters:
             branches:
               ignore: /.*/
