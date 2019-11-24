@@ -235,7 +235,7 @@ See also the following examples:
 - [openapi-v3/java-spring](acceptance-test/examples/openapi-v3/java-spring)
 
 
-### Validate YAML before code genetation
+### Validate YAML before code generation
 
 It is recommended to validate an OpenAPI YAML before code generation in order to avoid invalid code generated.
 
