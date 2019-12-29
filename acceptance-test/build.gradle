@@ -71,3 +71,8 @@ task('example-docs', description: 'Generate example documents', group: 'document
         }
     }
 }
+
+
+test {
+  inputs.files fileTree(dir: "$project.projectDir/examples", excludes: ['**/.gradle', '**/build'])
+}
