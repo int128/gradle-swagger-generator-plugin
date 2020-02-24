@@ -13,7 +13,7 @@ import org.hidetake.gradle.swagger.generator.util.Resources
 @CacheableTask
 class GenerateReDoc extends DefaultTask {
 
-    @SkipWhenEmpty @InputFiles
+    @SkipWhenEmpty @InputFile @PathSensitive(PathSensitivity.NAME_ONLY)
     File inputFile
 
     @OutputDirectory
@@ -22,7 +22,7 @@ class GenerateReDoc extends DefaultTask {
     @Optional @Input
     String title
 
-    @Optional @Input
+    @Input
     boolean wipeOutputDir = true
 
     @Optional @Input

@@ -17,13 +17,13 @@ import org.hidetake.gradle.swagger.generator.util.Resources
 @CacheableTask
 class GenerateSwaggerUI extends DefaultTask {
 
-    @SkipWhenEmpty @InputFiles
+    @SkipWhenEmpty @InputFile @PathSensitive(PathSensitivity.NAME_ONLY)
     File inputFile
 
     @OutputDirectory
     File outputDir
 
-    @Optional @Input
+    @Input
     boolean wipeOutputDir = true
 
     @Optional @Input @Deprecated
