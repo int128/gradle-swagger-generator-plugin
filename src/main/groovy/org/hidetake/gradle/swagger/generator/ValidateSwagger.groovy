@@ -11,7 +11,7 @@ import org.hidetake.gradle.swagger.generator.util.Resources
 @CacheableTask
 class ValidateSwagger extends DefaultTask {
 
-    @SkipWhenEmpty @InputFiles
+    @SkipWhenEmpty @InputFile @PathSensitive(PathSensitivity.NAME_ONLY)
     File inputFile
 
     @OutputFile

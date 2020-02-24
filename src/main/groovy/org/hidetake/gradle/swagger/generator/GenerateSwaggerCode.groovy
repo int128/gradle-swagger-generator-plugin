@@ -17,8 +17,7 @@ import org.hidetake.gradle.swagger.generator.codegen.JavaExecOptions
 @CacheableTask
 class GenerateSwaggerCode extends DefaultTask {
 
-    @SkipWhenEmpty
-    @InputFiles
+    @SkipWhenEmpty @InputFile @PathSensitive(PathSensitivity.NAME_ONLY)
     File inputFile
 
     @Input
@@ -27,7 +26,6 @@ class GenerateSwaggerCode extends DefaultTask {
     @OutputDirectory
     File outputDir
 
-    @Optional
     @Input
     boolean wipeOutputDir = true
 
@@ -35,12 +33,10 @@ class GenerateSwaggerCode extends DefaultTask {
     @Input
     String library
 
-    @Optional
-    @InputFile
+    @Optional @InputFile @PathSensitive(PathSensitivity.NAME_ONLY)
     File configFile
 
-    @Optional
-    @InputDirectory
+    @Optional @InputDirectory @PathSensitive(PathSensitivity.NAME_ONLY)
     File templateDir
 
     @Optional
@@ -59,6 +55,7 @@ class GenerateSwaggerCode extends DefaultTask {
     @Input
     def configuration
 
+    @Internal
     AdaptorFactory adaptorFactory = DefaultAdaptorFactory.instance
 
     GenerateSwaggerCode() {
