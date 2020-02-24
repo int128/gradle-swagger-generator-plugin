@@ -7,7 +7,7 @@ import spock.lang.Specification
 
 class MultipleCodegenVersionsSpec extends Specification {
 
-    final project = new GradleProject(':openapi-v3:multiple-codegen-versions')
+    def project = new GradleProject(':openapi-v3:multiple-codegen-versions')
 
     def 'tasks should exist in the project'() {
         when:

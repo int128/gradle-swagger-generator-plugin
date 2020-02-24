@@ -7,7 +7,7 @@ import spock.lang.Specification
 
 class ValidatorSpec extends Specification {
 
-    final project = new GradleProject(':validator')
+    def project = new GradleProject(':validator')
 
     def 'validateSwagger task should validate YAML'() {
         when:

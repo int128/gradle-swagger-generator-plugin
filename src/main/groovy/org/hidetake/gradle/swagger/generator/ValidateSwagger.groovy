@@ -17,7 +17,7 @@ class ValidateSwagger extends DefaultTask {
     @OutputFile
     File reportFile
 
-    def ValidateSwagger() {
+    ValidateSwagger() {
         reportFile = new File(project.buildDir, 'swagger-validation.yaml')
     }
 

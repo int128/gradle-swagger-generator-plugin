@@ -7,7 +7,7 @@ import spock.lang.Specification
 
 class MultipleSourcesSpec extends Specification {
 
-    final project = new GradleProject(':ui-v3:multiple-sources')
+    def project = new GradleProject(':ui-v3:multiple-sources')
 
     def 'tasks should exist in the project'() {
         when:

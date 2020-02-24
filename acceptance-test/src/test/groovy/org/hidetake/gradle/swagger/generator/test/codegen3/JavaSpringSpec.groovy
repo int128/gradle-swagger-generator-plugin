@@ -7,7 +7,7 @@ import spock.lang.Specification
 
 class JavaSpringSpec extends Specification {
 
-    final project = new GradleProject(':codegen-v3:java-spring')
+    def project = new GradleProject(':codegen-v3:java-spring')
 
     def 'plugin should add default tasks into the project'() {
         when:

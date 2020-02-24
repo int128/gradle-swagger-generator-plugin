@@ -7,7 +7,7 @@ import spock.lang.Specification
 
 class HtmlSpec extends Specification {
 
-    final project = new GradleProject(':openapi-v3:html')
+    def project = new GradleProject(':openapi-v3:html')
 
     def 'plugin should add default tasks into the project'() {
         when:

@@ -7,7 +7,7 @@ import spock.lang.Specification
 
 class CustomTemplateSpec extends Specification {
 
-    final project = new GradleProject(':openapi-v3:custom-template')
+    def project = new GradleProject(':openapi-v3:custom-template')
 
     def 'generateSwaggerCode task should generate customized server code'() {
         when:

@@ -32,7 +32,7 @@ class GenerateSwaggerUI extends DefaultTask {
     @Optional @Input @Deprecated
     String header
 
-    def GenerateSwaggerUI() {
+    GenerateSwaggerUI() {
         outputDir = new File(project.buildDir, 'swagger-ui')
     }
 
