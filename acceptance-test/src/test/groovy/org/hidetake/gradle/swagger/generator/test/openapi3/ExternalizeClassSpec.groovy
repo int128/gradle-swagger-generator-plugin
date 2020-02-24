@@ -7,7 +7,7 @@ import spock.lang.Specification
 
 class ExternalizeClassSpec extends Specification {
 
-    final project = new GradleProject(':openapi-v3:externalize-class')
+    def project = new GradleProject(':openapi-v3:externalize-class')
 
     def 'generateSwaggerCode task should generate code using external template'() {
         given:

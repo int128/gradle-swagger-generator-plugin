@@ -7,7 +7,7 @@ import spock.lang.Specification
 
 class BasicExampleSpec extends Specification {
 
-    final project = new GradleProject(':redoc:basic')
+    def project = new GradleProject(':redoc:basic')
 
     def 'generateReDoc task should generate index.html'() {
         when:

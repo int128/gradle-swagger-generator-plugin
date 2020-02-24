@@ -6,7 +6,7 @@ import spock.lang.Specification
 
 class CustomTemplateSpec extends Specification {
 
-    final project = new GradleProject(':codegen-v3:custom-template')
+    def project = new GradleProject(':codegen-v3:custom-template')
 
     def 'generateSwaggerCode task should generate customized server code'() {
         when:

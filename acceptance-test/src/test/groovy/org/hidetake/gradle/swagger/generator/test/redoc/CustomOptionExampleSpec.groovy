@@ -7,7 +7,7 @@ import spock.lang.Specification
 
 class CustomOptionExampleSpec extends Specification {
 
-    final project = new GradleProject(':redoc:custom-options')
+    def project = new GradleProject(':redoc:custom-options')
 
     def 'generateReDoc task should generate index.html with custom options'() {
         when:

@@ -7,7 +7,7 @@ import spock.lang.Specification
 
 class BasicExampleSpec extends Specification {
 
-    final project = new GradleProject(':ui-v3:basic')
+    def project = new GradleProject(':ui-v3:basic')
 
     def 'generateSwaggerUI task should generate index.html'() {
         when:

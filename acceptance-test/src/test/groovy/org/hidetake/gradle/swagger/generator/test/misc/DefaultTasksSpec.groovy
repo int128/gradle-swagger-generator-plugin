@@ -9,7 +9,7 @@ import static org.gradle.testkit.runner.TaskOutcome.SKIPPED
 
 class DefaultTasksSpec extends Specification {
 
-    final project = new GradleProject(':blank-project')
+    def project = new GradleProject(':blank-project')
 
     @Unroll
     def 'task #taskName should be #status if no input is given'() {

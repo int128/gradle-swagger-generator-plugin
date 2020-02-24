@@ -6,7 +6,7 @@ import spock.lang.Specification
 
 class CustomClassSpec extends Specification {
 
-    final project = new GradleProject(':codegen-v2:custom-class')
+    def project = new GradleProject(':codegen-v2:custom-class')
 
     def 'generateSwaggerCode task should generate code using custom generator class'() {
         when:

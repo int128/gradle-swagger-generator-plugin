@@ -31,7 +31,7 @@ class GenerateReDoc extends DefaultTask {
     @Optional @Input
     Map<String, String> options = [:]
 
-    def GenerateReDoc() {
+    GenerateReDoc() {
         outputDir = new File(project.buildDir, 'redoc')
     }
 

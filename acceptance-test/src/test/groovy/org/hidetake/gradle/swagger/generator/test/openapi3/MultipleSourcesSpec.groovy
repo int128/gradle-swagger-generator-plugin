@@ -8,7 +8,7 @@ import spock.lang.Unroll
 
 class MultipleSourcesSpec extends Specification {
 
-    final project = new GradleProject(':openapi-v3:multiple-sources')
+    def project = new GradleProject(':openapi-v3:multiple-sources')
 
     def 'tasks should exist in the project'() {
         when:

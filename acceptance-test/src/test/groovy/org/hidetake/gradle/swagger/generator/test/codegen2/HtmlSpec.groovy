@@ -6,7 +6,7 @@ import spock.lang.Specification
 
 class HtmlSpec extends Specification {
 
-    final project = new GradleProject(':codegen-v2:html')
+    def project = new GradleProject(':codegen-v2:html')
 
     def 'plugin should add default tasks into the project'() {
         when:
