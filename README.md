@@ -345,7 +345,7 @@ swaggerSources*.code*.dependsOn 'generators:jar'
 ```groovy
 // generators/build.gradle (child project)
 dependencies {
-  compile 'io.swagger:swagger-codegen-cli:2.4.2'
+  implementation 'io.swagger:swagger-codegen-cli:2.4.2'
 }
 ```
 
