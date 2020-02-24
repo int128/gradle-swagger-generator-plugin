@@ -8,8 +8,8 @@ repositories {
 }
 
 dependencies {
-    compile localGroovy()
-    compile 'org.openapitools:openapi-generator-cli:3.3.4'
+    implementation localGroovy()
+    implementation 'org.openapitools:openapi-generator-cli:3.3.4'
 }
 
 publishing {

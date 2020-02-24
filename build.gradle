@@ -1,6 +1,7 @@
 plugins {
     id 'groovy'
-    id 'com.gradle.plugin-publish' version '0.9.7'
+    id 'java-gradle-plugin'
+    id 'com.gradle.plugin-publish' version '0.10.1'
 }
 
 java {
@@ -13,15 +14,15 @@ repositories {
 }
 
 dependencies {
-    compile gradleApi()
-    compile localGroovy()
-    compile 'com.github.fge:json-schema-validator:2.2.6'
-    compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.2.3'
+    implementation gradleApi()
+    implementation localGroovy()
+    implementation 'com.github.fge:json-schema-validator:2.2.6'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.2.3'
 
-    testCompile('org.spockframework:spock-core:1.1-groovy-2.4') {
+    testImplementation('org.spockframework:spock-core:1.1-groovy-2.4') {
         exclude module: 'groovy-all'
     }
-    testCompile 'cglib:cglib-nodep:3.2.10'
+    testRuntimeOnly 'cglib:cglib-nodep:3.2.10'
 }
 
 group = 'org.hidetake'
@@ -30,13 +31,16 @@ version = System.getenv('CIRCLE_TAG') ?: 'SNAPSHOT'
 pluginBundle {
     website = 'https://github.com/int128/gradle-swagger-generator-plugin'
     vcsUrl = 'https://github.com/int128/gradle-swagger-generator-plugin'
-    description = 'Gradle Swagger Generator Plugin'
     tags = ['swagger', 'api', 'generator']
+}
 
+gradlePlugin {
     plugins {
         swaggerPlugin {
             id = 'org.hidetake.swagger.generator'
             displayName = 'Gradle Swagger Generator Plugin'
+            description = 'Gradle plugin for OpenAPI YAML validation, code generation and API document publishing'
+            implementationClass = 'org.hidetake.gradle.swagger.generator.SwaggerGeneratorPlugin'
         }
     }
 }
@@ -45,7 +49,7 @@ allprojects {
     afterEvaluate {
         tasks.withType(Test) {
             finalizedBy ':testReport'
-            testReport.reportOn binResultsDir
+            testReport.reportOn binaryResultsDirectory
             reports.html.enabled = false
             reports.junitXml.destination = file("${rootProject.buildDir}/test-results")
         }

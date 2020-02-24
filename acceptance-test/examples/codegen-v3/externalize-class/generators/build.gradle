@@ -8,8 +8,8 @@ repositories {
 }
 
 dependencies {
-    compile localGroovy()
-    compile 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.5'
+    implementation localGroovy()
+    implementation 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.5'
 }
 
 publishing {

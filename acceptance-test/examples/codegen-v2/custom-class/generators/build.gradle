@@ -7,6 +7,6 @@ repositories {
 }
 
 dependencies {
-    compile localGroovy()
-    compile 'io.swagger:swagger-codegen-cli:2.4.2'
+    implementation localGroovy()
+    implementation 'io.swagger:swagger-codegen-cli:2.4.2'
 }
