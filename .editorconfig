@@ -8,3 +8,6 @@ indent_size = 2
 
 [*.{groovy,java,gradle}]
 indent_size = 4
+
+[Makefile]
+indent_style = tab
