@@ -72,7 +72,7 @@ task('example-docs', description: 'Generate example documents', group: 'document
     }
 }
 
-
 test {
-  inputs.files fileTree(dir: "$project.projectDir/examples", excludes: ['**/.gradle', '**/build'])
+    maxHeapSize = '512m'
+    inputs.files fileTree(dir: "$project.projectDir/examples", excludes: ['**/.gradle', '**/build'])
 }
