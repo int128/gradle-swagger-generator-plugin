@@ -13,7 +13,7 @@ class DefaultJavaExecutor implements JavaExecutor {
 
     @Override
     ExecResult execute(Project project, JavaExecOptions javaExecOptions) {
-        println(jvmArgs)//FIXME
+        println(jvmArgs) //FIXME
         log.info("Executing Java command: $javaExecOptions")
         project.javaexec { JavaExecSpec spec ->
             spec.classpath(javaExecOptions.classpath)
