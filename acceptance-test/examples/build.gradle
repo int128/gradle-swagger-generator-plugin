@@ -20,7 +20,7 @@ dependencies {
 }
 
 //TODO:
-org.hidetake.gradle.swagger.generator.executor.DefaultJavaExecutor.instance.jvmArgs = ['-Xmx512m']
+org.hidetake.gradle.swagger.generator.executor.DefaultJavaExecutor.instance.jvmArgs = ['-Xmx512m', '-Xms512m']
 
 task prepareTemplates(type: Sync) {
     into file('build/templates')

@@ -19,7 +19,7 @@ class DefaultJavaExecutor implements JavaExecutor {
             spec.main = javaExecOptions.main
             spec.args = javaExecOptions.args
             spec.systemProperties(javaExecOptions.systemProperties)
-            spec.jvmArgs(['-Xmx512m', '-Xms512m'])//FIXME
+            spec.jvmArgs(jvmArgs)
         }
     }
 }
