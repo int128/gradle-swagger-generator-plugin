@@ -13,6 +13,8 @@ import org.hidetake.gradle.swagger.generator.codegen.AdaptorFactory
 import org.hidetake.gradle.swagger.generator.codegen.ConfigHelpOptions
 import org.hidetake.gradle.swagger.generator.codegen.DefaultAdaptorFactory
 import org.hidetake.gradle.swagger.generator.codegen.HelpOptions
+import org.hidetake.gradle.swagger.generator.executor.DefaultJavaExecutor
+import org.hidetake.gradle.swagger.generator.executor.JavaExecutor
 
 /**
  * A task to show help of swagger-codegen.
@@ -32,6 +34,9 @@ class GenerateSwaggerCodeHelp extends DefaultTask {
 
     @Internal
     AdaptorFactory adaptorFactory = DefaultAdaptorFactory.instance
+
+    @Internal
+    JavaExecutor javaExecutor = DefaultJavaExecutor.instance
 
     GenerateSwaggerCodeHelp() {
         onlyIf { language }
@@ -58,13 +63,7 @@ class GenerateSwaggerCodeHelp extends DefaultTask {
             generatorFiles: generatorFiles,
         )
         def helpJavaExecOptions = adaptor.help(helpOptions)
-        log.info("JavaExecOptions: $helpJavaExecOptions")
-        project.javaexec { JavaExecSpec c ->
-            c.classpath(helpJavaExecOptions.classpath)
-            c.main = helpJavaExecOptions.main
-            c.args = helpJavaExecOptions.args
-            c.systemProperties(helpJavaExecOptions.systemProperties)
-        }
+        javaExecutor.execute(project, helpJavaExecOptions)
 
         System.err.println("=== Available JSON configuration for language $language ===")
         def configHelpOptions = new ConfigHelpOptions(
@@ -72,13 +71,7 @@ class GenerateSwaggerCodeHelp extends DefaultTask {
             language: language,
         )
         def configHelpJavaExecOptions = adaptor.configHelp(configHelpOptions)
-        log.info("JavaExecOptions: $configHelpJavaExecOptions")
-        project.javaexec { JavaExecSpec c ->
-            c.classpath(configHelpJavaExecOptions.classpath)
-            c.main = configHelpJavaExecOptions.main
-            c.args = configHelpJavaExecOptions.args
-            c.systemProperties(configHelpJavaExecOptions.systemProperties)
-        }
+        javaExecutor.execute(project, configHelpJavaExecOptions)
     }
 
     static Task injectHelpTaskFor(GenerateSwaggerCode task) {

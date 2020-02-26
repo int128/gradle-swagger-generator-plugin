@@ -1,5 +1,6 @@
 plugins {
     id 'base'
+    id 'org.hidetake.swagger.generator'
 }
 
 configurations {
@@ -17,6 +18,9 @@ dependencies {
     codegen3 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.5'
     openapi3 'org.openapitools:openapi-generator-cli:3.3.4'
 }
+
+//TODO:
+org.hidetake.gradle.swagger.generator.executor.DefaultJavaExecutor.instance.jvmArgs = ['-Xmx512m']
 
 task prepareTemplates(type: Sync) {
     into file('build/templates')

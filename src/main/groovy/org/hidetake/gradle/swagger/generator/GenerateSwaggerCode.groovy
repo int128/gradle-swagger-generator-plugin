@@ -9,6 +9,8 @@ import org.hidetake.gradle.swagger.generator.codegen.AdaptorFactory
 import org.hidetake.gradle.swagger.generator.codegen.DefaultAdaptorFactory
 import org.hidetake.gradle.swagger.generator.codegen.GenerateOptions
 import org.hidetake.gradle.swagger.generator.codegen.JavaExecOptions
+import org.hidetake.gradle.swagger.generator.executor.DefaultJavaExecutor
+import org.hidetake.gradle.swagger.generator.executor.JavaExecutor
 
 /**
  * A task to generate a source code from the Swagger specification.
@@ -17,7 +19,9 @@ import org.hidetake.gradle.swagger.generator.codegen.JavaExecOptions
 @CacheableTask
 class GenerateSwaggerCode extends DefaultTask {
 
-    @SkipWhenEmpty @InputFile @PathSensitive(PathSensitivity.NAME_ONLY)
+    @SkipWhenEmpty
+    @InputFile
+    @PathSensitive(PathSensitivity.NAME_ONLY)
     File inputFile
 
     @Input
@@ -33,10 +37,14 @@ class GenerateSwaggerCode extends DefaultTask {
     @Input
     String library
 
-    @Optional @InputFile @PathSensitive(PathSensitivity.NAME_ONLY)
+    @Optional
+    @InputFile
+    @PathSensitive(PathSensitivity.NAME_ONLY)
     File configFile
 
-    @Optional @InputDirectory @PathSensitive(PathSensitivity.NAME_ONLY)
+    @Optional
+    @InputDirectory
+    @PathSensitive(PathSensitivity.NAME_ONLY)
     File templateDir
 
     @Optional
@@ -58,20 +66,16 @@ class GenerateSwaggerCode extends DefaultTask {
     @Internal
     AdaptorFactory adaptorFactory = DefaultAdaptorFactory.instance
 
+    @Internal
+    JavaExecutor javaExecutor = DefaultJavaExecutor.instance
+
     GenerateSwaggerCode() {
         outputDir = new File(project.buildDir, 'swagger-code')
     }
 
     @TaskAction
     void exec() {
-        def javaExecOptions = execInternal()
-        log.info("JavaExecOptions: $javaExecOptions")
-        project.javaexec {
-            classpath(javaExecOptions.classpath)
-            main = javaExecOptions.main
-            args = javaExecOptions.args
-            systemProperties(javaExecOptions.systemProperties)
-        }
+        javaExecutor.execute(project, execInternal())
     }
 
     JavaExecOptions execInternal() {
