@@ -23,12 +23,22 @@ class ValidateSwagger extends DefaultTask {
 
     @TaskAction
     void exec() {
-        def schemaNode = Resources.withInputStream('/schema.json') { inputStream ->
+
+        def swaggerNode = Mappers.YAML.readTree(inputFile)
+        def openApiVersion = swaggerNode.get("openapi")
+
+        // by default, use OpenApi spec version 2.0
+        def schemaFile = '/schema-oas2.json'
+        if(openApiVersion != null && openApiVersion.asText().startsWith("3")) {
+            schemaFile =  '/schema-oas3.json'
+        }
+
+        def schemaNode = Resources.withInputStream(schemaFile) { inputStream ->
             Mappers.JSON.readTree(inputStream)
         }
-        def swaggerNode = Mappers.YAML.readTree(inputFile)
 
         def schema = JsonSchemaFactory.byDefault().getJsonSchema(schemaNode)
+
         def validation = schema.validate(swaggerNode)
 
         def validationReport = Mappers.YAML.writeValueAsString(

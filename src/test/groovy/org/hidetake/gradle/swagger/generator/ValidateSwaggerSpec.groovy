@@ -19,4 +19,19 @@ class ValidateSwaggerSpec extends Specification {
         thrown(ValidationException)
     }
 
+    def "task should fail if YAML OAS3 is wrong"() {
+        given:
+        def project = Fixture.projectWithPlugin {
+            validateSwagger {
+                inputFile = Fixture.file(Fixture.YAML.petstore_oas3_invalid)
+            }
+        }
+
+        when:
+        project.tasks.validateSwagger.exec()
+
+        then:
+        thrown(ValidationException)
+    }
+
 }
