@@ -39,5 +39,7 @@ class Fixture {
     static enum YAML {
         petstore,
         petstore_invalid,
+        petstore_oas3,
+        petstore_oas3_invalid,
     }
 }
