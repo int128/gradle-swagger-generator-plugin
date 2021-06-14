@@ -1,0 +1,15 @@
+{
+  "extends": [
+    "config:base"
+  ],
+  "labels": [
+    "r:{{depName}}",
+    "r:{{depName}}/{{newVersion}}"
+  ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch", "pin"],
+      "automerge": true
+    }
+  ]
+}
