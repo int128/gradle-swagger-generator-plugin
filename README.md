@@ -26,7 +26,7 @@ plugins {
 }
 
 repositories {
-  jcenter()
+  mavenCentral()
 }
 
 dependencies {
@@ -67,7 +67,7 @@ plugins {
 }
 
 repositories {
-  jcenter()
+  mavenCentral()
 }
 
 dependencies {
@@ -125,7 +125,7 @@ plugins {
 }
 
 repositories {
-  jcenter()
+  mavenCentral()
 }
 
 dependencies {
@@ -375,7 +375,7 @@ repositories {
   maven {
     url 'https://example.com/nexus-or-artifactory'
   }
-  jcenter()
+  mavenCentral()
 }
 
 dependencies {
