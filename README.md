@@ -1,5 +1,34 @@
 # Gradle Swagger Generator Plugin [![build](https://github.com/int128/gradle-swagger-generator-plugin/actions/workflows/build.yaml/badge.svg)](https://github.com/int128/gradle-swagger-generator-plugin/actions/workflows/build.yaml) [![Gradle Status](https://gradleupdate.appspot.com/int128/gradle-swagger-generator-plugin/status.svg)](https://gradleupdate.appspot.com/int128/gradle-swagger-generator-plugin/status)
 
+## Table of content
+
+- [Introduction](#introduction)
+- [Code Generation](#code-generation)
+- [Document Generation](#document-generation)
+  - [Swagger UI](#swagger-ui)
+  - [ReDoc](#redoc)
+  - [HTML](#html)
+- [Recipes](#recipes)
+  - [Use configuration file](#use-configuration-file)
+  - [Build generated code](#build-generated-code)
+  - [Validate YAML before code generation](#validate-yaml-before-code-generation)
+  - [Selective generation](#selective-generation)
+  - [Use custom template](#use-custom-template)
+  - [Use custom generator class](#use-custom-generator-class)
+  - [Externalize template or generator class](#externalize-template-or-generator-class)
+  - [Use multiple sources](#use-multiple-sources)
+  - [Switch version of Swagger Codegen](#switch-version-of-swagger-codegen)
+  - [Configure Swagger UI](#configure-swagger-ui)
+- [Settings](#settings)
+  - [Task type `ValidateSwagger`](#task-type-validateswagger)
+  - [Task type `GenerateSwaggerCode`](#task-type-generateswaggercode)
+  - [Task type `GenerateSwaggerUI`](#task-type-generateswaggerui)
+  - [Task type `GenerateReDoc`](#task-type-generateredoc)
+- [Contributions](#contributions)
+
+
+## Introduction
+
 This is a Gradle plugin for the following tasks:
 
 - Validate an OpenAPI YAML.
