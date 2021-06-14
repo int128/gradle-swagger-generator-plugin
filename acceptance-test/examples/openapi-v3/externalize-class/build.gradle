@@ -8,7 +8,7 @@ repositories {
     // Actually it can be external such as Nexus or Artifactory.
     mavenLocal()
 
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
