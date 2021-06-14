@@ -20,7 +20,7 @@ dependencies {
     testImplementation('org.spockframework:spock-core:1.1-groovy-2.4') {
         exclude module: 'groovy-all'
     }
-    testRuntimeOnly 'cglib:cglib-nodep:3.2.10'
+    testRuntimeOnly 'cglib:cglib-nodep:3.3.0'
 }
 
 group = 'org.hidetake'
