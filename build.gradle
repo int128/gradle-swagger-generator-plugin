@@ -4,10 +4,8 @@ plugins {
     id 'com.gradle.plugin-publish' version '0.10.1'
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
+sourceCompatibility = '11'
+targetCompatibility = '11'
 
 repositories {
     jcenter()
@@ -26,7 +24,7 @@ dependencies {
 }
 
 group = 'org.hidetake'
-version = System.getenv('CIRCLE_TAG') ?: 'SNAPSHOT'
+version = System.getenv('VERSION') ?: 'SNAPSHOT'
 
 pluginBundle {
     website = 'https://github.com/int128/gradle-swagger-generator-plugin'
