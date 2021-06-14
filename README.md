@@ -1,4 +1,4 @@
-# Gradle Swagger Generator Plugin [![CircleCI](https://circleci.com/gh/int128/gradle-swagger-generator-plugin.svg?style=shield)](https://circleci.com/gh/int128/gradle-swagger-generator-plugin) [![Gradle Status](https://gradleupdate.appspot.com/int128/gradle-swagger-generator-plugin/status.svg)](https://gradleupdate.appspot.com/int128/gradle-swagger-generator-plugin/status)
+# Gradle Swagger Generator Plugin [![build](https://github.com/int128/gradle-swagger-generator-plugin/actions/workflows/build.yaml/badge.svg)](https://github.com/int128/gradle-swagger-generator-plugin/actions/workflows/build.yaml) [![Gradle Status](https://gradleupdate.appspot.com/int128/gradle-swagger-generator-plugin/status.svg)](https://gradleupdate.appspot.com/int128/gradle-swagger-generator-plugin/status)
 
 This is a Gradle plugin for the following tasks:
 
@@ -588,8 +588,7 @@ Key           | Type              | Value                                   | De
 This is an open source software licensed under the Apache License Version 2.0.
 Feel free to open issues or pull requests.
 
-CircleCI builds the plugin continuously.
-Following variables should be set.
+CI requires the following variables.
 
 Environment Variable        | Purpose
 ----------------------------|--------
