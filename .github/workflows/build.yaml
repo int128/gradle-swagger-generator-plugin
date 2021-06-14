@@ -46,9 +46,7 @@ jobs:
       - if: github.event_name == 'push'
         run: ./gradlew --no-daemon acceptance-test:example-docs
       - if: github.event_name == 'push'
-        uses: int128/create-commit-action@v1
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          ref: refs/heads/gh-pages
-          base-directory: acceptance-test/build
-          path: examples
-          message: Published from ${{ github.sha }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./acceptance-test/build
