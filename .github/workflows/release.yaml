@@ -1,0 +1,26 @@
+name: release
+
+on:
+  push:
+    tags:
+      - ^v*
+
+jobs:
+  gradle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v2
+        with:
+          distribution: adopt
+          java-version: '11'
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - run: VERSION=${GITHUB_REF##*/} ./gradlew --no-daemon publishPlugins

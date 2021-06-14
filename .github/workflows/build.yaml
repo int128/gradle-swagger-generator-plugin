@@ -1,0 +1,54 @@
+name: build
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - .github/workflows/build.yaml
+      - src/**
+      - acceptance-test/**
+      - gradle/**
+      - '*.gradle'
+    tags:
+      - v*
+  pull_request:
+    branches:
+      - master
+    paths:
+      - .github/workflows/build.yaml
+      - src/**
+      - acceptance-test/**
+      - gradle/**
+      - '*.gradle'
+
+jobs:
+  gradle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v2
+        with:
+          distribution: adopt
+          java-version: '11'
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - run: ./gradlew --no-daemon build
+
+      # publish the example
+      - if: github.event_name == 'push'
+        run: ./gradlew --no-daemon acceptance-test:example-docs
+      - if: github.event_name == 'push'
+        uses: int128/create-commit-action@v1
+        with:
+          ref: refs/heads/gh-pages
+          base-directory: acceptance-test/build
+          path: examples
+          message: Published from ${{ github.sha }}
