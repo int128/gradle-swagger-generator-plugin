@@ -68,7 +68,7 @@ class GenerateSwaggerCode extends DefaultTask {
         log.info("JavaExecOptions: $javaExecOptions")
         project.javaexec {
             classpath(javaExecOptions.classpath)
-            main = javaExecOptions.main
+            mainClass = javaExecOptions.main
             args = javaExecOptions.args
             systemProperties(javaExecOptions.systemProperties)
         }
