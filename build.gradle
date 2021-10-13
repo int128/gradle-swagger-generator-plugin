@@ -2,14 +2,12 @@ plugins {
     id 'groovy'
     id 'java-gradle-plugin'
     id 'com.gradle.plugin-publish' version '0.16.0'
-    id 'maven-publish'
 }
 
 sourceCompatibility = '11'
 targetCompatibility = '11'
 
 repositories {
-    mavenLocal()
     mavenCentral()
 }
 
