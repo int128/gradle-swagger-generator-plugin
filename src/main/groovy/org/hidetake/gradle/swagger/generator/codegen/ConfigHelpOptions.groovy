@@ -9,4 +9,5 @@ import groovy.transform.Canonical
 class ConfigHelpOptions {
     Set<File> generatorFiles
     String language
+    List<String> jvmArgs
 }

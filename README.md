@@ -582,6 +582,7 @@ Key           | Type              | Value                                   | De
 `additionalProperties` | Map of String, String | [Additional properties](https://github.com/swagger-api/swagger-codegen#to-generate-a-sample-client-library). | None
 `rawOptions`  | List of Strings   | Raw command line options for Swagger Codegen | None
 `configuration` | String or Configuration | Configuration for Swagger Codegen | `configurations.swaggerCodegen`
+`jvmArgs`     | List of Strings   | Arguments passed to jvm, example value: `['--add-opens=java.base/java.util=ALL-UNNAMED']`     | None
 
 
 ### Task type `GenerateSwaggerUI`

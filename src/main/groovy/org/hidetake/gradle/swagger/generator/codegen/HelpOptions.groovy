@@ -8,4 +8,5 @@ import groovy.transform.Canonical
 @Canonical
 class HelpOptions {
     Set<File> generatorFiles
+    List<String> jvmArgs
 }

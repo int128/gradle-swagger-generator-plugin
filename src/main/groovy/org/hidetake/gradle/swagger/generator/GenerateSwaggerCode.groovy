@@ -5,6 +5,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.tasks.*
+import org.gradle.process.JavaExecSpec
 import org.hidetake.gradle.swagger.generator.codegen.AdaptorFactory
 import org.hidetake.gradle.swagger.generator.codegen.DefaultAdaptorFactory
 import org.hidetake.gradle.swagger.generator.codegen.GenerateOptions
@@ -53,6 +54,10 @@ class GenerateSwaggerCode extends DefaultTask {
 
     @Optional
     @Input
+    List<String> jvmArgs
+
+    @Optional
+    @Input
     def configuration
 
     @Internal
@@ -66,11 +71,12 @@ class GenerateSwaggerCode extends DefaultTask {
     void exec() {
         def javaExecOptions = execInternal()
         log.info("JavaExecOptions: $javaExecOptions")
-        project.javaexec {
-            classpath(javaExecOptions.classpath)
-            mainClass = javaExecOptions.main
-            args = javaExecOptions.args
-            systemProperties(javaExecOptions.systemProperties)
+        project.javaexec { JavaExecSpec c ->
+            c.classpath(javaExecOptions.classpath)
+            c.mainClass = javaExecOptions.main
+            c.args = javaExecOptions.args
+            c.systemProperties(javaExecOptions.systemProperties)
+            c.jvmArgs(javaExecOptions.jvmArgs ?: [])
         }
     }
 
@@ -95,6 +101,7 @@ class GenerateSwaggerCode extends DefaultTask {
             templateDir: templateDir?.path,
             additionalProperties: additionalProperties,
             rawOptions: rawOptions,
+            jvmArgs: this.jvmArgs,
             systemProperties: Helper.systemProperties(components),
         )
         log.info("GenerateOptions: $generateOptions")

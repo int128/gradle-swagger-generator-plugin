@@ -44,6 +44,7 @@ class OpenAPI3Adaptor implements Adaptor {
             args: args,
             main: CLASS_NAME,
             systemProperties: systemProperties,
+            jvmArgs: options.jvmArgs,
         )
     }
 
@@ -54,6 +55,7 @@ class OpenAPI3Adaptor implements Adaptor {
             args: ['help', 'generate'],
             main: CLASS_NAME,
             systemProperties: Helper.slf4jSimpleSystemProperties(),
+            jvmArgs: options.jvmArgs,
         )
     }
 
@@ -64,6 +66,7 @@ class OpenAPI3Adaptor implements Adaptor {
             args: ['config-help', '-g', options.language],
             main: CLASS_NAME,
             systemProperties: Helper.slf4jSimpleSystemProperties(),
+            jvmArgs: options.jvmArgs,
         )
     }
 }
