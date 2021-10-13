@@ -16,5 +16,6 @@ class GenerateOptions {
     String templateDir
     Map<String, String> additionalProperties
     List<String> rawOptions
+    List<String> jvmArgs
     Map<String, String> systemProperties
 }
