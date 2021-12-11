@@ -1,14 +1,13 @@
 package org.hidetake.gradle.swagger.generator
 
-import org.junit.Rule
-import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
+import spock.lang.TempDir
 import spock.lang.Unroll
 
 class GenerateSwaggerUISpec extends Specification {
 
-    @Rule
-    TemporaryFolder temporaryFolder = new TemporaryFolder()
+    @TempDir
+    File repositoryFolder
 
     def "task should fail if swaggerUI dependency is not set"() {
         given:
@@ -24,7 +23,6 @@ class GenerateSwaggerUISpec extends Specification {
     @Unroll
     def 'task should #verb the output directory if wipeOutputDir == #wipe'() {
         given:
-        def repositoryFolder = temporaryFolder.newFolder()
         Fixture.createJAR(new File(repositoryFolder, 'swagger-ui.jar'), [
             'index.html': 'dummy-content',
         ])
@@ -55,14 +53,13 @@ class GenerateSwaggerUISpec extends Specification {
         new File(project.buildDir, 'keep').exists() == existence
 
         where:
-        wipe    | verb      | existence
-        true    | 'wipe'    | false
-        false   | 'keep'    | true
+        wipe  | verb   | existence
+        true  | 'wipe' | false
+        false | 'keep' | true
     }
 
     def "task should fail if outputDir == projectDir"() {
         given:
-        def repositoryFolder = temporaryFolder.newFolder()
         Fixture.createJAR(new File(repositoryFolder, 'swagger-ui.jar'), [
             'index.html': 'dummy-content',
         ])
