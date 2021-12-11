@@ -17,10 +17,14 @@ dependencies {
     implementation 'com.github.fge:json-schema-validator:2.2.6'
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.0'
 
-    testImplementation('org.spockframework:spock-core:2.0-groovy-3.0') {
-        exclude module: 'groovy-all'
-    }
+    testImplementation platform('org.spockframework:spock-bom:2.0-groovy-3.0')
+    testImplementation 'org.spockframework:spock-core'
+
     testRuntimeOnly 'cglib:cglib-nodep:3.3.0'
+}
+
+test {
+    useJUnitPlatform()
 }
 
 group = 'org.hidetake'
@@ -41,20 +45,4 @@ gradlePlugin {
             implementationClass = 'org.hidetake.gradle.swagger.generator.SwaggerGeneratorPlugin'
         }
     }
-}
-
-allprojects {
-    afterEvaluate {
-        tasks.withType(Test) {
-            finalizedBy ':testReport'
-            testReport.reportOn binaryResultsDirectory
-            reports.html.required = false
-            reports.junitXml.outputLocation = file("${rootProject.buildDir}/test-results")
-        }
-    }
-}
-
-task testReport(type: TestReport) {
-    description 'Generates test report for all projects'
-    destinationDir = file("$buildDir/reports")
 }

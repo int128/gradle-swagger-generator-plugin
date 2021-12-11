@@ -8,9 +8,8 @@ repositories {
 }
 
 dependencies {
-    testImplementation('org.spockframework:spock-core:2.0-groovy-3.0') {
-        exclude module: 'groovy-all'
-    }
+    testImplementation platform('org.spockframework:spock-bom:2.0-groovy-3.0')
+    testImplementation 'org.spockframework:spock-core'
 }
 
 gradlePlugin {
@@ -72,7 +71,8 @@ task('example-docs', description: 'Generate example documents', group: 'document
     }
 }
 
-
 test {
-  inputs.files fileTree(dir: "$project.projectDir/examples", excludes: ['**/.gradle', '**/build'])
+    useJUnitPlatform()
+
+    inputs.files fileTree(dir: "$project.projectDir/examples", excludes: ['**/.gradle', '**/build'])
 }
