@@ -26,7 +26,7 @@ file('examples/settings.gradle').eachLine { line ->
 
         task("build-$escaped", type: JavaExec, group: 'acceptance-test') {
             classpath = sourceSets.test.runtimeClasspath
-            main = 'org.hidetake.gradle.swagger.generator.test.Main'
+            mainClass = 'org.hidetake.gradle.swagger.generator.test.Main'
             args = ["$path:build"]
         }
 

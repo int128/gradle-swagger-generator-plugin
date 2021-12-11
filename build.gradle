@@ -48,8 +48,8 @@ allprojects {
         tasks.withType(Test) {
             finalizedBy ':testReport'
             testReport.reportOn binaryResultsDirectory
-            reports.html.enabled = false
-            reports.junitXml.destination = file("${rootProject.buildDir}/test-results")
+            reports.html.required = false
+            reports.junitXml.outputLocation = file("${rootProject.buildDir}/test-results")
         }
     }
 }
