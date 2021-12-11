@@ -2,20 +2,18 @@ package org.hidetake.gradle.swagger.generator.codegen
 
 import org.gradle.testfixtures.ProjectBuilder
 import org.hidetake.gradle.swagger.generator.Fixture
-import org.junit.Rule
-import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
+import spock.lang.TempDir
 import spock.lang.Unroll
 
 class DefaultAdaptorFactorySpec extends Specification {
 
-    @Rule
-    TemporaryFolder temporaryFolder = new TemporaryFolder()
+    @TempDir
+    File repositoryFolder
 
     @Unroll
     def "create #expectedAdaptor.simpleName when class #givenClassFileName is given"() {
         given:
-        def repositoryFolder = temporaryFolder.newFolder()
         Fixture.createJAR(new File(repositoryFolder, 'swagger-codegen-cli-1.0.0.jar'), [
             (givenClassFileName)  : 'dummy-class',
             'META-INF/MANIFEST.MF': 'dummy-manifest',

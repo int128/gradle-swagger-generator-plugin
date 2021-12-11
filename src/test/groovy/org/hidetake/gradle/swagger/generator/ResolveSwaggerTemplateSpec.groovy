@@ -1,17 +1,16 @@
 package org.hidetake.gradle.swagger.generator
 
-import org.junit.Rule
-import org.junit.rules.TemporaryFolder
+
 import spock.lang.Specification
+import spock.lang.TempDir
 
 class ResolveSwaggerTemplateSpec extends Specification {
 
-    @Rule
-    TemporaryFolder temporaryFolder = new TemporaryFolder()
+    @TempDir
+    File repositoryFolder
 
     def 'task should expand JARs into build/swagger-template'() {
         given:
-        def repositoryFolder = temporaryFolder.newFolder()
         Fixture.createJAR(new File(repositoryFolder, 'template-foo-1.0.0.jar'), [
             'foo.txt': 'foo-hello-world',
         ])

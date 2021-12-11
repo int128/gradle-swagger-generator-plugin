@@ -17,7 +17,7 @@ dependencies {
     implementation 'com.github.fge:json-schema-validator:2.2.6'
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.0'
 
-    testImplementation('org.spockframework:spock-core:1.3-groovy-2.5') {
+    testImplementation('org.spockframework:spock-core:2.0-groovy-3.0') {
         exclude module: 'groovy-all'
     }
     testRuntimeOnly 'cglib:cglib-nodep:3.3.0'
@@ -48,8 +48,8 @@ allprojects {
         tasks.withType(Test) {
             finalizedBy ':testReport'
             testReport.reportOn binaryResultsDirectory
-            reports.html.enabled = false
-            reports.junitXml.destination = file("${rootProject.buildDir}/test-results")
+            reports.html.required = false
+            reports.junitXml.outputLocation = file("${rootProject.buildDir}/test-results")
         }
     }
 }
