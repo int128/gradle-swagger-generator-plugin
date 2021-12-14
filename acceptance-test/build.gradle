@@ -1,6 +1,5 @@
 plugins {
-    id 'groovy'
-    id 'java-gradle-plugin'
+    id 'groovy-gradle-plugin'
 }
 
 repositories {
@@ -8,13 +7,10 @@ repositories {
 }
 
 dependencies {
-    testImplementation('org.spockframework:spock-core:2.0-groovy-3.0') {
-        exclude module: 'groovy-all'
-    }
-}
+    implementation parent
 
-gradlePlugin {
-    pluginSourceSet parent.sourceSets.main
+    testImplementation platform('org.spockframework:spock-bom:2.0-groovy-3.0')
+    testImplementation 'org.spockframework:spock-core'
 }
 
 file('examples/settings.gradle').eachLine { line ->
@@ -27,7 +23,7 @@ file('examples/settings.gradle').eachLine { line ->
         task("build-$escaped", type: JavaExec, group: 'acceptance-test') {
             classpath = sourceSets.test.runtimeClasspath
             mainClass = 'org.hidetake.gradle.swagger.generator.test.Main'
-            args = ["$path:build"]
+            args = ['-s', "$path:build"]
         }
 
         project.tasks.clean.delete "$realPath/build"
@@ -72,7 +68,8 @@ task('example-docs', description: 'Generate example documents', group: 'document
     }
 }
 
-
 test {
-  inputs.files fileTree(dir: "$project.projectDir/examples", excludes: ['**/.gradle', '**/build'])
+    useJUnitPlatform()
+
+    inputs.files fileTree(dir: "$project.projectDir/examples", excludes: ['**/.gradle', '**/build'])
 }
