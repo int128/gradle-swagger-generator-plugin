@@ -1,6 +1,5 @@
 plugins {
-    id 'groovy'
-    id 'java-gradle-plugin'
+    id 'groovy-gradle-plugin'
 }
 
 repositories {
@@ -8,12 +7,10 @@ repositories {
 }
 
 dependencies {
+    implementation parent
+
     testImplementation platform('org.spockframework:spock-bom:2.0-groovy-3.0')
     testImplementation 'org.spockframework:spock-core'
-}
-
-gradlePlugin {
-    pluginSourceSet parent.sourceSets.main
 }
 
 file('examples/settings.gradle').eachLine { line ->
@@ -26,7 +23,7 @@ file('examples/settings.gradle').eachLine { line ->
         task("build-$escaped", type: JavaExec, group: 'acceptance-test') {
             classpath = sourceSets.test.runtimeClasspath
             mainClass = 'org.hidetake.gradle.swagger.generator.test.Main'
-            args = ["$path:build"]
+            args = ['-s', "$path:build"]
         }
 
         project.tasks.clean.delete "$realPath/build"
