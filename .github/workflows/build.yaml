@@ -33,11 +33,15 @@ jobs:
           distribution: temurin
           java-version: 17
           cache: gradle
-      - run: ./gradlew --no-daemon build
+      - uses: gradle/gradle-build-action@v2
+        with:
+          arguments: build
 
       # publish the example
       - if: github.event_name == 'push'
-        run: ./gradlew --no-daemon acceptance-test:example-docs
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: acceptance-test:example-docs
       - if: github.event_name == 'push'
         uses: peaceiris/actions-gh-pages@v3
         with:
