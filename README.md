@@ -19,6 +19,7 @@
   - [Use multiple sources](#use-multiple-sources)
   - [Switch version of Swagger Codegen](#switch-version-of-swagger-codegen)
   - [Configure Swagger UI](#configure-swagger-ui)
+- [Compatibility](#compatibility)
 - [Settings](#settings)
   - [Task type `ValidateSwagger`](#task-type-validateswagger)
   - [Task type `GenerateSwaggerCode`](#task-type-generateswaggercode)
@@ -545,6 +546,27 @@ See also the following examples:
 - [ui-v2/basic](acceptance-test/examples/ui-v2/basic) (if you need Swagger UI 2.x)
 
 
+## Compatibility
+
+### Swagger Codegen v3 and Java 16+
+
+To use Swagger Codegen v3 on Java 16 or later, you need to set `jvmArgs` as follows:
+
+```groovy
+swaggerSources {
+  petstore {
+    inputFile = file('petstore.yaml')
+    code {
+      language = 'html'
+      jvmArgs = ['--add-opens=java.base/java.util=ALL-UNNAMED'] // for Swagger Codegen v3 on Java 16+
+    }
+  }
+}
+```
+
+See [#221](https://github.com/int128/gradle-swagger-generator-plugin/issues/221) for details.
+
+
 ## Settings
 
 The plugin adds `validateSwagger`, `generateSwaggerCode`, `generateSwaggerUI` and `GenerateReDoc` tasks.
@@ -582,7 +604,7 @@ Key           | Type              | Value                                   | De
 `additionalProperties` | Map of String, String | [Additional properties](https://github.com/swagger-api/swagger-codegen#to-generate-a-sample-client-library). | None
 `rawOptions`  | List of Strings   | Raw command line options for Swagger Codegen | None
 `configuration` | String or Configuration | Configuration for Swagger Codegen | `configurations.swaggerCodegen`
-`jvmArgs`     | List of Strings   | Arguments passed to jvm, example value: `['--add-opens=java.base/java.util=ALL-UNNAMED']`     | None
+`jvmArgs`     | List of Strings   | Arguments passed to jvm | None
 
 
 ### Task type `GenerateSwaggerUI`
