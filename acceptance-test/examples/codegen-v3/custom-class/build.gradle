@@ -18,6 +18,9 @@ swaggerSources {
             language = 'generators.MySpring'
             configFile = file("$rootDir/java-spring-config.json")
             components = ['models', 'apis']
+
+            // https://github.com/int128/gradle-swagger-generator-plugin/issues/221
+            jvmArgs = ['--add-opens=java.base/java.util=ALL-UNNAMED']
         }
     }
 }

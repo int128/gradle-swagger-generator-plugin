@@ -30,4 +30,9 @@ swaggerSources {
     }
 }
 
+// https://github.com/int128/gradle-swagger-generator-plugin/issues/221
+swaggerSources.all {
+    code.jvmArgs = ['--add-opens=java.base/java.util=ALL-UNNAMED']
+}
+
 build.dependsOn generateSwaggerCode
