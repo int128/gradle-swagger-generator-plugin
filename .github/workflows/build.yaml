@@ -36,10 +36,11 @@ jobs:
       - uses: gradle/gradle-build-action@v2
         with:
           arguments: build
-      - uses: mikepenz/action-junit-report@v2
+      - uses: actions/upload-artifact@v2
         if: always()
         with:
-          report_paths: '**/build/test-results/test/TEST-*.xml'
+          name: gradle-reports
+          path: '**/build/reports/tests/'
 
       # publish the example
       - if: github.event_name == 'push'
