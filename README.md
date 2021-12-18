@@ -20,6 +20,7 @@
   - [Switch version of Swagger Codegen](#switch-version-of-swagger-codegen)
   - [Configure Swagger UI](#configure-swagger-ui)
 - [Compatibility](#compatibility)
+  - [Swagger Codegen v3 and Java 16+](#swagger-codegen-v3-and-java-16)
 - [Settings](#settings)
   - [Task type `ValidateSwagger`](#task-type-validateswagger)
   - [Task type `GenerateSwaggerCode`](#task-type-generateswaggercode)
