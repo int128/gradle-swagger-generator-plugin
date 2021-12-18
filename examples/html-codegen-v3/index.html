@@ -689,7 +689,7 @@
   <script>
     // Script section to load models into a JS Var
     var defs = {}
-            defs.Error = {
+            defs["Error"] = {
   "required" : [ "code", "message" ],
   "properties" : {
     "code" : {
@@ -701,7 +701,7 @@
     }
   }
 };
-            defs.Pet = {
+            defs["Pet"] = {
   "required" : [ "id", "name" ],
   "properties" : {
     "id" : {
@@ -716,7 +716,7 @@
     }
   }
 };
-            defs.Pets = {
+            defs["Pets"] = {
   "type" : "array",
   "items" : {
     "$ref" : "#/components/schemas/Pet"
@@ -801,7 +801,9 @@
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pets-createPets-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X  "http://petstore.swagger.io/v1/pets"</code></pre>
+                           <pre class="prettyprint"><code class="language-bsh">curl -X POST\
+-H "Accept: application/json"\
+"http://petstore.swagger.io/v1/pets"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pets-createPets-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -997,7 +999,7 @@ except ApiException as e:
     }
   }
 };
-                                        var schema = schemaWrapper.content[].schema;
+                                        var schema = schemaWrapper.content["application/json"].schema;
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
                                         } else {
@@ -1056,7 +1058,9 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pets-listPets-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X  "http://petstore.swagger.io/v1/pets?limit="</code></pre>
+                           <pre class="prettyprint"><code class="language-bsh">curl -X GET\
+-H "Accept: application/json"\
+"http://petstore.swagger.io/v1/pets?limit="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pets-listPets-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -1305,7 +1309,7 @@ except ApiException as e:
     }
   }
 };
-                                        var schema = schemaWrapper.content[].schema;
+                                        var schema = schemaWrapper.content["application/json"].schema;
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
                                         } else {
@@ -1369,7 +1373,7 @@ except ApiException as e:
     }
   }
 };
-                                        var schema = schemaWrapper.content[].schema;
+                                        var schema = schemaWrapper.content["application/json"].schema;
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
                                         } else {
@@ -1428,7 +1432,9 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Pets-showPetById-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X  "http://petstore.swagger.io/v1/pets/{petId}"</code></pre>
+                           <pre class="prettyprint"><code class="language-bsh">curl -X GET\
+-H "Accept: application/json"\
+"http://petstore.swagger.io/v1/pets/{petId}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Pets-showPetById-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -1500,6 +1506,7 @@ PetsApi *apiInstance = [[PetsApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var SwaggerPetstoreV3OpenApi3 = require('swagger_petstore_v3__open_api_3');
 
 var api = new SwaggerPetstoreV3OpenApi3.PetsApi()
+var petId = petId_example; // {{String}} The id of the pet to retrieve
 
 var callback = function(error, data, response) {
   if (error) {
@@ -1662,7 +1669,7 @@ except ApiException as e:
     }
   }
 };
-                                        var schema = schemaWrapper.content[].schema;
+                                        var schema = schemaWrapper.content["application/json"].schema;
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
                                         } else {
@@ -1710,7 +1717,7 @@ except ApiException as e:
     }
   }
 };
-                                        var schema = schemaWrapper.content[].schema;
+                                        var schema = schemaWrapper.content["application/json"].schema;
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
                                         } else {
@@ -2834,10 +2841,15 @@ except ApiException as e:
   
       _classCallCheck(this, JSONSchemaView);
   
-      this.schema = schema; //console.log(schema);
+      this.schema = schema;
       this.open = open;
       this.options = options;
       this.isCollapsed = open <= 0;
+  
+      if (this.schema.type == undefined && this.schema.$ref) {
+        const elements = this.schema.$ref.split('/');
+        this.schema = defs[elements.pop()];
+      }
   
       // if schema is an empty object which means any JOSN
       this.isAny = typeof schema === 'object' && !Array.isArray(schema) && !Object.keys(schema).filter(function (k) {
@@ -2847,7 +2859,7 @@ except ApiException as e:
       // Determine if a schema is an array
       this.isArray = !this.isAny && this.schema && this.schema.type === 'array';
   
-      this.isObject = this.schema && (this.schema.type === 'object' || this.schema.properties || this.schema.anyOf || this.schema.oneof || this.schema.allOf);
+      this.isObject = this.schema && (this.schema.type === 'object' || this.schema.properties || this.schema.allOf);
   
       // Determine if a schema is a primitive
       this.isPrimitive = !this.isAny && !this.isArray && !this.isObject;
@@ -2938,6 +2950,12 @@ except ApiException as e:
   
         this.element.innerHTML = this.template();
   
+        if (this.schema && this.schema.example) {
+          var exampleDiv = document.createElement('div');
+          exampleDiv.innerHTML = '<div style="display: block" class="example">\n          <span style="color: #808080" class="name">example: ' + this.schema.example + '</span>\n        </div>';
+          this.element.appendChild(exampleDiv.querySelector('.example'));
+        }
+  
         if (!this.schema) {
           return this.element;
         }
@@ -2975,7 +2993,13 @@ except ApiException as e:
         }
   
         if (this.isArray) {
-          var view = new JSONSchemaView(this.schema.items, Infinity);
+          var schemaItems = this.schema.items;
+          if (this.schema.items.$ref) {
+             var elements = this.schema.items.$ref.split('/');
+             var schemaName = elements.pop();
+             schemaItems = defs[schemaName];
+          }
+          var view = new JSONSchemaView(schemaItems, Infinity);
           inner.appendChild(view.render());
         }
   

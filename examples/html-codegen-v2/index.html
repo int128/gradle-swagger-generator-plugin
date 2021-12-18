@@ -696,39 +696,9 @@ margin-bottom: 20px;
   <script>
     // Script section to load models into a JS Var
     var defs = {}
-        defs["Error"] = {
-  "required" : [ "code", "message" ],
-  "properties" : {
-    "code" : {
-      "type" : "integer",
-      "format" : "int32"
-    },
-    "message" : {
-      "type" : "string"
-    }
-  }
-};
-        defs["Pet"] = {
-  "required" : [ "id", "name" ],
-  "properties" : {
-    "id" : {
-      "type" : "integer",
-      "format" : "int64"
-    },
-    "name" : {
-      "type" : "string"
-    },
-    "tag" : {
-      "type" : "string"
-    }
-  }
-};
-        defs["Pets"] = {
-  "type" : "array",
-  "items" : {
-    "$ref" : "#/definitions/Pet"
-  }
-};
+        defs["Error"] = {"required":["code","message"],"properties":{"code":{"type":"integer","format":"int32"},"message":{"type":"string"}}};
+        defs["Pet"] = {"required":["id","name"],"properties":{"id":{"type":"integer","format":"int64"},"name":{"type":"string"},"tag":{"type":"string"}}};
+        defs["Pets"] = {"type":"array","items":{"$ref":"#/definitions/Pet"}};
   </script>
 
   <div class="container-fluid">
@@ -2336,6 +2306,12 @@ var JSONSchemaView = (function () {
       if (!this.schema) {
         return this.element;
       }
+
+        if (this.schema && this.schema.example) {
+            var exampleDiv = document.createElement('div');
+            exampleDiv.innerHTML = '<div style="display: block" class="example">\n          <span style="color: #808080" class="name">example: ' + this.schema.example + '</span>\n        </div>';
+            this.element.appendChild(exampleDiv.querySelector('.example'));
+        }
 
       if (!this.isCollapsed) {
         this.appendChildren(this.element);
