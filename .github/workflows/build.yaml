@@ -36,6 +36,10 @@ jobs:
       - uses: gradle/gradle-build-action@v2
         with:
           arguments: build
+      - uses: mikepenz/action-junit-report@v2
+        if: always()
+        with:
+          report_paths: '**/build/test-results/test/TEST-*.xml'
 
       # publish the example
       - if: github.event_name == 'push'
