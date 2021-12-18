@@ -3,8 +3,9 @@ plugins {
     id 'com.gradle.plugin-publish' version '0.18.0'
 }
 
-sourceCompatibility = '11'
-targetCompatibility = '11'
+compileJava {
+    options.release = 11
+}
 
 repositories {
     mavenCentral()
