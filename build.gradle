@@ -1,6 +1,7 @@
 plugins {
     id 'groovy-gradle-plugin'
     id 'com.gradle.plugin-publish' version '0.18.0'
+    id 'maven-publish'
 }
 
 compileJava {

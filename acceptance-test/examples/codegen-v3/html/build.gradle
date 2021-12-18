@@ -16,6 +16,9 @@ swaggerSources {
         inputFile = file("$rootDir/openapi-v3-petstore.yaml")
         code {
             language = 'html2'
+
+            // https://github.com/int128/gradle-swagger-generator-plugin/issues/221
+            jvmArgs = ['--add-opens=java.base/java.util=ALL-UNNAMED']
         }
     }
 }

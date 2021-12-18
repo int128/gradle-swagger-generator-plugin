@@ -17,6 +17,9 @@ swaggerSources {
         code {
             language = 'html'
             templateDir = file("$rootDir/build/templates/codegen3/htmlDocs")
+
+            // https://github.com/int128/gradle-swagger-generator-plugin/issues/221
+            jvmArgs = ['--add-opens=java.base/java.util=ALL-UNNAMED']
         }
     }
 }
