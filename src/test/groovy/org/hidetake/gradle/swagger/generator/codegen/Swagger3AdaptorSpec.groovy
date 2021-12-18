@@ -30,6 +30,7 @@ class Swagger3AdaptorSpec extends Specification {
                     language: 'java',
                     inputFile: 'input',
                     outputDir: 'output',
+                    jvmArgs: ['-Xmx1G']
                 ),
                 javaExecOptions: new JavaExecOptions(
                     classpath: [new File('foo.jar')],
@@ -40,6 +41,7 @@ class Swagger3AdaptorSpec extends Specification {
                         '-i', 'input',
                         '-o', 'output',
                     ],
+                    jvmArgs: ['-Xmx1G'],
                     systemProperties: ['logback.configurationFile': Helper.logbackXmlFile],
                 ),
             ),

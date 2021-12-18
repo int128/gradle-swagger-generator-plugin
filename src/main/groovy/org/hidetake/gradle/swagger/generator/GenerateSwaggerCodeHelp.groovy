@@ -30,6 +30,10 @@ class GenerateSwaggerCodeHelp extends DefaultTask {
     @Input
     def configuration
 
+    @Optional
+    @Input
+    List<String> jvmArgs
+
     @Internal
     AdaptorFactory adaptorFactory = DefaultAdaptorFactory.instance
 
@@ -56,6 +60,7 @@ class GenerateSwaggerCodeHelp extends DefaultTask {
         System.err.println("=== Available rawOptions ===")
         def helpOptions = new HelpOptions(
             generatorFiles: generatorFiles,
+            jvmArgs: this.jvmArgs
         )
         def helpJavaExecOptions = adaptor.help(helpOptions)
         log.info("JavaExecOptions: $helpJavaExecOptions")
@@ -64,12 +69,14 @@ class GenerateSwaggerCodeHelp extends DefaultTask {
             c.main = helpJavaExecOptions.main
             c.args = helpJavaExecOptions.args
             c.systemProperties(helpJavaExecOptions.systemProperties)
+            c.jvmArgs(helpJavaExecOptions.jvmArgs ?: [])
         }
 
         System.err.println("=== Available JSON configuration for language $language ===")
         def configHelpOptions = new ConfigHelpOptions(
             generatorFiles: generatorFiles,
             language: language,
+            jvmArgs: this.jvmArgs
         )
         def configHelpJavaExecOptions = adaptor.configHelp(configHelpOptions)
         log.info("JavaExecOptions: $configHelpJavaExecOptions")
@@ -78,6 +85,7 @@ class GenerateSwaggerCodeHelp extends DefaultTask {
             c.main = configHelpJavaExecOptions.main
             c.args = configHelpJavaExecOptions.args
             c.systemProperties(configHelpJavaExecOptions.systemProperties)
+            c.jvmArgs(configHelpJavaExecOptions.jvmArgs ?: [])
         }
     }
 

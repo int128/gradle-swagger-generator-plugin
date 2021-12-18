@@ -10,5 +10,6 @@ class JavaExecOptions {
     Set<File> classpath
     String main
     List<String> args
+    List<String> jvmArgs
     Map<String, String> systemProperties
 }
