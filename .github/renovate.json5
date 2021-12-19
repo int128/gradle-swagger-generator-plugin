@@ -16,6 +16,7 @@
     {
       "fileMatch": [
         "^README\.md$",
+        "\.gradle$",
       ],
       "matchStrings": [
         "id 'org.hidetake.swagger.generator' version '(?<currentValue>.*?)'",
