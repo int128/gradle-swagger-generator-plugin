@@ -13,6 +13,7 @@
     }
   ],
   "regexManagers": [
+    // this plugin
     {
       "fileMatch": [
         "^README\.md$",
@@ -23,6 +24,18 @@
       ],
       "depNameTemplate": "int128/gradle-swagger-generator-plugin",
       "datasourceTemplate": "github-releases",
+    },
+    // swagger related dependencies
+    {
+      "fileMatch": [
+        "^README\.md$",
+        "\.gradle$",
+      ],
+      "matchStrings": [
+        "swaggerCodegen '(?<depName>.*?:.*?):(?<currentValue>.*?)'",
+        "swaggerUI '(?<depName>.*?:.*?):(?<currentValue>.*?)'",
+      ],
+      "datasourceTemplate": "maven",
     },
   ],
 }
