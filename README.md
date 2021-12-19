@@ -102,7 +102,7 @@ repositories {
 }
 
 dependencies {
-  swaggerUI 'org.webjars:swagger-ui:3.10.0'
+  swaggerUI 'org.webjars:swagger-ui:3.52.5'
 }
 
 swaggerSources {
