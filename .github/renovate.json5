@@ -32,8 +32,7 @@
         ".+\.gradle$",
       ],
       "matchStrings": [
-        "swaggerCodegen '(?<depName>.+?:.+?):(?<currentValue>.*?)'",
-        "swaggerUI '(?<depName>.+?:.+?):(?<currentValue>.*?)'",
+        "(swaggerCodegen|swaggerUI) +'(?<depName>.+?:.+?):(?<currentValue>.*?)'",
       ],
       "datasourceTemplate": "maven",
     },
