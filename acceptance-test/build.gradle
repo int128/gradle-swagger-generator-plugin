@@ -13,12 +13,12 @@ dependencies {
     testImplementation 'org.spockframework:spock-core'
 }
 
-file('examples/settings.gradle').eachLine { line ->
+file('projects/settings.gradle').eachLine { line ->
     def m = (line =~ /include '(.+?)'/)
     if (m) {
         def path = m.group(1)
         def escaped = path.replace(':', '-')
-        def realPath = "$projectDir/examples/${path.replace(':', '/')}"
+        def realPath = "$projectDir/projects/${path.replace(':', '/')}"
 
         task("build-$escaped", type: JavaExec, group: 'acceptance-test') {
             classpath = sourceSets.test.runtimeClasspath
@@ -34,35 +34,35 @@ task('example-docs', description: 'Generate example documents', group: 'document
     dependsOn 'build-ui-v3-basic'
     doLast {
         copy {
-            from "$projectDir/examples/ui-v3/basic/build/swagger-ui-petstore"
+            from "$projectDir/projects/ui-v3/basic/build/swagger-ui-petstore"
             into "$buildDir/examples/ui-v3"
         }
     }
     dependsOn 'build-redoc-basic'
     doLast {
         copy {
-            from "$projectDir/examples/redoc/basic/build/redoc-petstore"
+            from "$projectDir/projects/redoc/basic/build/redoc-petstore"
             into "$buildDir/examples/redoc"
         }
     }
     dependsOn 'build-codegen-v2-html'
     doLast {
         copy {
-            from "$projectDir/examples/codegen-v2/html/build/swagger-code-petstore"
+            from "$projectDir/projects/codegen-v2/html/build/swagger-code-petstore"
             into "$buildDir/examples/html-codegen-v2"
         }
     }
     dependsOn 'build-codegen-v3-html'
     doLast {
         copy {
-            from "$projectDir/examples/codegen-v3/html/build/swagger-code-petstore"
+            from "$projectDir/projects/codegen-v3/html/build/swagger-code-petstore"
             into "$buildDir/examples/html-codegen-v3"
         }
     }
     dependsOn 'build-openapi-v3-html'
     doLast {
         copy {
-            from "$projectDir/examples/openapi-v3/html/build/swagger-code-petstore"
+            from "$projectDir/projects/openapi-v3/html/build/swagger-code-petstore"
             into "$buildDir/examples/html-openapi-v3"
         }
     }
@@ -71,5 +71,5 @@ task('example-docs', description: 'Generate example documents', group: 'document
 test {
     useJUnitPlatform()
 
-    inputs.files fileTree(dir: "$project.projectDir/examples", excludes: ['**/.gradle', '**/build'])
+    inputs.files fileTree(dir: "$project.projectDir/projects", excludes: ['**/.gradle', '**/build'])
 }
