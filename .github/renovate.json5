@@ -12,9 +12,16 @@
       "automerge": true
     }
   ],
-  "gradle": {
-    "fileMatch": [
-      "^README\.md$",
-    ],
-  },
+  "regexManagers": [
+    {
+      "fileMatch": [
+        "^README\.md$",
+      ],
+      "matchStrings": [
+        "id 'org.hidetake.swagger.generator' version '(?<currentValue>.*?)'",
+      ],
+      "depNameTemplate": "int128/gradle-swagger-generator-plugin",
+      "datasourceTemplate": "github-releases",
+    },
+  ],
 }
