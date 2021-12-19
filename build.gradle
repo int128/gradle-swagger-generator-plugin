@@ -1,7 +1,6 @@
 plugins {
     id 'groovy-gradle-plugin'
     id 'com.gradle.plugin-publish' version '0.18.0'
-    id 'maven-publish'
 }
 
 compileJava {
@@ -28,7 +27,7 @@ test {
 }
 
 group = 'org.hidetake'
-version = System.getenv('VERSION') ?: 'SNAPSHOT'
+version = System.getenv('GITHUB_REF')?.split('/')?.last() ?: 'SNAPSHOT'
 
 pluginBundle {
     website = 'https://github.com/int128/gradle-swagger-generator-plugin'
