@@ -29,11 +29,11 @@
     {
       "fileMatch": [
         "^README\.md$",
-        "\.gradle$",
+        ".+\.gradle$",
       ],
       "matchStrings": [
-        "swaggerCodegen '(?<depName>.*?:.*?):(?<currentValue>.*?)'",
-        "swaggerUI '(?<depName>.*?:.*?):(?<currentValue>.*?)'",
+        "swaggerCodegen '(?<depName>.+?:.+?):(?<currentValue>.*?)'",
+        "swaggerUI '(?<depName>.+?:.+?):(?<currentValue>.*?)'",
       ],
       "datasourceTemplate": "maven",
     },
