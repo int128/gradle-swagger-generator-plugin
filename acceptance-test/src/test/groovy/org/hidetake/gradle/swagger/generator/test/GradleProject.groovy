@@ -17,7 +17,7 @@ class GradleProject {
 
     BuildResult executeWithoutClean(String taskName) {
         GradleRunner.create()
-            .withProjectDir(new File('examples'))
+            .withProjectDir(new File('projects'))
             .withPluginClasspath()
             .forwardOutput()
             .withArguments('-s', "$path:$taskName")
@@ -33,7 +33,7 @@ class GradleProject {
     }
 
     File getProjectDir() {
-        new File("examples/$filePath")
+        new File("projects/$filePath")
     }
 
     String getFilePath() {

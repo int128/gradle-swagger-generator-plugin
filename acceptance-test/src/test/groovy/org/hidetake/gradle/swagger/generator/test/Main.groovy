@@ -6,7 +6,7 @@ class Main {
     static void main(String[] args) {
         assert args.length > 0
         GradleRunner.create()
-            .withProjectDir(new File('examples'))
+            .withProjectDir(new File('projects'))
             .withPluginClasspath()
             .forwardOutput()
             .withArguments(args)
