@@ -14,7 +14,7 @@ repositories {
 dependencies {
     implementation 'com.github.java-json-tools:json-schema-validator:2.2.14'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.1'
-    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.0'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.1'
 
     testImplementation platform('org.spockframework:spock-bom:2.0-groovy-3.0')
     testImplementation 'org.spockframework:spock-core'
