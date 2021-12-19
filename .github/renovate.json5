@@ -11,5 +11,10 @@
       "matchUpdateTypes": ["minor", "patch", "pin"],
       "automerge": true
     }
-  ]
+  ],
+  "gradle": {
+    "fileMatch": [
+      "^README\.md$",
+    ],
+  },
 }
