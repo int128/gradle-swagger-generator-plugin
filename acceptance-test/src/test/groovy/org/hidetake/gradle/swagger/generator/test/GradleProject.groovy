@@ -2,6 +2,7 @@ package org.hidetake.gradle.swagger.generator.test
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.GradleRunner
+import org.gradle.testkit.runner.UnexpectedBuildFailure
 
 class GradleProject {
     final String path
@@ -12,16 +13,23 @@ class GradleProject {
 
     BuildResult execute(String taskName) {
         file('build').deleteDir()
-        executeWithoutClean(taskName)
+        executeInternal(taskName)
     }
 
     BuildResult executeWithoutClean(String taskName) {
-        GradleRunner.create()
-            .withProjectDir(new File('projects'))
-            .withPluginClasspath()
-            .forwardOutput()
-            .withArguments('-s', "$path:$taskName")
-            .build()
+        executeInternal(taskName)
+    }
+
+    private BuildResult executeInternal(String taskName) {
+        try {
+            GradleRunner.create()
+                .withProjectDir(new File('projects'))
+                .withPluginClasspath()
+                .withArguments('-s', "$path:$taskName")
+                .build()
+        } catch (UnexpectedBuildFailure e) {
+            throw new BuildFailureException(e)
+        }
     }
 
     String absolutePath(String name) {
@@ -38,5 +46,11 @@ class GradleProject {
 
     String getFilePath() {
         path.replace(':', '/')
+    }
+
+    static class BuildFailureException extends RuntimeException {
+        BuildFailureException(UnexpectedBuildFailure e) {
+            super("Gradle build failure:\n${e.buildResult.output}", e)
+        }
     }
 }
