@@ -1,7 +1,6 @@
 package org.hidetake.gradle.swagger.generator.test.misc
 
 import org.gradle.testkit.runner.TaskOutcome
-import org.gradle.testkit.runner.UnexpectedBuildFailure
 import org.hidetake.gradle.swagger.generator.test.GradleProject
 import spock.lang.Specification
 
@@ -30,7 +29,7 @@ class ValidatorSpec extends Specification {
 
         then:
         project.file('build/swagger-validation-invalidPetstore.yaml').exists()
-        thrown(UnexpectedBuildFailure)
+        thrown(GradleProject.BuildFailureException)
     }
 
 }
