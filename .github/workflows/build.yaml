@@ -38,11 +38,10 @@ jobs:
       - uses: gradle/gradle-build-action@v2
         with:
           arguments: build
-      - uses: actions/upload-artifact@v2
+      - uses: mikepenz/action-junit-report@v2
         if: always()
         with:
-          name: gradle-reports
-          path: '**/build/reports/tests/'
+          report_paths: '**/build/test-results/test/TEST-*.xml'
 
   examples:
     runs-on: ubuntu-latest
