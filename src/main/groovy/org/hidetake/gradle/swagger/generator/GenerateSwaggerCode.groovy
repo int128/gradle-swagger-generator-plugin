@@ -5,6 +5,9 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.tasks.*
+import org.gradle.process.*
+import org.gradle.api.file.*
+import javax.inject.Inject
 import org.gradle.process.JavaExecSpec
 import org.hidetake.gradle.swagger.generator.codegen.AdaptorFactory
 import org.hidetake.gradle.swagger.generator.codegen.DefaultAdaptorFactory
@@ -56,6 +59,8 @@ class GenerateSwaggerCode extends DefaultTask {
     @Input
     List<String> jvmArgs
 
+
+
     @Optional
     @Input
     def configuration
@@ -63,15 +68,35 @@ class GenerateSwaggerCode extends DefaultTask {
     @Internal
     AdaptorFactory adaptorFactory = DefaultAdaptorFactory.instance
 
-    GenerateSwaggerCode() {
+
+    @Internal
+    abstract ExecOperations execOperations;
+
+    @Internal
+    abstract FileSystemOperations fileSystemOperations;
+
+    @Internal
+    def config
+
+    @Internal
+    def projectDir
+
+
+    @Inject
+    GenerateSwaggerCode(ExecOperations execOperations, FileSystemOperations fileSystemOperations) {
         outputDir = new File(project.buildDir, 'swagger-code')
+        this.execOperations = execOperations;
+        this.fileSystemOperations = fileSystemOperations;
+        this.config = Helper.configuration(project, configuration);
+        this.projectDir = project.projectDir;
+
     }
 
     @TaskAction
     void exec() {
         def javaExecOptions = execInternal()
         log.info("JavaExecOptions: $javaExecOptions")
-        project.javaexec { JavaExecSpec c ->
+        execOperations.javaexec { JavaExecSpec c ->
             c.classpath(javaExecOptions.classpath)
             c.mainClass = javaExecOptions.main
             c.args = javaExecOptions.args
@@ -86,13 +111,13 @@ class GenerateSwaggerCode extends DefaultTask {
         assert outputDir, "outputDir should be set in the task $name"
 
         if (wipeOutputDir) {
-            assert outputDir != project.projectDir, 'Prevent wiping the project directory'
-            project.delete(outputDir)
+            assert outputDir != this.projectDir, 'Prevent wiping the project directory'
+            fileSystemOperations.delete(spec -> spec.delete(outputDir))
         }
         outputDir.mkdirs()
 
         def generateOptions = new GenerateOptions(
-            generatorFiles: Helper.configuration(project, configuration).resolve(),
+            generatorFiles: this.config.resolve(),
             inputFile: inputFile.path,
             language: language,
             outputDir: outputDir.path,
