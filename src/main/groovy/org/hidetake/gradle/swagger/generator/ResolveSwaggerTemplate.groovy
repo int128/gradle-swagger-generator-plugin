@@ -1,5 +1,6 @@
 package org.hidetake.gradle.swagger.generator
 
+import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.tasks.Sync
 
 /**
@@ -14,6 +15,7 @@ class ResolveSwaggerTemplate extends Sync {
             }
         }
         into("${project.buildDir}/swagger-template")
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
     }
 
 }
