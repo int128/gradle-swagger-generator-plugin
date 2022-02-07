@@ -13,7 +13,7 @@ configurations {
 }
 
 dependencies {
-    swaggerCodegenV2 'io.swagger:swagger-codegen-cli:2.4.25'
+    swaggerCodegenV2 'io.swagger:swagger-codegen-cli:2.4.26'
     swaggerCodegenV3 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.32'
 }
 
