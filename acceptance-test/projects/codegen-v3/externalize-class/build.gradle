@@ -13,7 +13,7 @@ repositories {
 
 dependencies {
     swaggerCodegen localGroovy()
-    swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.32'
+    swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.33'
     swaggerCodegen 'org.hidetake:swagger-generators:1.0.0'
 }
 
