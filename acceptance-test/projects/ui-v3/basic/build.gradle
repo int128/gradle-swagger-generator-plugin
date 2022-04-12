@@ -9,7 +9,7 @@ repositories {
 
 dependencies {
     swaggerUI 'org.webjars:swagger-ui:3.52.5'
-    swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.26'
+    swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.27'
 }
 
 swaggerSources {
