@@ -14,7 +14,7 @@ configurations {
 
 dependencies {
     swaggerCodegenV2 'io.swagger:swagger-codegen-cli:2.4.27'
-    swaggerCodegenV3 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.33'
+    swaggerCodegenV3 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.34'
 }
 
 swaggerSources {
