@@ -9,7 +9,7 @@ repositories {
 
 dependencies {
     implementation localGroovy()
-    implementation 'org.openapitools:openapi-generator-cli:3.3.4'
+    implementation 'org.openapitools:openapi-generator-cli:5.4.0'
 }
 
 publishing {
