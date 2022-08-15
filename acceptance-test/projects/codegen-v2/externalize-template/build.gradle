@@ -13,7 +13,7 @@ repositories {
 
 dependencies {
     swaggerTemplate 'org.hidetake:codegen2-templates:1.0.0'
-    swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.27'
+    swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.28'
 }
 
 swaggerSources {
