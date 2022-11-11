@@ -62,7 +62,7 @@ repositories {
 
 dependencies {
   swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.29'             // Swagger Codegen V2
-  swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.35'  // or Swagger Codegen V3
+  swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.36'  // or Swagger Codegen V3
   swaggerCodegen 'org.openapitools:openapi-generator-cli:3.3.4'     // or OpenAPI Generator
 }
 
@@ -161,7 +161,7 @@ repositories {
 
 dependencies {
   swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.29'             // Swagger Codegen V2
-  swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.35'  // or Swagger Codegen V3
+  swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.36'  // or Swagger Codegen V3
 }
 
 swaggerSources {
