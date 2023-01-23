@@ -9,7 +9,7 @@ repositories {
 
 dependencies {
     implementation localGroovy()
-    implementation 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.37'
+    implementation 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.38'
 }
 
 publishing {
