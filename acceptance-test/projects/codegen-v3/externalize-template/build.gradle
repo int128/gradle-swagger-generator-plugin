@@ -13,7 +13,7 @@ repositories {
 
 dependencies {
     swaggerTemplate 'org.hidetake:codegen3-templates:1.0.0'
-    swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.40'
+    swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.41'
 }
 
 swaggerSources {
