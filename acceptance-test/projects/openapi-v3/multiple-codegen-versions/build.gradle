@@ -13,7 +13,7 @@ configurations {
 }
 
 dependencies {
-	swaggerCodegenV2 'io.swagger:swagger-codegen-cli:2.4.30'
+	swaggerCodegenV2 'io.swagger:swagger-codegen-cli:2.4.31'
     openApiGen 'org.openapitools:openapi-generator-cli:3.3.4'
 }
 
