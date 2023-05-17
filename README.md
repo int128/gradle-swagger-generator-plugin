@@ -61,7 +61,7 @@ repositories {
 }
 
 dependencies {
-  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.31'             // Swagger Codegen V2
+  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.32'             // Swagger Codegen V2
   swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.43'  // or Swagger Codegen V3
   swaggerCodegen 'org.openapitools:openapi-generator-cli:3.3.4'     // or OpenAPI Generator
 }
@@ -160,7 +160,7 @@ repositories {
 }
 
 dependencies {
-  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.31'             // Swagger Codegen V2
+  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.32'             // Swagger Codegen V2
   swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.43'  // or Swagger Codegen V3
 }
 
@@ -410,7 +410,7 @@ repositories {
 }
 
 dependencies {
-  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.31'
+  swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.32'
   // Add dependency for the template
   swaggerTemplate 'com.example:swagger-templates:1.0.0'
   // Add dependency for the generator class
