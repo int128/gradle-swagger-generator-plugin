@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    codegen2 'io.swagger:swagger-codegen-cli:2.4.32'
+    codegen2 'io.swagger:swagger-codegen-cli:2.4.33'
     codegen3 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.47'
     openapi3 'org.openapitools:openapi-generator-cli:3.3.4'
 }
