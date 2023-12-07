@@ -3,7 +3,9 @@ package org.hidetake.gradle.swagger.generator
 import groovy.util.logging.Slf4j
 import org.gradle.api.DefaultTask
 import org.gradle.api.Task
+import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.tasks.CacheableTask
+import org.gradle.api.tasks.Classpath
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Optional
@@ -21,14 +23,13 @@ import org.hidetake.gradle.swagger.generator.codegen.HelpOptions
  */
 @Slf4j
 @CacheableTask
-class GenerateSwaggerCodeHelp extends DefaultTask {
+abstract class GenerateSwaggerCodeHelp extends DefaultTask {
 
     @Input
     String language
 
-    @Optional
-    @Input
-    def configuration
+    @Classpath
+    abstract ConfigurableFileCollection getConfiguration()
 
     @Optional
     @Input
@@ -39,13 +40,14 @@ class GenerateSwaggerCodeHelp extends DefaultTask {
 
     GenerateSwaggerCodeHelp() {
         onlyIf { language }
+        configuration.from(project.configurations.swaggerCodegen)
     }
 
     @TaskAction
     void exec() {
         assert language, "language should be set in the task $name"
 
-        def generatorFiles = GenerateSwaggerCode.Helper.configuration(project, configuration).resolve()
+        def generatorFiles = configuration.files
         def adaptor = adaptorFactory.findAdaptor(generatorFiles)
         if (adaptor == null) {
             throw new IllegalStateException('''\
@@ -95,7 +97,7 @@ class GenerateSwaggerCodeHelp extends DefaultTask {
             group: 'help',
             type: GenerateSwaggerCodeHelp) {
             language = task.language
-            configuration = task.configuration
+            configuration.from(task.configuration)
         }
     }
 

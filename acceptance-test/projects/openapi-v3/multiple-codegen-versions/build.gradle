@@ -24,7 +24,7 @@ swaggerSources {
             language = 'spring'
             components = ['models', 'apis']
             configFile = file('v2-config.json')
-			configuration = configurations.swaggerCodegenV2
+			configuration.from(configurations.swaggerCodegenV2)
         }
     }
     petstoreV3 {
@@ -33,7 +33,7 @@ swaggerSources {
             language = 'spring'
             components = ['models', 'apis']
             configFile = file('v3-config.json')
-			configuration = configurations.openApiGen
+			configuration.from(configurations.openApiGen)
         }
     }
 }
