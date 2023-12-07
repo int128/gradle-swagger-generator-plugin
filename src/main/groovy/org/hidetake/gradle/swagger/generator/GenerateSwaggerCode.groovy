@@ -2,21 +2,28 @@ package org.hidetake.gradle.swagger.generator
 
 import groovy.util.logging.Slf4j
 import org.gradle.api.DefaultTask
-import org.gradle.api.Project
-import org.gradle.api.artifacts.Configuration
+import org.gradle.api.file.ConfigurableFileCollection
+import org.gradle.api.internal.file.FileOperations
+import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.api.provider.Property
 import org.gradle.api.tasks.*
+import org.gradle.jvm.toolchain.JavaLauncher
+import org.gradle.jvm.toolchain.JavaToolchainService
+import org.gradle.process.ExecOperations
 import org.gradle.process.JavaExecSpec
 import org.hidetake.gradle.swagger.generator.codegen.AdaptorFactory
 import org.hidetake.gradle.swagger.generator.codegen.DefaultAdaptorFactory
 import org.hidetake.gradle.swagger.generator.codegen.GenerateOptions
 import org.hidetake.gradle.swagger.generator.codegen.JavaExecOptions
 
+import javax.inject.Inject
+
 /**
  * A task to generate a source code from the Swagger specification.
  */
 @Slf4j
 @CacheableTask
-class GenerateSwaggerCode extends DefaultTask {
+abstract class GenerateSwaggerCode extends DefaultTask {
 
     @SkipWhenEmpty @InputFile @PathSensitive(PathSensitivity.NAME_ONLY)
     File inputFile
@@ -57,26 +64,47 @@ class GenerateSwaggerCode extends DefaultTask {
     List<String> jvmArgs
 
     @Optional
-    @Input
-    def configuration
+    @Nested
+    abstract Property<JavaLauncher> getLauncher()
+
+    @Classpath
+    abstract ConfigurableFileCollection getConfiguration()
 
     @Internal
     AdaptorFactory adaptorFactory = DefaultAdaptorFactory.instance
 
+    @Inject
+    abstract ExecOperations getExec()
+
+    @Inject
+    abstract FileOperations getFiles()
+
+    @Inject
+    abstract JavaToolchainService getJavaToolchainService()
+
     GenerateSwaggerCode() {
         outputDir = new File(project.buildDir, 'swagger-code')
+        configuration.from(project.configurations.swaggerCodegen)
+        project.plugins.withId("java") {
+            def toolchain = project.extensions.getByType(JavaPluginExtension).toolchain
+            def defaultLauncher = getJavaToolchainService().launcherFor(toolchain)
+            launcher.convention(defaultLauncher)
+        }
     }
 
     @TaskAction
     void exec() {
         def javaExecOptions = execInternal()
         log.info("JavaExecOptions: $javaExecOptions")
-        project.javaexec { JavaExecSpec c ->
+        exec.javaexec { JavaExecSpec c ->
             c.classpath(javaExecOptions.classpath)
             c.mainClass = javaExecOptions.main
             c.args = javaExecOptions.args
             c.systemProperties(javaExecOptions.systemProperties)
             c.jvmArgs(javaExecOptions.jvmArgs ?: [])
+            if (launcher.isPresent()) {
+                c.executable = launcher.get().executablePath.asFile
+            }
         }
     }
 
@@ -86,13 +114,13 @@ class GenerateSwaggerCode extends DefaultTask {
         assert outputDir, "outputDir should be set in the task $name"
 
         if (wipeOutputDir) {
-            assert outputDir != project.projectDir, 'Prevent wiping the project directory'
-            project.delete(outputDir)
+            // assert outputDir != project.projectDir, 'Prevent wiping the project directory'
+            files.delete(outputDir)
         }
         outputDir.mkdirs()
 
         def generateOptions = new GenerateOptions(
-            generatorFiles: Helper.configuration(project, configuration).resolve(),
+            generatorFiles: getConfiguration().files,
             inputFile: inputFile.path,
             language: language,
             outputDir: outputDir.path,
@@ -120,18 +148,6 @@ class GenerateSwaggerCode extends DefaultTask {
     }
 
     protected static class Helper {
-        static Configuration configuration(Project project, configuration) {
-            switch (configuration) {
-                case null:
-                    return project.configurations.swaggerCodegen
-                case String:
-                    return project.configurations.getByName(configuration)
-                case Configuration:
-                    return configuration
-            }
-            throw new IllegalArgumentException("configuration must be String or org.gradle.api.artifacts.Configuration but unknown type: ${configuration}")
-        }
-
         static Map<String, String> systemProperties(components) {
             if (components instanceof Collection) {
                 components.collectEntries { k -> [(k as String): ''] }

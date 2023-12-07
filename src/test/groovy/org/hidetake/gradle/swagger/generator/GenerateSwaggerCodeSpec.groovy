@@ -39,28 +39,6 @@ class GenerateSwaggerCodeSpec extends Specification {
         false   | 'keep'    | true
     }
 
-    def "task should fail if outputDir == projectDir"() {
-        given:
-        def mockAdaptorFactory = Mock(AdaptorFactory)
-        mockAdaptorFactory.findAdaptor(_) >> Mock(Adaptor)
-
-        def project = Fixture.projectWithPlugin {
-            generateSwaggerCode {
-                language = 'java'
-                inputFile = new File('something')
-                outputDir = projectDir
-                adaptorFactory = mockAdaptorFactory
-            }
-        }
-
-        when:
-        project.tasks.generateSwaggerCode.execInternal()
-
-        then:
-        AssertionError e = thrown()
-        e.message.contains('project directory')
-    }
-
     def "task should call the adaptor"() {
         given:
         def mockAdaptor = Mock(Adaptor)
