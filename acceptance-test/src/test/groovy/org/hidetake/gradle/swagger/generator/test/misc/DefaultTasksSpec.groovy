@@ -5,7 +5,7 @@ import spock.lang.Specification
 import spock.lang.Unroll
 
 import static org.gradle.testkit.runner.TaskOutcome.NO_SOURCE
-import static org.gradle.testkit.runner.TaskOutcome.SKIPPED
+import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
 class DefaultTasksSpec extends Specification {
 

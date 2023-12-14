@@ -49,15 +49,6 @@ abstract class GenerateSwaggerUI extends DefaultTask {
     GenerateSwaggerUI() {
         outputDir = new File(project.buildDir, 'swagger-ui')
         swaggerUI.from(project.configurations.swaggerUI)
-        project.configurations.swaggerUI.withDependencies {
-            if (it.empty) {
-                throw new IllegalStateException('''\
-                Dependency for swagger-ui should be given as follows:
-                  dependencies {
-                    swaggerUI 'org.webjars:swagger-ui:x.x.x'
-                  }'''.stripIndent())
-            }
-        }
     }
 
     @TaskAction

@@ -9,17 +9,6 @@ class GenerateSwaggerUISpec extends Specification {
     @TempDir
     File repositoryFolder
 
-    def "task should fail if swaggerUI dependency is not set"() {
-        given:
-        def project = Fixture.projectWithPlugin()
-
-        when:
-        project.tasks.generateSwaggerUI.exec()
-
-        then:
-        thrown(IllegalStateException)
-    }
-
     @Unroll
     def 'task should #verb the output directory if wipeOutputDir == #wipe'() {
         given:

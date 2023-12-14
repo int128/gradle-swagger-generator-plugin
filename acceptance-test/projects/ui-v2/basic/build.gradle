@@ -17,9 +17,9 @@ swaggerSources {
         ui {
             doLast {
                 // overwrite index.html for Swagger UI 2.x
-                copy {
-                    from 'index.html'
-                    into outputDir
+                files.copy {
+                    it.from 'index.html'
+                    it.into outputDir
                 }
             }
         }
