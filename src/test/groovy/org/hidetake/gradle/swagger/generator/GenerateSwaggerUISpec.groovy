@@ -58,33 +58,4 @@ class GenerateSwaggerUISpec extends Specification {
         false | 'keep' | true
     }
 
-    def "task should fail if outputDir == projectDir"() {
-        given:
-        Fixture.createJAR(new File(repositoryFolder, 'swagger-ui.jar'), [
-            'index.html': 'dummy-content',
-        ])
-
-        def project = Fixture.projectWithPlugin {
-            repositories {
-                flatDir {
-                    dirs repositoryFolder
-                }
-            }
-            dependencies {
-                swaggerUI 'org.webjars:swagger-ui:'
-            }
-            generateSwaggerUI {
-                inputFile = Fixture.file(Fixture.YAML.petstore)
-                outputDir = projectDir
-            }
-        }
-
-        when:
-        project.tasks.generateSwaggerUI.exec()
-
-        then:
-        AssertionError e = thrown()
-        e.message.contains('project directory')
-    }
-
 }

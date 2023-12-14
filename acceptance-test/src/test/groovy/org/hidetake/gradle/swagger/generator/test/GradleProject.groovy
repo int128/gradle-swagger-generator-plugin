@@ -25,7 +25,7 @@ class GradleProject {
             GradleRunner.create()
                 .withProjectDir(new File('projects'))
                 .withPluginClasspath()
-                .withArguments('-s', "$path:$taskName")
+                .withArguments('-s', '--configuration-cache', "$path:$taskName")
                 .build()
         } catch (UnexpectedBuildFailure e) {
             throw new BuildFailureException(e)
