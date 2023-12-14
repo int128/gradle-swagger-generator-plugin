@@ -1,10 +1,12 @@
 plugins {
     id 'groovy-gradle-plugin'
-    id 'com.gradle.plugin-publish' version '0.20.0'
+    id 'com.gradle.plugin-publish' version '1.2.1'
 }
 
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
+java {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
 
 repositories {
     mavenCentral()
@@ -28,12 +30,6 @@ test {
 group = 'org.hidetake'
 version = System.getenv('GITHUB_REF')?.split('/')?.last() ?: 'SNAPSHOT'
 
-pluginBundle {
-    website = 'https://github.com/int128/gradle-swagger-generator-plugin'
-    vcsUrl = 'https://github.com/int128/gradle-swagger-generator-plugin'
-    tags = ['swagger', 'api', 'generator']
-}
-
 gradlePlugin {
     plugins {
         swaggerPlugin {
@@ -41,6 +37,9 @@ gradlePlugin {
             displayName = 'Gradle Swagger Generator Plugin'
             description = 'Gradle plugin for OpenAPI YAML validation, code generation and API document publishing'
             implementationClass = 'org.hidetake.gradle.swagger.generator.SwaggerGeneratorPlugin'
+            website = 'https://github.com/int128/gradle-swagger-generator-plugin'
+            vcsUrl = 'https://github.com/int128/gradle-swagger-generator-plugin'
+            tags = ['swagger', 'api', 'generator']
         }
     }
 }
