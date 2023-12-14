@@ -9,12 +9,16 @@ import org.gradle.api.tasks.Classpath
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Optional
+import org.gradle.api.tasks.SkipWhenEmpty
 import org.gradle.api.tasks.TaskAction
+import org.gradle.process.ExecOperations
 import org.gradle.process.JavaExecSpec
 import org.hidetake.gradle.swagger.generator.codegen.AdaptorFactory
 import org.hidetake.gradle.swagger.generator.codegen.ConfigHelpOptions
 import org.hidetake.gradle.swagger.generator.codegen.DefaultAdaptorFactory
 import org.hidetake.gradle.swagger.generator.codegen.HelpOptions
+
+import javax.inject.Inject
 
 /**
  * A task to show help of swagger-codegen.
@@ -26,6 +30,7 @@ import org.hidetake.gradle.swagger.generator.codegen.HelpOptions
 abstract class GenerateSwaggerCodeHelp extends DefaultTask {
 
     @Input
+    @Optional
     String language
 
     @Classpath
@@ -35,17 +40,21 @@ abstract class GenerateSwaggerCodeHelp extends DefaultTask {
     @Input
     List<String> jvmArgs
 
+    @Inject
+    abstract ExecOperations getExec();
+
     @Internal
     AdaptorFactory adaptorFactory = DefaultAdaptorFactory.instance
 
     GenerateSwaggerCodeHelp() {
-        onlyIf { language }
         configuration.from(project.configurations.swaggerCodegen)
     }
 
     @TaskAction
     void exec() {
-        assert language, "language should be set in the task $name"
+        if (language == null) {
+            return
+        }
 
         def generatorFiles = configuration.files
         def adaptor = adaptorFactory.findAdaptor(generatorFiles)
@@ -66,7 +75,7 @@ abstract class GenerateSwaggerCodeHelp extends DefaultTask {
         )
         def helpJavaExecOptions = adaptor.help(helpOptions)
         log.info("JavaExecOptions: $helpJavaExecOptions")
-        project.javaexec { JavaExecSpec c ->
+        exec.javaexec { JavaExecSpec c ->
             c.classpath(helpJavaExecOptions.classpath)
             c.main = helpJavaExecOptions.main
             c.args = helpJavaExecOptions.args
@@ -82,7 +91,7 @@ abstract class GenerateSwaggerCodeHelp extends DefaultTask {
         )
         def configHelpJavaExecOptions = adaptor.configHelp(configHelpOptions)
         log.info("JavaExecOptions: $configHelpJavaExecOptions")
-        project.javaexec { JavaExecSpec c ->
+        exec.javaexec { JavaExecSpec c ->
             c.classpath(configHelpJavaExecOptions.classpath)
             c.main = configHelpJavaExecOptions.main
             c.args = configHelpJavaExecOptions.args

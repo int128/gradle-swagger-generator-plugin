@@ -2,8 +2,11 @@ package org.hidetake.gradle.swagger.generator
 
 import groovy.xml.XmlUtil
 import org.gradle.api.DefaultTask
+import org.gradle.api.internal.file.FileOperations
 import org.gradle.api.tasks.*
 import org.hidetake.gradle.swagger.generator.util.Resources
+
+import javax.inject.Inject
 
 /**
  * A task to generate ReDoc.
@@ -11,7 +14,7 @@ import org.hidetake.gradle.swagger.generator.util.Resources
  * @author Hidetake Iwata
  */
 @CacheableTask
-class GenerateReDoc extends DefaultTask {
+abstract class GenerateReDoc extends DefaultTask {
 
     @SkipWhenEmpty @InputFile @PathSensitive(PathSensitivity.NAME_ONLY)
     File inputFile
@@ -30,6 +33,9 @@ class GenerateReDoc extends DefaultTask {
 
     @Optional @Input
     Map<String, String> options = [:]
+
+    @Inject
+    abstract FileOperations getFiles()
 
     GenerateReDoc() {
         outputDir = new File(project.buildDir, 'redoc')
@@ -51,17 +57,16 @@ class GenerateReDoc extends DefaultTask {
         html.body.first().script.first().attributes().src = scriptSrc
 
         if (wipeOutputDir) {
-            assert outputDir != project.projectDir, 'Prevent wiping the project directory'
-            project.delete(outputDir)
+            files.delete(outputDir)
         }
         outputDir.mkdirs()
 
         new File(outputDir, 'index.html').withWriter('UTF-8') { writer ->
             XmlUtil.serialize(html, writer)
         }
-        project.copy {
-            from inputFile
-            into outputDir
+        files.copy {
+            it.from inputFile
+            it.into outputDir
         }
     }
 

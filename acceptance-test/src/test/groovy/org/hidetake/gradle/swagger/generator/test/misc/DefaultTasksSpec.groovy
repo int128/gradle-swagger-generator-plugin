@@ -22,7 +22,7 @@ class DefaultTasksSpec extends Specification {
         where:
         taskName                  | status
         'generateSwaggerCode'     | NO_SOURCE
-        'generateSwaggerCodeHelp' | SKIPPED
+        'generateSwaggerCodeHelp' | SUCCESS
         'generateSwaggerUI'       | NO_SOURCE
         'validateSwagger'         | NO_SOURCE
     }

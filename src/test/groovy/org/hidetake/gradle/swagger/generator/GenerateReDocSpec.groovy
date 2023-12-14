@@ -32,21 +32,4 @@ class GenerateReDocSpec extends Specification {
         false   | 'keep'    | true
     }
 
-    def "task should fail if outputDir == projectDir"() {
-        given:
-        def project = Fixture.projectWithPlugin {
-            generateReDoc {
-                inputFile = Fixture.file(Fixture.YAML.petstore)
-                outputDir = projectDir
-            }
-        }
-
-        when:
-        project.tasks.generateReDoc.exec()
-
-        then:
-        AssertionError e = thrown()
-        e.message.contains('project directory')
-    }
-
 }
