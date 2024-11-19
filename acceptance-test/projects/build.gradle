@@ -15,7 +15,7 @@ repositories {
 dependencies {
     codegen2 'io.swagger:swagger-codegen-cli:2.4.34'
     codegen3 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.47'
-    openapi3 'org.openapitools:openapi-generator-cli:3.3.4'
+    openapi3 'org.openapitools:openapi-generator-cli:7.10.0'
 }
 
 task prepareTemplates(type: Sync) {
