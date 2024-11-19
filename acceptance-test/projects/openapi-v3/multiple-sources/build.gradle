@@ -8,7 +8,7 @@ repositories {
 }
 
 dependencies {
-    swaggerCodegen 'org.openapitools:openapi-generator-cli:3.3.4'
+    swaggerCodegen 'org.openapitools:openapi-generator-cli:7.10.0'
 }
 
 swaggerSources {
