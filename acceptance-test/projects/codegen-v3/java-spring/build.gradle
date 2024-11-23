@@ -8,7 +8,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.1.3.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-web:3.4.0'
     implementation 'io.swagger:swagger-annotations:1.6.12'
     swaggerCodegen 'io.swagger.codegen.v3:swagger-codegen-cli:3.0.47'
 }
